@@ -27,14 +27,24 @@ TODO: Add long description of the pod here.
   s.author           = { 'iyinghui@163.com' => 'wangyinghui@changba.com' }
   s.source           = { :git => 'https://github.com/iyinghui@163.com/DebugKit.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
-
-  s.ios.deployment_target = '9.0'
-
-  s.source_files = 'DebugKit/Classes/**/*'
+  s.default_subspec  = "Core"
   
-  # s.resource_bundles = {
-  #   'DebugKit' => ['DebugKit/Assets/*.png']
-  # }
+  s.ios.deployment_target = '10.0'
+
+  s.subspec "Core" do |ss|
+    ss.source_files = 'DebugKit/Core/**/*.{swift}'
+    ss.resource_bundles = {
+      'Core' => ['DebugKit/Core/**/*.xib']
+    }
+  end
+  
+  s.subspec "Log" do |ss|
+    ss.source_files = 'DebugKit/Log/**/*.{swift}'
+    ss.resource_bundles = {
+      'Log' => ['DebugKit/Log/**/*.xib']
+    }
+  end
+  
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'

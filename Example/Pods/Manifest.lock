@@ -1,0 +1,18 @@
+PODS:
+  - DebugKit/Core (0.1.0)
+  - DebugKit/Log (0.1.0)
+
+DEPENDENCIES:
+  - DebugKit/Core (from `../`)
+  - DebugKit/Log (from `../`)
+
+EXTERNAL SOURCES:
+  DebugKit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  DebugKit: fc58b19716983be3f695fa22af787c01fa82eaf0
+
+PODFILE CHECKSUM: b864cd29e21b98269f1b3049d1de04ede138041d
+
+COCOAPODS: 1.10.1

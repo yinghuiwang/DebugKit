@@ -1,0 +1,42 @@
+{
+  "name": "DebugKit",
+  "version": "0.1.0",
+  "summary": "A short description of DebugKit.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/iyinghui@163.com/DebugKit",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "iyinghui@163.com": "wangyinghui@changba.com"
+  },
+  "source": {
+    "git": "https://github.com/iyinghui@163.com/DebugKit.git",
+    "tag": "0.1.0"
+  },
+  "default_subspecs": "Core",
+  "platforms": {
+    "ios": "10.0"
+  },
+  "subspecs": [
+    {
+      "name": "Core",
+      "source_files": "DebugKit/Core/**/*.{swift}",
+      "resource_bundles": {
+        "Core": [
+          "DebugKit/Core/**/*.xib"
+        ]
+      }
+    },
+    {
+      "name": "Log",
+      "source_files": "DebugKit/Log/**/*.{swift}",
+      "resource_bundles": {
+        "Log": [
+          "DebugKit/Log/**/*.xib"
+        ]
+      }
+    }
+  ]
+}
