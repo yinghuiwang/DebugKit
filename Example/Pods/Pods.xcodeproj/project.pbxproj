@@ -24,6 +24,9 @@
 		663F8E74A686B23BC3C459A1AEDF88E0 /* DKToolBoxVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A8BB0575AEE5FAB89AD903AAE980E4 /* DKToolBoxVC.swift */; };
 		66C0747C26DCE22B00FD4D5B /* DKH5VC.xib in Resources */ = {isa = PBXBuildFile; fileRef = A078F271893B460BDEE7B6CB5E1CAD08 /* DKH5VC.xib */; };
 		66C0747E26DCE28200FD4D5B /* DKH5VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74D37F00490CBB77F26575A3D7D116E6 /* DKH5VC.swift */; };
+		66C0748126DDDC9900FD4D5B /* DKQRCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C0747F26DDDC9900FD4D5B /* DKQRCodeVC.swift */; };
+		66C0748526DDFF8300FD4D5B /* DKBaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C0748426DDFF8200FD4D5B /* DKBaseVC.swift */; };
+		66C0748726DE268C00FD4D5B /* DKWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66C0748626DE268C00FD4D5B /* DKWebVC.swift */; };
 		68B43BEBA263D52E31D57FC761176706 /* Pods-DebugKit_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A216B6F08E057F5AD3C6B21433554C8B /* Pods-DebugKit_Example-dummy.m */; };
 		89DF4317B883CA92ECC815684EA9007B /* DebugKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B497B2494488237AD4A0B6E23C6B62 /* DebugKit.swift */; };
 		E160A300CEF8F0311185094B844B693F /* Core.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B26965C8D615C7A2C92CC1EF0B3F9BD9 /* Core.bundle */; };
@@ -83,6 +86,9 @@
 		59341A35857C717717C2F7B1BF0FB39F /* DebugKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "DebugKit-dummy.m"; sourceTree = "<group>"; };
 		610EF22EC0A5204AC74FFDC5BDDA7221 /* DKQRScanView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DKQRScanView.swift; sourceTree = "<group>"; };
 		641649E9F8229FD6F44DF00D0EF6643F /* DKFPSLabel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DKFPSLabel.swift; path = DebugKit/Core/DKFPSLabel.swift; sourceTree = "<group>"; };
+		66C0747F26DDDC9900FD4D5B /* DKQRCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKQRCodeVC.swift; sourceTree = "<group>"; };
+		66C0748426DDFF8200FD4D5B /* DKBaseVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DKBaseVC.swift; path = DebugKit/Core/DKBaseVC.swift; sourceTree = "<group>"; };
+		66C0748626DE268C00FD4D5B /* DKWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKWebVC.swift; sourceTree = "<group>"; };
 		68A9C207CA9AB95870D11CE4ACF2163B /* Pods-DebugKit_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-DebugKit_Tests-dummy.m"; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		74D37F00490CBB77F26575A3D7D116E6 /* DKH5VC.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DKH5VC.swift; sourceTree = "<group>"; };
@@ -228,6 +234,7 @@
 				0763260E915B208BC1E830EBEBF0E2AE /* DKEnterView.xib */,
 				641649E9F8229FD6F44DF00D0EF6643F /* DKFPSLabel.swift */,
 				D5A8BB0575AEE5FAB89AD903AAE980E4 /* DKToolBoxVC.swift */,
+				66C0748426DDFF8200FD4D5B /* DKBaseVC.swift */,
 				3089521E2D9028E65F1BB18A21A7DF35 /* DKToolBoxVC.xib */,
 				C2AE9287D2A5E31EEDC5691889A713A6 /* H5 */,
 			);
@@ -257,6 +264,8 @@
 				74D37F00490CBB77F26575A3D7D116E6 /* DKH5VC.swift */,
 				A078F271893B460BDEE7B6CB5E1CAD08 /* DKH5VC.xib */,
 				610EF22EC0A5204AC74FFDC5BDDA7221 /* DKQRScanView.swift */,
+				66C0747F26DDDC9900FD4D5B /* DKQRCodeVC.swift */,
+				66C0748626DE268C00FD4D5B /* DKWebVC.swift */,
 			);
 			name = H5;
 			path = DebugKit/Core/H5;
@@ -524,9 +533,12 @@
 			files = (
 				0D7C8960667DA065765BD74D21308ADE /* DebugKit-dummy.m in Sources */,
 				89DF4317B883CA92ECC815684EA9007B /* DebugKit.swift in Sources */,
+				66C0748526DDFF8300FD4D5B /* DKBaseVC.swift in Sources */,
 				40B7AB712B16999BA29E55F72683D740 /* DKEnterView.swift in Sources */,
 				08D6C12B88B11058ABD71D78B2F38B7D /* DKFPSLabel.swift in Sources */,
 				66C0747E26DCE28200FD4D5B /* DKH5VC.swift in Sources */,
+				66C0748126DDDC9900FD4D5B /* DKQRCodeVC.swift in Sources */,
+				66C0748726DE268C00FD4D5B /* DKWebVC.swift in Sources */,
 				2FE1A50CA61BD92B1365D53705EE81FA /* DKLog.swift in Sources */,
 				29AFD1783068A4205F2E451F4D14000A /* DKQRScanView.swift in Sources */,
 				663F8E74A686B23BC3C459A1AEDF88E0 /* DKToolBoxVC.swift in Sources */,
@@ -609,7 +621,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -722,7 +734,7 @@
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";

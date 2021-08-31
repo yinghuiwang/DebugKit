@@ -20,7 +20,7 @@ class DKEnterView: UIControl {
     
     
     static func view() -> Self {
-        if let debugKitBundle = Bundle(path: Bundle(for: Self.self).path(forResource: "Core.bundle", ofType: nil) ?? ""),
+        if let debugKitBundle = DebugKit.dk_bundle(name: "Core"),
            let enterView = debugKitBundle.loadNibNamed("DKEnterView", owner: Self.self, options: nil)?.first as? Self {
             return enterView
         } else {
@@ -56,7 +56,7 @@ class DKEnterView: UIControl {
         let radius = viewSize.width / 2.0
         let panPoint = sender.translation(in: keyWindow)
         
-        var safeAreaInsets: UIEdgeInsets = UIEdgeInsetsMake(20, margin, 0, margin)
+        var safeAreaInsets: UIEdgeInsets = UIEdgeInsets(top: 20, left: margin, bottom: 0, right: margin)
         if #available(iOS 11.0, *) { safeAreaInsets = keyWindow.safeAreaInsets }
         
         var centerX = viewCenter.x + panPoint.x > viewSize.width / 2 ? viewCenter.x + panPoint.x : viewCenter.x - (viewCenter.x - panPoint.x)
@@ -98,7 +98,7 @@ extension DKEnterView {
         
         keyWindow.addSubview(self)
         
-        var safeAreaInsets: UIEdgeInsets = UIEdgeInsetsMake(20, margin, 0, margin)
+        var safeAreaInsets: UIEdgeInsets = UIEdgeInsets(top: 20, left: margin, bottom: 0, right: margin)
         if #available(iOS 11.0, *) { safeAreaInsets = keyWindow.safeAreaInsets }
         
         translatesAutoresizingMaskIntoConstraints = false

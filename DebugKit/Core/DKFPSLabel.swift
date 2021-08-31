@@ -34,7 +34,7 @@ class DKFPSLabel: UILabel {
         font = UIFont.systemFont(ofSize: 14)
         
         link = CADisplayLink(target: KTVLRFPSWeakProxy(target: self), selector: #selector(tick(link:)))
-        link?.add(to: RunLoop.main, forMode: .commonModes)
+        link?.add(to: RunLoop.main, forMode: RunLoop.Mode.common)
     }
 
     @objc func tick(link: CADisplayLink) {

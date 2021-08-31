@@ -16,13 +16,11 @@ open class DKToolBoxVC: UIViewController {
     let toolVCClassKey = "toolVCClassKey"
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        let debugKitBundle = Bundle(path: Bundle(for: Self.self).path(forResource: "Core.bundle", ofType: nil) ?? "")
-        super.init(nibName: "DKToolBoxVC", bundle: debugKitBundle)
+        super.init(nibName: "DKToolBoxVC", bundle: DebugKit.dk_bundle(name: "Core"))
     }
     
     public required init?(coder: NSCoder) {
-        let debugKitBundle = Bundle(path: Bundle(for: Self.self).path(forResource: "Core.bundle", ofType: nil) ?? "")
-        super.init(nibName: "DKToolBoxVC", bundle: debugKitBundle)
+        super.init(nibName: "DKToolBoxVC", bundle: DebugKit.dk_bundle(name: "Core"))
     }
     
     open override func viewDidLoad() {
@@ -56,7 +54,7 @@ extension DKToolBoxVC: UITableViewDelegate, UITableViewDataSource {
         var cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(Self.self))
         
         if cell == nil {
-            cell = UITableViewCell(style: .default, reuseIdentifier: NSStringFromClass(Self.self))
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: NSStringFromClass(Self.self))
         }
         
         let tool = tools[indexPath.item]

@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func openDebugKtiAction(_ sender: Any) {
-        DebugKit.share.openLRDebug()
+        DebugKit.share.openDebug()
     }
 }
 

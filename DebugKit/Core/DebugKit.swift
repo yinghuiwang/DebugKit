@@ -10,33 +10,44 @@ import Foundation
 open class DebugKit: NSObject {
     
     @objc public static let share = DebugKit()
+    private override init() {}
     
     var enterView: DKEnterView?
     
-    
-    private override init() {}
-    
-    public func openLRDebug() {
-        if enterView != nil { return }
-        enterView = DKEnterView.view()
-        enterView?.addTarget(self, action: #selector(jumpDebugVC), for: .touchUpInside)
-        enterView?.show()
-    }
-    
-    @objc func jumpDebugVC() {
-        guard let topViewController = UIApplication.topViewController() else {
+    @objc public var h5Handler: ((String) -> Void)?
+}
+
+extension DebugKit {
+    // MARK: - PrivateMethod
+    @objc func jumpToolBoxVC() {
+        guard let topViewController = DebugKit.topViewController() else {
             return
         }
         
         let debugVC = DKToolBoxVC()
         let navigationController = UINavigationController(rootViewController: debugVC)
-        topViewController.present(navigationController, animated: true, completion: nil)
+        topViewController.present(navigationController, animated: true, completion: nil)   
+    }
+    
+    // MARK: - PublicMethod
+    @objc public func openDebug() {
+        if enterView != nil { return }
+        enterView = DKEnterView.view()
+        enterView?.addTarget(self, action: #selector(jumpToolBoxVC), for: .touchUpInside)
+        enterView?.show()
+    }
+    
+    public func closeDebug() {
+        guard let enterView = enterView else { return }
+        
+        enterView.removeFromSuperview()
+        self.enterView = nil
     }
 }
 
-
-extension UIApplication {
-    class func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+// MARK: - Utils
+extension DebugKit {
+    static func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
         if let navigationController = controller as? UINavigationController {
             return topViewController(controller: navigationController.visibleViewController)
         }
@@ -50,4 +61,53 @@ extension UIApplication {
         }
         return controller
     }
+    
+    static func alert(message: String?, ok:(()-> Void)?, cancel:(()->Void)?) {
+        let alertController = UIAlertController.init(title: "提示", message: message, preferredStyle: .alert)
+
+        alertController.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { _ in
+            if let cancel = cancel { cancel() }
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "确认", style: .default, handler: { _ in
+            if let ok = ok { ok() }
+        }))
+        
+        topViewController()?.present(alertController, animated: true, completion: nil)
+    }
+    
+    static func openAppSetting() {
+        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    static func log(_ msg: String) {
+        debugPrint("DK: \(msg)")
+    }
+    
+    static func sizeFrom750(value: CGFloat) -> CGFloat {
+        value * UIScreen.main.bounds.size.width / 750
+    }
+    
+    static func dk_bundle(name: String) -> Bundle? {
+        Bundle(path: Bundle(for: Self.self).path(forResource: "\(name).bundle", ofType: nil) ?? "")
+    }
+    
+    
 }
+
+extension UIColor {
+    convenience init(hex: UInt32) {
+        self.init(hex: hex, alpha: 1)
+    }
+    
+    convenience init(hex: UInt32, alpha: CGFloat) {
+        self.init(red: CGFloat(((hex >> 16) & 0xFF))/255.0,
+                green: CGFloat(((hex >> 8) & 0xFF))/255.0,
+                blue: CGFloat((hex & 0xFF))/255.0,
+                alpha: alpha)
+    }
+}
+
