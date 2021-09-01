@@ -110,7 +110,7 @@ class DKH5VC: DKBaseVC {
             return url
         }
         
-        if url.hasPrefix("http://") && url.hasPrefix("https://") {
+        if !url.hasPrefix("http://") && !url.hasPrefix("https://") {
             return "https://\(url)"
         }
         
