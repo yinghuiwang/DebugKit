@@ -1,0 +1,44 @@
+<!doctype HTML>
+<html>
+  <head>
+    <title>jQuery json-viewer</title>
+    <meta charset="utf-8" />
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="jquery.json-viewer.js"></script>
+    <link href="jquery.json-viewer.css" type="text/css" rel="stylesheet">
+
+    <style type="text/css">
+      body {
+        font-family: sans-serif;
+      }
+    </style>
+ </head>
+  <body>
+    <pre id="json-renderer"></pre>
+  </body>
+
+  <script>
+    $(function() {
+      var input = {}
+      function renderJson() {
+        var options = {
+          collapsed: false,
+          rootCollapsable: true,
+          withQuotes: true,
+          withLinks: true
+        };
+        $('#json-renderer').jsonViewer(input, options);
+      }
+
+      // Display JSON sample on page load
+      renderJson();
+
+      window.renderJson = (json) => {
+        input = json
+        renderJson()
+      }
+
+      window.location = "dkjsonview://setvalue"
+    });
+  </script>
+</html>

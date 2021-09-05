@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="vXZ-lx-hvc">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="uCj-bp-FZS">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -19,24 +20,54 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sVL-Jc-rak">
-                                <rect key="frame" x="135" y="318.5" width="105" height="30"/>
-                                <state key="normal" title="Open DebugKit"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="syO-U8-96b">
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
-                                    <action selector="openDebugKtiAction:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="Kjm-c6-b4k"/>
+                                    <outlet property="dataSource" destination="vXZ-lx-hvc" id="3dD-uO-wnS"/>
+                                    <outlet property="delegate" destination="vXZ-lx-hvc" id="Dp8-bD-byz"/>
                                 </connections>
-                            </button>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="sVL-Jc-rak" firstAttribute="centerY" secondItem="kh9-bI-dsS" secondAttribute="centerY" id="5Ie-ac-Mzf"/>
-                            <constraint firstItem="sVL-Jc-rak" firstAttribute="centerX" secondItem="kh9-bI-dsS" secondAttribute="centerX" id="eXh-ca-VW7"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="syO-U8-96b" secondAttribute="bottom" id="8Pk-cB-nv0"/>
+                            <constraint firstItem="syO-U8-96b" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="QVt-KQ-2fd"/>
+                            <constraint firstItem="syO-U8-96b" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" id="uwl-9I-74W"/>
+                            <constraint firstAttribute="trailing" secondItem="syO-U8-96b" secondAttribute="trailing" id="yLg-da-8QK"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="ppO-Yh-yxj"/>
+                    <connections>
+                        <outlet property="tableView" destination="syO-U8-96b" id="cfX-SV-Kdt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="140" y="134"/>
+            <point key="canvasLocation" x="1079.2" y="133.5832083958021"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="eAe-h6-Rbh">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uCj-bp-FZS" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xlq-lv-Eja">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="WUb-pC-NRq"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lkX-S1-QKF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="140" y="133.5832083958021"/>
         </scene>
     </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>

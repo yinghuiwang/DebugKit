@@ -5,7 +5,8 @@ platform :ios, '10.0'
 target 'DebugKit_Example' do
   pod 'DebugKit', :path => '../', :subspecs => [
     'Core',
-    'Log'
+    'Log',
+    'JsonViewer'
   ]
 
   target 'DebugKit_Tests' do

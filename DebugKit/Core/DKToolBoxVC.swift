@@ -40,6 +40,12 @@ open class DKToolBoxVC: UIViewController {
             toolSummaryKey: "提供跳转到包房内部WebView页面的方法",
             toolVCClassKey: "DebugKit.DKH5VC"
         ])
+        
+        tools.append([
+            toolNameKey: "Log",
+            toolSummaryKey: "查看本地记录的日志",
+            toolVCClassKey: "DebugKit.DKFLLogFileListVC"
+        ])
     }
     
 }

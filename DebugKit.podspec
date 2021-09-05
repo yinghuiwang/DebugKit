@@ -45,6 +45,13 @@ TODO: Add long description of the pod here.
     }
   end
   
+  s.subspec "JsonViewer" do |ss|
+    ss.source_files = 'DebugKit/JsonViewer/**/*.{swift}'
+    ss.resource_bundles = {
+      'JsonViewer' => ['DebugKit/JsonViewer/**/*.{html,js,css}']
+    }
+  end
+  
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'

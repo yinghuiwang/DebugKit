@@ -37,6 +37,15 @@
           "DebugKit/Log/**/*.xib"
         ]
       }
+    },
+    {
+      "name": "JsonViewer",
+      "source_files": "DebugKit/JsonViewer/**/*.{swift}",
+      "resource_bundles": {
+        "JsonViewer": [
+          "DebugKit/JsonViewer/**/*.{html,js,css}"
+        ]
+      }
     }
   ]
 }

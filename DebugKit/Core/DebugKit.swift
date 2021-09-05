@@ -95,7 +95,17 @@ extension DebugKit {
         Bundle(path: Bundle(for: Self.self).path(forResource: "\(name).bundle", ofType: nil) ?? "")
     }
     
-    
+    static func appName() -> String {
+        var _appName: String = ""
+        if _appName.count <= 0 {
+            if let appName = Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier") as? String {
+                _appName = appName
+            } else {
+                _appName = ProcessInfo.processInfo.processName
+            }
+        }
+        return _appName
+    }
 }
 
 extension UIColor {
