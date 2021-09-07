@@ -9,10 +9,18 @@ import UIKit
 
 class DKFLLogListVC: UIViewController {
 
+    @IBOutlet weak var searchBar: UISearchBar!
+    @IBOutlet weak var keywordCollectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
+    
     var fileInfo: DKLogFileInfo?
     var dateFomatter: DateFormatter?
+    var logReader: DKFileReaderDefault?
     var logs: [DKLogMessage] = []
+    var selectKeywords: [String] = []
+    var keywords: [String] = []
+    
+    var filtrationLogs: [DKLogMessage] = []
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: "DKFLLogListVC", bundle: DebugKit.dk_bundle(name: "Log"))
@@ -43,6 +51,10 @@ class DKFLLogListVC: UIViewController {
     
     func setupViews() {
         tableView.tableFooterView = UIView()
+        
+        keywordCollectionView.register(UINib(nibName: DKFLLogKeyWordCell.cellName,
+                                              bundle: DebugKit.dk_bundle(name: "Log")),
+                                        forCellWithReuseIdentifier: DKFLLogKeyWordCell.cellName)
     }
     
     func loadData() {
@@ -50,18 +62,31 @@ class DKFLLogListVC: UIViewController {
             return
         }
         
-        DispatchQueue.global().async {
-            let messages = DKFileReaderDefault().read(atPath: fileInfo.filePath)
-            
-            DispatchQueue.main.async {
-                if let messages = messages {
-                    self.logs = messages
-                    self.tableView.reloadData()
-                }
-            }
+        logReader = DKFileReaderDefault(filePath: fileInfo.filePath)
+        logReader?.logsDidUpdateCallback = { [weak self](logs, keywords) in
+            self?.logs = logs
+            self?.keywords = keywords
+            self?.filter()
+        }
+    }
+    
+    func filter() {
+        let keyword = selectKeywords.reduce("") { reuslt, keyword in
+            reuslt + (reuslt.count > 0 ? "/" : "") + keyword
+        }
+        if keyword.count > 0 {
+            filtrationLogs = logs.filter(keyword: keyword)
+        } else {
+            filtrationLogs = logs
         }
         
+        if let message = self.searchBar.text,
+           message.count > 0 {
+            filtrationLogs = filtrationLogs.filter(message: message)
+        }
         
+        tableView.reloadSections([0], with: .automatic)
+        keywordCollectionView.reloadData()
     }
     
 }
@@ -69,7 +94,7 @@ class DKFLLogListVC: UIViewController {
 extension DKFLLogListVC: UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return logs.count;
+        return filtrationLogs.count;
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -77,31 +102,98 @@ extension DKFLLogListVC: UITableViewDelegate, UITableViewDataSource {
         
         if cell == nil {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: NSStringFromClass(Self.self))
-            cell?.textLabel?.font = UIFont.systemFont(ofSize: 14)
+            cell!.textLabel?.font = UIFont.systemFont(ofSize: 14)
+            cell!.accessoryType = .disclosureIndicator
         }
         
-        let message = logs[indexPath.item]
-        
-        cell!.accessoryType = .disclosureIndicator
+        let message = filtrationLogs[indexPath.item]
         
         var text = ""
-        if let timeStr = message.timestamp.components(separatedBy: " ").last {
-            text.append(timeStr)
+        if let dateFomatter = self.dateFomatter {
+            text.append( dateFomatter.string(from: message.date))
         }
         text.append("  \(message.keyword)")
         
         cell!.textLabel?.text = text
-        cell!.detailTextLabel?.text = message.message
+        cell!.detailTextLabel?.text = message.message.replacingOccurrences(of: " ", with: "")
         return cell!
     }
     
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let logMessage = logs[indexPath.item]
+        let logMessage = filtrationLogs[indexPath.item]
         
         let jsonViewerVC = DKJsonViewerVC()
         jsonViewerVC.title = logMessage.keyword
         jsonViewerVC.jsonStr = logMessage.message
         navigationController?.pushViewController(jsonViewerVC, animated: true)
+    }
+}
+
+extension DKFLLogListVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if section == 0 {
+            return selectKeywords.count
+        } else {
+            return keywords.count
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DKFLLogKeyWordCell.cellName, for: indexPath) as! DKFLLogKeyWordCell
+        
+        if indexPath.section == 0, indexPath.item < selectKeywords.count {
+            cell.title.text = selectKeywords[indexPath.row]
+            cell.isSelected = true
+        }
+        
+        if indexPath.section == 1 && indexPath.item < keywords.count {
+            cell.title.text = keywords[indexPath.row]
+        }
+
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            cell.isSelected = true
+        } else {
+            cell.isSelected = false
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var width:CGFloat = 0
+        
+        if indexPath.section == 0, indexPath.item < selectKeywords.count {
+            width = DKFLLogKeyWordCell.cellH(keyword:selectKeywords[indexPath.row])
+        } else if indexPath.section == 1 && indexPath.item < keywords.count {
+            width = DKFLLogKeyWordCell.cellH(keyword:keywords[indexPath.row])
+        }
+        
+        return CGSize(width: width, height: 30)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if indexPath.section == 1 && indexPath.item < keywords.count {
+            selectKeywords.append(keywords.remove(at: indexPath.row))
+        } else if indexPath.section == 0 && indexPath.item < selectKeywords.count {
+            keywords.insert(selectKeywords.remove(at: indexPath.row), at: 0)
+        }
+        filter()
+        collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: true)
+    }
+}
+
+extension DKFLLogListVC: UISearchBarDelegate {
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        filter()
+        searchBar.resignFirstResponder()
     }
 }

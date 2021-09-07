@@ -144,13 +144,13 @@ class DKFileFormatter: DKLogFormatter {
     }
     
     func format(message: DKLogMessage) -> String {
-        let date = DKLog.share.dateFormatter.date(from: message.timestamp)
-        let timeStr = dateFormatter.string(from: date ?? Date())
+        let timeStr = dateFormatter.string(from: message.date)
         let messageStr = message.message.replacingOccurrences(of: "\n", with: "")
         
         let formatedMessage = DKLogMessage(message: messageStr,
                                            keyword: message.keyword,
-                                           timestamp: timeStr)
+                                           timestamp: timeStr,
+                                           date: message.date)
         
         var formatedStr = ""
         if let data = try? JSONEncoder().encode(formatedMessage),
@@ -409,12 +409,43 @@ struct DKLogFileInfo {
 }
 
 protocol DKFileReader {
-    func read(atPath: String) -> [DKLogMessage]?
+    init(filePath: String)
+    func read(atPath: String) -> ([DKLogMessage], [String])?
 }
 
 
 class DKFileReaderDefault: DKFileReader {
-    func read(atPath: String) -> [DKLogMessage]? {
+
+    let filePath: String
+    let queue = DispatchQueue(label: "DKFileReadder")
+    var logsDidUpdateCallback: (([DKLogMessage], [String]) -> Void)?
+    
+    required init(filePath: String) {
+        
+        self.filePath = filePath
+        
+        NotificationCenter.default.addObserver(forName: .DKLogDidLog, object: nil, queue: nil) { [weak self]_ in
+            self?.updateLog()
+        }
+        
+        updateLog()
+    }
+    
+    // MARK: private
+    private func updateLog() {
+        queue.async {
+            guard let (newLogs, keywords) = self.read(atPath: self.filePath) else {
+                return
+            }
+            DispatchQueue.main.async {
+                if let callback = self.logsDidUpdateCallback {
+                    callback(newLogs, keywords)
+                }
+            }
+        }
+    }
+    
+    func read(atPath: String) -> ([DKLogMessage], [String])? {
         guard let fileHandle = FileHandle(forReadingAtPath: atPath) else {
             return nil
         }
@@ -426,7 +457,7 @@ class DKFileReaderDefault: DKFileReader {
         let messageStringArray = content?.components(separatedBy: "\n")
         
         let jsonDecoder = JSONDecoder()
-        let messages = messageStringArray?.reduce( [DKLogMessage](), { lastResult, message in
+        var messages = messageStringArray?.reduce( [DKLogMessage](), { lastResult, message in
             if let messageData = message.data(using: .utf8),
                let logMessage = try? jsonDecoder.decode(DKLogMessage.self, from: messageData) {
                 var result = Array(lastResult)
@@ -437,6 +468,29 @@ class DKFileReaderDefault: DKFileReader {
             }
         })
         
-        return messages
+        messages = messages?.sorted(by: { $1.date.compare($0.date) == .orderedAscending })
+        
+        let keywords = messages?.reduce(Set<String>(), { result, logMessage in
+            result.union(logMessage.keyword.components(separatedBy: "/"))
+        })
+        
+        return (messages ?? [], keywords?.sorted() ?? [])
+    }
+    
+    
+}
+
+extension Array where Element == DKLogMessage {
+    func filter(keyword: String) -> [DKLogMessage] {
+        let components = keyword.components(separatedBy: "/")
+        return self.filter { logMessage in
+            components.reduce(into: true) { result, word in
+                result = result && logMessage.keyword.contains(word)
+            }
+        }
+    }
+    
+    func filter(message: String) -> [DKLogMessage] {
+        self.filter { $0.message.contains(message) }
     }
 }

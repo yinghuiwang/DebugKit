@@ -11,6 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DKFLLogListVC" customModule="Log" customModuleProvider="target">
             <connections>
+                <outlet property="keywordCollectionView" destination="f1T-zw-G2g" id="7uO-Jw-6Nz"/>
+                <outlet property="searchBar" destination="2Am-f7-XZ4" id="HfW-PD-aEp"/>
                 <outlet property="tableView" destination="9W2-sC-bqt" id="iqr-dW-cAb"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -21,23 +23,61 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="9W2-sC-bqt">
-                    <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                    <rect key="frame" x="0.0" y="144" width="414" height="718"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="2sq-3T-YiW"/>
                         <outlet property="delegate" destination="-1" id="ahB-0j-wOD"/>
                     </connections>
                 </tableView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ROR-8Q-NkU">
+                    <rect key="frame" x="0.0" y="44" width="414" height="100"/>
+                    <subviews>
+                        <searchBar contentMode="redraw" placeholder="key word" id="2Am-f7-XZ4">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="Bh9-Gi-xGl"/>
+                            </connections>
+                        </searchBar>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="f1T-zw-G2g">
+                            <rect key="frame" x="0.0" y="44" width="414" height="56"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tef-Lb-mQu">
+                                <size key="itemSize" width="128" height="128"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                            <connections>
+                                <outlet property="dataSource" destination="-1" id="CTW-aW-Jt0"/>
+                                <outlet property="delegate" destination="-1" id="2em-yW-szw"/>
+                            </connections>
+                        </collectionView>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="f1T-zw-G2g" firstAttribute="leading" secondItem="ROR-8Q-NkU" secondAttribute="leading" id="RCO-vU-ol3"/>
+                        <constraint firstItem="f1T-zw-G2g" firstAttribute="top" secondItem="2Am-f7-XZ4" secondAttribute="bottom" id="UW1-Yr-vwX"/>
+                        <constraint firstAttribute="bottom" secondItem="f1T-zw-G2g" secondAttribute="bottom" id="Uqr-dz-YcH"/>
+                        <constraint firstAttribute="trailing" secondItem="f1T-zw-G2g" secondAttribute="trailing" id="cVD-dy-1jL"/>
+                        <constraint firstAttribute="height" constant="100" id="i09-00-9v1"/>
+                    </constraints>
+                </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="9W2-sC-bqt" secondAttribute="bottom" id="MhX-kd-rSJ"/>
+                <constraint firstItem="ROR-8Q-NkU" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="WxR-sI-sGv"/>
                 <constraint firstItem="9W2-sC-bqt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="bfB-cv-118"/>
-                <constraint firstItem="9W2-sC-bqt" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="ptV-x8-niY"/>
+                <constraint firstItem="9W2-sC-bqt" firstAttribute="top" secondItem="ROR-8Q-NkU" secondAttribute="bottom" id="dqe-XY-kSb"/>
+                <constraint firstItem="ROR-8Q-NkU" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="njz-Or-VOd"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="9W2-sC-bqt" secondAttribute="trailing" id="sb6-tE-6pF"/>
+                <constraint firstItem="ROR-8Q-NkU" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="vdc-6k-ql1"/>
             </constraints>
-            <point key="canvasLocation" x="-94" y="-8"/>
+            <point key="canvasLocation" x="-94.20289855072464" y="-8.0357142857142847"/>
         </view>
     </objects>
     <resources>
