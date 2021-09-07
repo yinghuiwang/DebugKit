@@ -106,6 +106,12 @@ extension DebugKit {
         }
         return _appName
     }
+    
+    static func share(object: AnyObject, fromVC: UIViewController) {
+        let objectsToShare = [object] //support NSString、NSURL、UIImage
+        let controller = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        fromVC.present(controller, animated: true, completion: nil)
+    }
 }
 
 extension UIColor {

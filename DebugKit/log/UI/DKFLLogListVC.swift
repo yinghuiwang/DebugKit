@@ -50,6 +50,9 @@ class DKFLLogListVC: UIViewController {
     }
     
     func setupViews() {
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(export))
+        
         tableView.tableFooterView = UIView()
         
         keywordCollectionView.register(UINib(nibName: DKFLLogKeyWordCell.cellName,
@@ -87,6 +90,13 @@ class DKFLLogListVC: UIViewController {
         
         tableView.reloadSections([0], with: .automatic)
         keywordCollectionView.reloadData()
+    }
+    
+    @objc func export() {
+        if let filePath = fileInfo?.filePath {
+            DebugKit.share(object: NSURL(fileURLWithPath: filePath),
+                           fromVC: self)
+        }
     }
     
 }
