@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DKToolBoxVC" customModule="DebugKit" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DKToolBoxVC" customModule="Core" customModuleProvider="target">
             <connections>
                 <outlet property="tableView" destination="r5y-be-Mza" id="i87-wN-xfw"/>
                 <outlet property="view" destination="iN0-l3-epB" id="cRG-JM-3G9"/>
@@ -23,6 +23,25 @@
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="r5y-be-Mza">
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <view key="tableFooterView" contentMode="scaleToFill" id="tgD-Qz-szh">
+                        <rect key="frame" x="0.0" y="828.00000104037201" width="414" height="40"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Fh-PJ-iiD">
+                                <rect key="frame" x="171" y="5.5" width="72" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <state key="normal" title="关闭Debug"/>
+                                <connections>
+                                    <action selector="closeAction:" destination="-1" eventType="touchUpInside" id="fO3-qp-dOG"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="9Fh-PJ-iiD" firstAttribute="centerX" secondItem="tgD-Qz-szh" secondAttribute="centerX" id="W6B-OY-bjo"/>
+                            <constraint firstItem="9Fh-PJ-iiD" firstAttribute="centerY" secondItem="tgD-Qz-szh" secondAttribute="centerY" id="sVV-PU-IcI"/>
+                        </constraints>
+                    </view>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="pTC-um-Q7q"/>
                         <outlet property="delegate" destination="-1" id="Gc5-mD-tht"/>
@@ -37,7 +56,7 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="r5y-be-Mza" secondAttribute="trailing" id="YZ6-vK-rv5"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="r5y-be-Mza" secondAttribute="bottom" id="uYZ-Yb-q98"/>
             </constraints>
-            <point key="canvasLocation" x="139" y="153"/>
+            <point key="canvasLocation" x="137.68115942028987" y="152.67857142857142"/>
         </view>
     </objects>
     <resources>

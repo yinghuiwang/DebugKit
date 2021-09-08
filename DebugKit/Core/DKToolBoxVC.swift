@@ -31,7 +31,7 @@ open class DKToolBoxVC: UIViewController {
     }
     
     func setupViews() {
-        tableView.tableFooterView = UIView()
+        
     }
     
     func loadData() {
@@ -48,6 +48,11 @@ open class DKToolBoxVC: UIViewController {
         ])
     }
     
+    @IBAction func closeAction(_ sender: Any) {
+        dismiss(animated: true) {
+            DebugKit.share.closeDebug()
+        }   
+    }
 }
 
 extension DKToolBoxVC: UITableViewDelegate, UITableViewDataSource {

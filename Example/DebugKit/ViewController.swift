@@ -21,6 +21,8 @@ class ViewController: UIViewController {
         
         setupViews()
         loadData()
+        
+        DebugKit.share.setup()
     }
     
     func setupViews() {

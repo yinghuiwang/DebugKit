@@ -7,11 +7,21 @@
 
 import Foundation
 
+enum DKUserDefuaultKey: String {
+    case openDebug
+}
+
 open class DebugKit: NSObject {
     
     @objc public static let share = DebugKit()
     private override init() {}
     
+    @objc public func setup() {
+        if let openDebug = DebugKit.userDefault()?.bool(forKey: DKUserDefuaultKey.openDebug.rawValue),
+           openDebug {
+            self.openDebug()
+        }
+    }
     var enterView: DKEnterView?
     
     @objc public var h5Handler: ((String) -> Void)?
@@ -35,6 +45,8 @@ extension DebugKit {
         enterView = DKEnterView.view()
         enterView?.addTarget(self, action: #selector(jumpToolBoxVC), for: .touchUpInside)
         enterView?.show()
+        
+        DebugKit.userDefault()?.setValue(true, forKey: DKUserDefuaultKey.openDebug.rawValue)
     }
     
     public func closeDebug() {
@@ -42,6 +54,8 @@ extension DebugKit {
         
         enterView.removeFromSuperview()
         self.enterView = nil
+        
+        DebugKit.userDefault()?.setValue(false, forKey: DKUserDefuaultKey.openDebug.rawValue)
     }
 }
 
@@ -95,6 +109,7 @@ extension DebugKit {
         Bundle(path: Bundle(for: Self.self).path(forResource: "\(name).bundle", ofType: nil) ?? "")
     }
     
+    // MARK: App Info
     static func appName() -> String {
         var _appName: String = ""
         if _appName.count <= 0 {
@@ -107,10 +122,20 @@ extension DebugKit {
         return _appName
     }
     
+    // MARK: 分享
+    /// 分享内容
+    /// - Parameters:
+    ///   - object: 分享内容：support NSString、NSURL、UIImage
+    ///   - fromVC: from viewController
     static func share(object: AnyObject, fromVC: UIViewController) {
         let objectsToShare = [object] //support NSString、NSURL、UIImage
         let controller = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         fromVC.present(controller, animated: true, completion: nil)
+    }
+    
+    // MARK: UserDefault
+    static func userDefault() -> UserDefaults? {
+        UserDefaults(suiteName: "DebugKit")
     }
 }
 
