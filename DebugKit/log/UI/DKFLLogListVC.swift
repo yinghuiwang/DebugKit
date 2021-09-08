@@ -68,7 +68,14 @@ class DKFLLogListVC: UIViewController {
         logReader = DKFileReaderDefault(filePath: fileInfo.filePath)
         logReader?.logsDidUpdateCallback = { [weak self](logs, keywords) in
             self?.logs = logs
-            self?.keywords = keywords
+            self?.keywords = keywords.filter({ keyword in
+                if let has = self?.selectKeywords.contains(keyword),
+                   has {
+                    return false
+                } else {
+                    return true
+                }
+            })
             self?.filter()
         }
     }
