@@ -22,9 +22,6 @@ open class DKLog: NSObject {
     @objc public static let share = DKLog()
     private override init() {
         dateFormatter = DateFormatter()
-        dateFormatter.formatterBehavior = .behavior10_4
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS"
         
         super.init()

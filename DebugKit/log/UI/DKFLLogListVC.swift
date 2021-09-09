@@ -35,9 +35,6 @@ class DKFLLogListVC: UIViewController {
         self.fileInfo = fileInfo
         
         let dateFormatter = DateFormatter()
-        dateFormatter.formatterBehavior = .behavior10_4
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         dateFormatter.dateFormat = "HH:mm:ss:SSS"
         self.dateFomatter = dateFormatter
     }

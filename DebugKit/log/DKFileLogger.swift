@@ -135,9 +135,6 @@ class DKFileFormatter: DKLogFormatter {
             self.dateFormatter = dateFormatter
         } else {
             let dateFormatter = DateFormatter()
-            dateFormatter.formatterBehavior = .behavior10_4
-            dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-            dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss:SSS"
             self.dateFormatter = dateFormatter
         }
@@ -196,8 +193,6 @@ class DKFileManagerDefault: DKLogFileManager {
     init(logsDirectory: String?) {
         
         fileDateFormatter = DateFormatter()
-        fileDateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        fileDateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         fileDateFormatter.dateFormat = "yyyy-MM-dd--HH-mm-ss-SSS"
         
         if let logsDirectory = logsDirectory,
