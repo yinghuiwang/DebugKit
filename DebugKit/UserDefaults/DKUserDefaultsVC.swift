@@ -10,6 +10,7 @@ import UIKit
 class DKUserDefaultsVC: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
+    let searchBar = UISearchBar()
     var viewModel = DKUserDefaultsViewModel()
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -29,6 +30,12 @@ class DKUserDefaultsVC: UIViewController {
     
     func setupViews() {
         tableView.tableFooterView = UIView()
+        
+        searchBar.returnKeyType = .search
+        searchBar.delegate = self
+        searchBar.placeholder = "keyword"
+        
+        navigationItem.titleView = searchBar
     }
     
     func loadData() {
@@ -62,7 +69,7 @@ extension DKUserDefaultsVC: UITableViewDelegate, UITableViewDataSource {
     
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        searchBar.resignFirstResponder()
     }
     
     
@@ -80,5 +87,22 @@ extension DKUserDefaultsVC: UITableViewDelegate, UITableViewDataSource {
             viewModel.delete(model: model)
             tableView.reloadSections([0], with: .automatic)
         }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
+    }
+}
+
+extension DKUserDefaultsVC: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        viewModel.search(keyword: searchBar.text)
+        tableView.reloadSections([0], with: .automatic)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        viewModel.search(keyword: searchBar.text)
+        tableView.reloadSections([0], with: .automatic)
     }
 }

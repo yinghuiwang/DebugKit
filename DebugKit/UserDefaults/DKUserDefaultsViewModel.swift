@@ -31,6 +31,14 @@ class DKUserDefaultsViewModel: NSObject {
         reload()
     }
     
+    func search(keyword: String?) {
+        if let keyword = keyword, keyword.count > 0 {
+            showModelList = modelList.filter { $0.key.contains(keyword) }
+        } else {
+            showModelList = modelList
+        }   
+    }
+    
 }
 
 

@@ -144,6 +144,8 @@ extension DKFLLogListVC: UITableViewDelegate, UITableViewDataSource {
         jsonViewerVC.title = logMessage.keyword
         jsonViewerVC.jsonStr = logMessage.message
         navigationController?.pushViewController(jsonViewerVC, animated: true)
+        
+        searchBar.resignFirstResponder()
     }
 }
 
@@ -204,6 +206,11 @@ extension DKFLLogListVC: UICollectionViewDataSource, UICollectionViewDelegate, U
         }
         filter()
         collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: true)
+        searchBar.resignFirstResponder()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
     }
 }
 
@@ -212,5 +219,9 @@ extension DKFLLogListVC: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         filter()
         searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        filter()
     }
 }
