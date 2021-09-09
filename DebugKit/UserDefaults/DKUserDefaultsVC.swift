@@ -21,9 +21,7 @@ class DKUserDefaultsVC: UIViewController {
         super.init(nibName: "DKUserDefaultsVC", bundle: DebugKit.dk_bundle(name: "UserDefaults"))
     }
     
-    open override func viewDidLoad() {
-        title = "DebugKit"
-        
+    open override func viewDidLoad() {        
         setupViews()
         loadData()
     }

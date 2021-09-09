@@ -9,7 +9,7 @@ import UIKit
 
 class DKFLLogListVC: UIViewController {
 
-    @IBOutlet weak var searchBar: UISearchBar!
+    let searchBar = UISearchBar()
     @IBOutlet weak var keywordCollectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
     
@@ -39,14 +39,17 @@ class DKFLLogListVC: UIViewController {
         self.dateFomatter = dateFormatter
     }
     
-    open override func viewDidLoad() {
-        title = "DebugKit"
-        
+    open override func viewDidLoad() {        
         setupViews()
         loadData()
     }
     
     func setupViews() {
+        
+        searchBar.returnKeyType = .search
+        searchBar.delegate = self
+        searchBar.placeholder = "message"
+        navigationItem.titleView = searchBar
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(export))
         

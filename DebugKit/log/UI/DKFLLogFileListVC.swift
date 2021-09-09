@@ -20,9 +20,7 @@ class DKFLLogFileListVC: UIViewController {
         super.init(nibName: "DKFLLogFileListVC", bundle: DebugKit.dk_bundle(name: "Log"))
     }
     
-    open override func viewDidLoad() {
-        title = "DebugKit"
-        
+    open override func viewDidLoad() {        
         setupViews()
         loadData()
     }
