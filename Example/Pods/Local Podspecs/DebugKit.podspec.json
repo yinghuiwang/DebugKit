@@ -46,6 +46,15 @@
           "DebugKit/JsonViewer/**/*.{html,js,css}"
         ]
       }
+    },
+    {
+      "name": "UserDefaults",
+      "source_files": "DebugKit/UserDefaults/**/*.{swift}",
+      "resource_bundles": {
+        "UserDefaults": [
+          "DebugKit/UserDefaults/**/*.{xib}"
+        ]
+      }
     }
   ]
 }

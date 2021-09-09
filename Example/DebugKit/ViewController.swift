@@ -42,6 +42,12 @@ class ViewController: UIViewController {
             toolVCClassKey: "DebugKit_Example.DKLogTestVC"
         ])
 
+        tools.append([
+            toolNameKey: "UserDefaultsTest",
+            toolSummaryKey: "UserDefaults测试",
+            toolVCClassKey: "DebugKit_Example.DKUserDefaultsTestVC"
+        ])
+
     }
     
 }

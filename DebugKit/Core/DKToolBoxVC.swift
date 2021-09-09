@@ -46,6 +46,12 @@ open class DKToolBoxVC: UIViewController {
             toolSummaryKey: "查看本地记录的日志",
             toolVCClassKey: "DebugKit.DKFLLogFileListVC"
         ])
+        
+        tools.append([
+            toolNameKey: "UserDefaults",
+            toolSummaryKey: "管理UserDefaults",
+            toolVCClassKey: "DebugKit.DKUserDefaultsVC"
+        ])
     }
     
     @IBAction func closeAction(_ sender: Any) {

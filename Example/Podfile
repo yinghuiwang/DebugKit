@@ -6,7 +6,8 @@ target 'DebugKit_Example' do
   pod 'DebugKit', :path => '../', :subspecs => [
     'Core',
     'Log',
-    'JsonViewer'
+    'JsonViewer',
+    'UserDefaults',
   ]
 
   target 'DebugKit_Tests' do
@@ -18,3 +19,4 @@ target 'DebugKit_Example' do
 #    pod 'Nimble-Snapshots' , '~> 8.0.0'
   end
 end
+

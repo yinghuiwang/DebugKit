@@ -52,6 +52,13 @@ TODO: Add long description of the pod here.
     }
   end
   
+  s.subspec "UserDefaults" do |ss|
+    ss.source_files = 'DebugKit/UserDefaults/**/*.{swift}'
+    ss.resource_bundles = {
+      'UserDefaults' => ['DebugKit/UserDefaults/**/*.{xib}']
+    }
+  end
+  
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
