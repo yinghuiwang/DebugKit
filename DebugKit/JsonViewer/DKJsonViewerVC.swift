@@ -27,6 +27,8 @@ extension DKJsonViewerVC {
     func setupViews() {
         view.backgroundColor = UIColor.white
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(export))
+        
         let config = WKWebViewConfiguration()
         config.allowsInlineMediaPlayback = true
         let userController = WKUserContentController()
@@ -52,6 +54,13 @@ extension DKJsonViewerVC {
         let url = URL(fileURLWithPath: path)
         let baseUrl = url.deletingLastPathComponent()
         webView?.loadFileURL(url, allowingReadAccessTo: baseUrl)
+    }
+    
+    @objc func export() {
+        if let jsonStr = jsonStr {
+            DebugKit.share(object: NSString(string: jsonStr),
+                           fromVC: self)
+        }
     }
 }
 
