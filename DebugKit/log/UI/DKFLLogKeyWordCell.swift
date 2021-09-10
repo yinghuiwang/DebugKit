@@ -7,12 +7,21 @@
 
 import UIKit
 
+enum DKFLLogKeyWordCellType {
+    case normal
+    case select
+    case reject
+}
+
 class DKFLLogKeyWordCell: UICollectionViewCell {
 
     static let cellName = "DKFLLogKeyWordCell"
     @IBOutlet weak var title: UILabel!
+    private(set) var type: DKFLLogKeyWordCellType = .normal
+    
     var longPress: UILongPressGestureRecognizer?
     var longPressCallback: (() -> Void)?
+
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,16 +35,20 @@ class DKFLLogKeyWordCell: UICollectionViewCell {
         
     }
     
-    override var isSelected: Bool {
-        didSet {
-            if isSelected {
-                self.title.textColor = UIColor.white
-                self.contentView.backgroundColor = UIColor.systemBlue
-                
-            } else {
-                self.title.textColor = UIColor.systemBlue
-                self.contentView.backgroundColor = UIColor.clear
-            }
+    func setType(type: DKFLLogKeyWordCellType) {
+        switch type {
+        case .normal:
+            self.title.textColor = UIColor.systemBlue
+            self.contentView.backgroundColor = UIColor.clear
+            self.contentView.layer.borderColor = UIColor.systemBlue.cgColor
+        case .select:
+            self.title.textColor = UIColor.white
+            self.contentView.backgroundColor = UIColor.systemBlue
+            self.contentView.layer.borderColor = UIColor.clear.cgColor
+        case .reject:
+            self.title.textColor = UIColor.lightText
+            self.contentView.backgroundColor = UIColor.lightGray
+            self.contentView.layer.borderColor = UIColor.clear.cgColor
         }
     }
     

@@ -154,12 +154,16 @@ extension DKFLLogListVC: UICollectionViewDataSource, UICollectionViewDelegate, U
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard let keywordCell = cell as? DKFLLogKeyWordCell else {
+            return
+        }
+        
         if indexPath.section == 0 {
-            cell.isSelected = true
+            keywordCell.setType(type: .reject)
         } else if indexPath.section == 1 {
-            cell.isSelected = true
+            keywordCell.setType(type: .select)
         } else if indexPath.section == 2 {
-            cell.isSelected = false
+            keywordCell.setType(type: .normal)
         }
     }
     

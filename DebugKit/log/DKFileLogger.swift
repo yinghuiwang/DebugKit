@@ -487,7 +487,7 @@ class DKFileReaderDefault: DKFileReader {
     func removeRejectKeyword(keyword: String) {
         queue.async {
             if let index = self.rejectKeywords.firstIndex(of: keyword) {
-                self.keywords.append(self.rejectKeywords.remove(at: index))
+                self.keywords.insert(self.rejectKeywords.remove(at: index), at: 0)
                 self.filtration()
             }
         }
@@ -505,7 +505,7 @@ class DKFileReaderDefault: DKFileReader {
     func removeOnlyKeyword(keyword: String) {
         queue.async {
             if let index = self.onlyKeywords.firstIndex(of: keyword) {
-                self.keywords.append(self.onlyKeywords.remove(at: index))
+                self.keywords.insert(self.onlyKeywords.remove(at: index), at: 0)
                 self.filtration()
             }
         }

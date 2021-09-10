@@ -87,7 +87,7 @@ class DKLogTestVC: UIViewController {
         """
         
         for _ in 0...20000 {
-            DKLog.share.log(keyword: "testkey/\(Int(arc4random() % 10))",
+            DKLog.share.log(keyword: "testkey/\(Int(arc4random() % 300))",
                             message: message)
         }
         
