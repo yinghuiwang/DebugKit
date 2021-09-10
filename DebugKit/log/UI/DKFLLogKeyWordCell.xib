@@ -20,6 +20,7 @@
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="soa-hX-Ltw">
                         <rect key="frame" x="34.5" y="16.5" width="35.5" height="17"/>
+                        <gestureRecognizers/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" systemColor="systemBlueColor"/>
                         <nil key="highlightedColor"/>
@@ -27,6 +28,7 @@
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <gestureRecognizers/>
             <constraints>
                 <constraint firstItem="soa-hX-Ltw" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="Gi0-h7-5Tw"/>
                 <constraint firstItem="soa-hX-Ltw" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="KDs-jL-y3P"/>

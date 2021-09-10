@@ -7,6 +7,16 @@
 
 import Foundation
 
+
+extension Notification.Name {
+    static let DKFLLogDidLog = Notification.Name("DKFileLoggerDidLog")
+}
+
+enum DKFileLoggerKey: String {
+    case message
+    case path
+}
+
 class DKFileLogger: NSObject, DKLogger {
     
     let defaultLogMaxFileSize      = 1024 * 1024;      // 1 MB
@@ -31,11 +41,21 @@ class DKFileLogger: NSObject, DKLogger {
     
     // MARK: DKLogger Protocol
     func log(message: DKLogMessage) {
-        guard let data = data(logMessage: message), data.count > 0 else {
-            return
+        queue.async { [weak self] in
+            guard let data = self?.data(logMessage: message), data.count > 0 else {
+                return
+            }
+            
+            self?.logData(data: data)
+            
+            if let filePath = self?._currentLogFileInfo?.filePath {
+                NotificationCenter.default.post(name: .DKFLLogDidLog, object: nil,
+                                                userInfo: [
+                                                    DKFileLoggerKey.message: message,
+                                                    DKFileLoggerKey.path: filePath
+                                                ])
+            }
         }
-        
-        logData(data: data)
     }
     
     // MARK: Internal
@@ -146,6 +166,7 @@ class DKFileFormatter: DKLogFormatter {
         
         let formatedMessage = DKLogMessage(message: messageStr,
                                            keyword: message.keyword,
+                                           summary: message.summary,
                                            timestamp: timeStr,
                                            date: message.date)
         
@@ -413,30 +434,145 @@ class DKFileReaderDefault: DKFileReader {
 
     let filePath: String
     let queue = DispatchQueue(label: "DKFileReadder")
-    var logsDidUpdateCallback: (([DKLogMessage], [String]) -> Void)?
+    var logsDidUpdateCallback: (([DKLogMessage], [[String]]) -> Void)?
+    
+    private var logs: [DKLogMessage] = []
+    
+    private var keywords: [String] = []
+    
+    /// 不查询此列表中的关键词
+    private var rejectKeywords: [String] = []
+    
+    /// 仅查询此列表中的关键词
+    private var onlyKeywords: [String] = []
+    
+    private var searchText: String?
+    
     
     required init(filePath: String) {
         
         self.filePath = filePath
         
-        NotificationCenter.default.addObserver(forName: .DKLogDidLog, object: nil, queue: nil) { [weak self]_ in
-            self?.updateLog()
+        NotificationCenter.default.addObserver(forName: .DKFLLogDidLog, object: nil, queue: nil) { [weak self] (notification) in
+            guard let self = self else { return }
+            
+            guard let message = notification.userInfo?[DKFileLoggerKey.message.rawValue] as? DKLogMessage,
+                  let path = notification.userInfo?[DKFileLoggerKey.path.rawValue] as? String,
+                  path == filePath else {
+                return
+            }
+            
+            self.rejectKeywords.forEach { keyword in
+                if message.keyword.contains(keyword) {
+                    return
+                }
+            }
+            
+            if self.onlyKeywords.count > 0 {
+                let notContain = !message.keyword.components(separatedBy: "/").reduce(false) {
+                    $0 || self.onlyKeywords.contains($1)
+                }
+                if notContain {
+                    return
+                }
+            }
+            
+            self.updateLogs()
         }
         
-        updateLog()
+        updateLogs()
     }
     
+    // MARK: Public
+    func removeRejectKeyword(keyword: String) {
+        queue.async {
+            if let index = self.rejectKeywords.firstIndex(of: keyword) {
+                self.keywords.append(self.rejectKeywords.remove(at: index))
+                self.filtration()
+            }
+        }
+    }
+    
+    func addRejectKeyword(keyword: String) {
+        queue.async {
+            if let index = self.keywords.firstIndex(of: keyword) {
+                self.rejectKeywords.append(self.keywords.remove(at: index))
+                self.filtration()
+            }
+        }
+    }
+    
+    func removeOnlyKeyword(keyword: String) {
+        queue.async {
+            if let index = self.onlyKeywords.firstIndex(of: keyword) {
+                self.keywords.append(self.onlyKeywords.remove(at: index))
+                self.filtration()
+            }
+        }
+    }
+    
+    func addOnlyKeyword(keyword: String) {
+        queue.async {
+            if let index = self.keywords.firstIndex(of: keyword) {
+                self.onlyKeywords.append(self.keywords.remove(at: index))
+                self.filtration()
+            }
+        }
+    }
+    
+    func updateSearch(text: String?) {
+        queue.async {
+            self.searchText = text
+            self.filtration()
+        }
+    }
+    
+    func filtration() {
+        let result = logs.filter { message in
+            // 排除包含此关键词的log
+            if rejectKeywords.count > 0 {
+                if rejectKeywords.reduce(false, { $0 || message.keyword.contains($1) }) {
+                    return false
+                }
+            }
+            
+            // 保留包含此关键词的log
+            if onlyKeywords.count > 0 {
+                if !onlyKeywords.reduce(true, { $0 && message.keyword.contains($1) }) {
+                    return false
+                }
+            }
+            
+            // 保留包含此内容的log
+            if let searchText = self.searchText, !searchText.isEmpty {
+                if (!message.message.contains(searchText)) {
+                    return false
+                }
+            }
+            
+            return true
+        }
+        
+        DispatchQueue.main.async {
+            if let callback = self.logsDidUpdateCallback {
+                callback(result, [self.rejectKeywords, self.onlyKeywords, self.keywords])
+            }
+        }
+    }
+    
+    
     // MARK: private
-    private func updateLog() {
+    private func updateLogs() {
         queue.async {
             guard let (newLogs, keywords) = self.read(atPath: self.filePath) else {
                 return
             }
-            DispatchQueue.main.async {
-                if let callback = self.logsDidUpdateCallback {
-                    callback(newLogs, keywords)
-                }
+            
+            self.logs = newLogs
+            self.keywords = keywords.filter {
+                !(self.rejectKeywords.contains($0) || self.onlyKeywords.contains($0))
             }
+            self.filtration()
         }
     }
     
@@ -470,22 +606,5 @@ class DKFileReaderDefault: DKFileReader {
         })
         
         return (messages ?? [], keywords?.sorted() ?? [])
-    }
-    
-    
-}
-
-extension Array where Element == DKLogMessage {
-    func filter(keyword: String) -> [DKLogMessage] {
-        let components = keyword.components(separatedBy: "/")
-        return self.filter { logMessage in
-            components.reduce(into: true) { result, word in
-                result = result && logMessage.keyword.contains(word)
-            }
-        }
-    }
-    
-    func filter(message: String) -> [DKLogMessage] {
-        self.filter { $0.message.contains(message) }
     }
 }

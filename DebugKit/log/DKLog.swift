@@ -7,11 +7,6 @@
 
 import Foundation
 
-
-extension Notification.Name {
-    static let DKLogDidLog = Notification.Name("DKLogDidLog")
-}
-
 open class DKLog: NSObject {
     
     let loggingQueue = DispatchQueue(label: "DebugKit")
@@ -34,8 +29,13 @@ open class DKLog: NSObject {
     ///   - keyword: 关键词，方便查询搜索，多个关键词可以采用 “keyword1/keyword2”
     ///   - message: 日志详情
     @objc public func log(keyword: String, message: String) {
+        log(keyword: keyword, summary: nil, message: message)
+    }
+    
+    @objc public func log(keyword: String, summary: String?, message: String) {
         let message = DKLogMessage(message: message,
                                    keyword: keyword,
+                                   summary: summary,
                                    timestamp: dateFormatter.string(from: Date()),
                                    date: Date())
         log(message: message)
@@ -45,9 +45,6 @@ open class DKLog: NSObject {
         loggers.forEach { logger in
             loggingQueue.async {
                 logger.log(message: message)
-                DispatchQueue.main.async {
-                    NotificationCenter.default.post(name: .DKLogDidLog, object: nil)
-                }
             }
         }
     }
@@ -65,6 +62,7 @@ open class DKLog: NSObject {
 struct DKLogMessage: Codable {
     let message: String
     let keyword: String
+    let summary: String?
     let timestamp: String
     let date: Date
 }

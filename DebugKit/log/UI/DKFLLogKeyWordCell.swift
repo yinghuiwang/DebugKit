@@ -11,6 +11,8 @@ class DKFLLogKeyWordCell: UICollectionViewCell {
 
     static let cellName = "DKFLLogKeyWordCell"
     @IBOutlet weak var title: UILabel!
+    var longPress: UILongPressGestureRecognizer?
+    var longPressCallback: (() -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -19,6 +21,9 @@ class DKFLLogKeyWordCell: UICollectionViewCell {
         self.contentView.layer.cornerRadius = 15;
         self.contentView.layer.borderWidth = 0.5;
         self.contentView.layer.borderColor = UIColor.systemBlue.cgColor
+        
+        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressAction)))
+        
     }
     
     override var isSelected: Bool {
@@ -33,7 +38,12 @@ class DKFLLogKeyWordCell: UICollectionViewCell {
             }
         }
     }
-
+    
+    @objc func longPressAction() {
+        if let longPressCallback = self.longPressCallback {
+            longPressCallback()
+        }
+    }
 }
 
 extension DKFLLogKeyWordCell {
