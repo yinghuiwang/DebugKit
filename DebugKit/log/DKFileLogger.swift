@@ -456,8 +456,8 @@ class DKFileReaderDefault: DKFileReader {
         NotificationCenter.default.addObserver(forName: .DKFLLogDidLog, object: nil, queue: nil) { [weak self] (notification) in
             guard let self = self else { return }
             
-            guard let message = notification.userInfo?[DKFileLoggerKey.message.rawValue] as? DKLogMessage,
-                  let path = notification.userInfo?[DKFileLoggerKey.path.rawValue] as? String,
+            guard let message = notification.userInfo?[DKFileLoggerKey.message] as? DKLogMessage,
+                  let path = notification.userInfo?[DKFileLoggerKey.path] as? String,
                   path == filePath else {
                 return
             }
