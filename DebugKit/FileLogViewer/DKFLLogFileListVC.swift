@@ -13,11 +13,11 @@ class DKFLLogFileListVC: UIViewController {
     var files: [DKLogFileInfo] = []
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: "DKFLLogFileListVC", bundle: DebugKit.dk_bundle(name: "Log"))
+        super.init(nibName: "DKFLLogFileListVC", bundle: DebugKit.dk_bundle(name: "FileLogViewer"))
     }
     
     public required init?(coder: NSCoder) {
-        super.init(nibName: "DKFLLogFileListVC", bundle: DebugKit.dk_bundle(name: "Log"))
+        super.init(nibName: "DKFLLogFileListVC", bundle: DebugKit.dk_bundle(name: "FileLogViewer"))
     }
     
     open override func viewDidLoad() {        

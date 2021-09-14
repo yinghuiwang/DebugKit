@@ -1,11 +1,13 @@
 PODS:
   - DebugKit/Core (0.1.0)
+  - DebugKit/FileLogViewer (0.1.0)
   - DebugKit/JsonViewer (0.1.0)
   - DebugKit/Log (0.1.0)
   - DebugKit/UserDefaults (0.1.0)
 
 DEPENDENCIES:
   - DebugKit/Core (from `../`)
+  - DebugKit/FileLogViewer (from `../`)
   - DebugKit/JsonViewer (from `../`)
   - DebugKit/Log (from `../`)
   - DebugKit/UserDefaults (from `../`)
@@ -15,8 +17,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  DebugKit: a0ddced0fbb9f6c4bce29070de9432ac3bb7e4ba
+  DebugKit: d283f72cfb794afb2c21e63850d4ea9f23a3da71
 
-PODFILE CHECKSUM: 8efc3b901065cb05807f54cd81d315d67b3c0c92
+PODFILE CHECKSUM: 1dae41d59821130996ad011b0cf5cb5b967c8de9
 
 COCOAPODS: 1.10.1

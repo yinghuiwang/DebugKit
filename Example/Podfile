@@ -6,6 +6,7 @@ target 'DebugKit_Example' do
   pod 'DebugKit', :path => '../', :subspecs => [
     'Core',
     'Log',
+    'FileLogViewer',
     'JsonViewer',
     'UserDefaults',
   ]

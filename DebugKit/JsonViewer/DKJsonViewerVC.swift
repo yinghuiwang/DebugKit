@@ -34,7 +34,6 @@ extension DKJsonViewerVC {
         let userController = WKUserContentController()
         config.userContentController = userController
         webView = WKWebView(frame: .zero, configuration: config)
-        webView?.backgroundColor = UIColor.clear
         webView?.navigationDelegate = self
         webView?.uiDelegate = self
         

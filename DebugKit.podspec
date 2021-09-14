@@ -45,6 +45,13 @@ TODO: Add long description of the pod here.
     }
   end
   
+  s.subspec "FileLogViewer" do |ss|
+    ss.source_files = 'DebugKit/FileLogViewer/**/*.{swift}'
+    ss.resource_bundles = {
+      'FileLogViewer' => ['DebugKit/FileLogViewer/**/*.xib']
+    }
+  end
+  
   s.subspec "JsonViewer" do |ss|
     ss.source_files = 'DebugKit/JsonViewer/**/*.{swift}'
     ss.resource_bundles = {

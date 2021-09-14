@@ -20,11 +20,11 @@ class DKFLLogListVC: UIViewController {
     var keywordsGroup: [[String]] = []
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: "DKFLLogListVC", bundle: DebugKit.dk_bundle(name: "Log"))
+        super.init(nibName: "DKFLLogListVC", bundle: DebugKit.dk_bundle(name: "FileLogViewer"))
     }
     
     public required init?(coder: NSCoder) {
-        super.init(nibName: "DKFLLogListVC", bundle: DebugKit.dk_bundle(name: "Log"))
+        super.init(nibName: "DKFLLogListVC", bundle: DebugKit.dk_bundle(name: "FileLogViewer"))
     }
     
     convenience init(fileInfo: DKLogFileInfo?) {
@@ -53,7 +53,7 @@ class DKFLLogListVC: UIViewController {
         tableView.tableFooterView = UIView()
         
         keywordCollectionView.register(UINib(nibName: DKFLLogKeyWordCell.cellName,
-                                              bundle: DebugKit.dk_bundle(name: "Log")),
+                                              bundle: DebugKit.dk_bundle(name: "FileLogViewer")),
                                         forCellWithReuseIdentifier: DKFLLogKeyWordCell.cellName)
     }
     

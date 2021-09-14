@@ -39,6 +39,15 @@
       }
     },
     {
+      "name": "FileLogViewer",
+      "source_files": "DebugKit/FileLogViewer/**/*.{swift}",
+      "resource_bundles": {
+        "FileLogViewer": [
+          "DebugKit/FileLogViewer/**/*.xib"
+        ]
+      }
+    },
+    {
       "name": "JsonViewer",
       "source_files": "DebugKit/JsonViewer/**/*.{swift}",
       "resource_bundles": {
