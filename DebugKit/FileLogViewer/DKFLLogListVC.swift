@@ -187,7 +187,6 @@ extension DKFLLogListVC: UICollectionViewDataSource, UICollectionViewDelegate, U
             logReader?.addOnlyKeyword(keyword: keyword)
         }
         
-        collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: true)
         searchBar.resignFirstResponder()
     }
     
