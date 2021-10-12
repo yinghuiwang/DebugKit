@@ -60,7 +60,7 @@ class DKFLLogKeyWordCell: UICollectionViewCell {
 }
 
 extension DKFLLogKeyWordCell {
-    static func cellH(keyword: String) -> CGFloat {
+    static func cellW(keyword: String) -> CGFloat {
         let rect = NSString(string: keyword).boundingRect(with: CGSize(width: UIScreen.main.bounds.size.width, height: 30),
                                                           options: .usesLineFragmentOrigin,
                                                attributes: [.font: UIFont.systemFont(ofSize: 14)], context: nil)

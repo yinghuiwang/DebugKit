@@ -171,7 +171,7 @@ extension DKFLLogListVC: UICollectionViewDataSource, UICollectionViewDelegate, U
         
         let keywords = keywordsGroup[indexPath.section]
         let keyword = keywords[indexPath.item]
-        let width = DKFLLogKeyWordCell.cellH(keyword: keyword)
+        let width = DKFLLogKeyWordCell.cellW(keyword: keyword)
         
         return CGSize(width: width, height: 30)
     }

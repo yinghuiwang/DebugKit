@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DKUserDefaultsVC" customModule="UserDefaults" customModuleProvider="target">
             <connections>
+                <outlet property="searchHistryCollectionView" destination="k3q-Ud-r3g" id="58M-i7-VAV"/>
                 <outlet property="tableView" destination="av5-nD-qox" id="Ris-AU-Z6u"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -23,6 +24,34 @@
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelectionDuringEditing="YES" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="av5-nD-qox">
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <view key="tableHeaderView" contentMode="scaleToFill" id="bUP-ES-ABn">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="k3q-Ud-r3g">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="5" minimumInteritemSpacing="5" id="OY6-5H-IsM">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="5"/>
+                                </collectionViewFlowLayout>
+                                <connections>
+                                    <outlet property="dataSource" destination="-1" id="n2F-XU-ICe"/>
+                                    <outlet property="delegate" destination="-1" id="YOP-P8-AZY"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="k3q-Ud-r3g" secondAttribute="trailing" id="OAU-OD-SYl"/>
+                            <constraint firstAttribute="height" constant="44" id="jJX-bH-Kaq"/>
+                            <constraint firstItem="k3q-Ud-r3g" firstAttribute="leading" secondItem="bUP-ES-ABn" secondAttribute="leading" id="lZH-2b-8uV"/>
+                            <constraint firstAttribute="bottom" secondItem="k3q-Ud-r3g" secondAttribute="bottom" id="oyW-Pj-3cy"/>
+                            <constraint firstItem="k3q-Ud-r3g" firstAttribute="top" secondItem="bUP-ES-ABn" secondAttribute="top" id="ybp-cG-FtV"/>
+                        </constraints>
+                    </view>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="7tO-nj-CH0"/>
                         <outlet property="delegate" destination="-1" id="FXF-4O-NSe"/>
@@ -37,7 +66,7 @@
                 <constraint firstItem="av5-nD-qox" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="jSP-LT-Q8e"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="av5-nD-qox" secondAttribute="bottom" id="lep-64-rtP"/>
             </constraints>
-            <point key="canvasLocation" x="125" y="130"/>
+            <point key="canvasLocation" x="124.6376811594203" y="129.91071428571428"/>
         </view>
     </objects>
     <resources>

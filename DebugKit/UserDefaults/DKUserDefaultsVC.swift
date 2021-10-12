@@ -9,6 +9,7 @@ import UIKit
 
 class DKUserDefaultsVC: UIViewController {
 
+    @IBOutlet weak var searchHistryCollectionView: UICollectionView!
     @IBOutlet weak var tableView: UITableView!
     let searchBar = UISearchBar()
     var viewModel = DKUserDefaultsViewModel()
@@ -34,11 +35,16 @@ class DKUserDefaultsVC: UIViewController {
         searchBar.placeholder = "keyword"
         
         navigationItem.titleView = searchBar
+        
+        searchHistryCollectionView.register(UINib(nibName: DKUDDeleteHistryCell.cellName,
+                                              bundle: DebugKit.dk_bundle(name: "UserDefaults")),
+                                        forCellWithReuseIdentifier: DKUDDeleteHistryCell.cellName)
     }
     
     func loadData() {
         viewModel.reload()
         tableView.reloadData()
+        searchHistryCollectionView.reloadData()
     }
     
 }
@@ -84,10 +90,42 @@ extension DKUserDefaultsVC: UITableViewDelegate, UITableViewDataSource {
             let model = viewModel.showModelList[indexPath.row]
             viewModel.delete(model: model)
             tableView.reloadSections([0], with: .automatic)
+            searchHistryCollectionView.reloadData()
         }
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        searchBar.resignFirstResponder()
+    }
+}
+
+extension DKUserDefaultsVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.deleteHistoryList.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DKUDDeleteHistryCell.cellName, for: indexPath) as! DKUDDeleteHistryCell
+        
+        let searchText = viewModel.deleteHistoryList[indexPath.row]
+        cell.title.text = searchText;
+    
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let searchText = viewModel.deleteHistoryList[indexPath.row]
+        let width = DKUDDeleteHistryCell.cellW(SearchText: searchText)
+        
+        return CGSize(width: width, height: 30)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let searchText = viewModel.deleteHistoryList[indexPath.row]
+        viewModel.search(keyword: searchText)
+        tableView.reloadSections([0], with: .automatic)
         searchBar.resignFirstResponder()
     }
 }
