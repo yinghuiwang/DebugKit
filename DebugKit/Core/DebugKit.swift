@@ -36,7 +36,9 @@ extension DebugKit {
         }
         
         if let navigationController = self.navigationController {
-            topViewController.present(navigationController, animated: true, completion: nil)
+            if navigationController.presentingViewController == nil {
+                topViewController.present(navigationController, animated: true, completion: nil)
+            }            
             return
         }
         
