@@ -15,6 +15,7 @@ open class DebugKit: NSObject {
     
     @objc public static let share = DebugKit()
     private override init() {}
+    private var navigationController: UINavigationController?
     
     @objc public func setup() {
         if let openDebug = DebugKit.userDefault()?.bool(forKey: DKUserDefuaultKey.openDebug.rawValue),
@@ -34,9 +35,15 @@ extension DebugKit {
             return
         }
         
+        if let navigationController = self.navigationController {
+            topViewController.present(navigationController, animated: true, completion: nil)
+            return
+        }
+        
         let debugVC = DKToolBoxVC()
         let navigationController = UINavigationController(rootViewController: debugVC)
-        topViewController.present(navigationController, animated: true, completion: nil)   
+        topViewController.present(navigationController, animated: true, completion: nil)
+        self.navigationController = navigationController
     }
     
     // MARK: - PublicMethod

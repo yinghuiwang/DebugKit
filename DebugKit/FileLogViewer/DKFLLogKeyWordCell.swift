@@ -31,7 +31,8 @@ class DKFLLogKeyWordCell: UICollectionViewCell {
         self.contentView.layer.borderWidth = 0.5;
         self.contentView.layer.borderColor = UIColor.systemBlue.cgColor
         
-        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(longPressAction)))
+        let longPressGR = UILongPressGestureRecognizer(target: self, action: #selector(longPressAction(longPress:)))
+        addGestureRecognizer(longPressGR)
         
     }
     
@@ -52,9 +53,11 @@ class DKFLLogKeyWordCell: UICollectionViewCell {
         }
     }
     
-    @objc func longPressAction() {
+    @objc func longPressAction(longPress: UILongPressGestureRecognizer) {
+        longPress.isEnabled = false
         if let longPressCallback = self.longPressCallback {
             longPressCallback()
+            longPress.isEnabled = true
         }
     }
 }

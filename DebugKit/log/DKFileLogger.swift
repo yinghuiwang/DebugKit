@@ -15,6 +15,9 @@ extension Notification.Name {
 enum DKFileLoggerKey: String {
     case message
     case path
+    case rejectKeywords
+    case onlyKeywords
+    case searchText
 }
 
 class DKFileLogger: NSObject, DKLogger {
@@ -441,49 +444,50 @@ class DKFileReaderDefault: DKFileReader {
     private var keywords: [String] = []
     
     /// 不查询此列表中的关键词
-    private var rejectKeywords: [String] = []
+    private var rejectKeywords: [String] {
+        didSet {
+            DebugKit.userDefault()?.setValue(rejectKeywords, forKey: DKFileLoggerKey.rejectKeywords.rawValue)
+        }
+    }
     
     /// 仅查询此列表中的关键词
-    private var onlyKeywords: [String] = []
+    private var onlyKeywords: [String] {
+        didSet {
+            DebugKit.userDefault()?.setValue(onlyKeywords, forKey: DKFileLoggerKey.onlyKeywords.rawValue)
+        }
+    }
     
-    private var searchText: String?
+    private(set) var searchText: String? {
+        didSet {
+            DebugKit.userDefault()?.setValue(searchText, forKey: DKFileLoggerKey.searchText.rawValue)
+        }
+    }
     
     
     required init(filePath: String) {
         
         self.filePath = filePath
         
-        NotificationCenter.default.addObserver(forName: .DKFLLogDidLog, object: nil, queue: nil) { [weak self] (notification) in
-            guard let self = self else { return }
-            
-            guard let message = notification.userInfo?[DKFileLoggerKey.message] as? DKLogMessage,
-                  let path = notification.userInfo?[DKFileLoggerKey.path] as? String,
-                  path == filePath else {
-                return
-            }
-            
-            self.rejectKeywords.forEach { keyword in
-                if message.keyword.contains(keyword) {
-                    return
-                }
-            }
-            
-            if self.onlyKeywords.count > 0 {
-                let notContain = !message.keyword.components(separatedBy: "/").reduce(false) {
-                    $0 || self.onlyKeywords.contains($1)
-                }
-                if notContain {
-                    return
-                }
-            }
-            
-            self.updateLogs()
-        }
+        self.rejectKeywords = DebugKit.userDefault()?.stringArray(forKey: DKFileLoggerKey.rejectKeywords.rawValue) ?? []
+        self.onlyKeywords = DebugKit.userDefault()?.stringArray(forKey: DKFileLoggerKey.onlyKeywords.rawValue) ?? []
+        self.searchText =  DebugKit.userDefault()?.string(forKey: DKFileLoggerKey.searchText.rawValue)
         
-        updateLogs()
+        startAddLogListener()
     }
     
     // MARK: Public
+    
+    /// 开始添加log通知监听
+    func startAddLogListener() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didAddLog(notification:)), name: .DKFLLogDidLog, object: nil)
+        updateLogs()
+    }
+    
+    /// 停止添加log通知监听
+    func stopAddLogListener() {
+        NotificationCenter.default.removeObserver(self, name: .DKFLLogDidLog, object: nil)
+    }
+    
     func removeRejectKeyword(keyword: String) {
         queue.async {
             if let index = self.rejectKeywords.firstIndex(of: keyword) {
@@ -576,7 +580,7 @@ class DKFileReaderDefault: DKFileReader {
         }
     }
     
-    func read(atPath: String) -> ([DKLogMessage], [String])? {
+    internal func read(atPath: String) -> ([DKLogMessage], [String])? {
         guard let fileHandle = FileHandle(forReadingAtPath: atPath) else {
             return nil
         }
@@ -606,5 +610,32 @@ class DKFileReaderDefault: DKFileReader {
         })
         
         return (messages ?? [], keywords?.sorted() ?? [])
+    }
+    
+    // MARK:
+    @objc private func didAddLog(notification: Notification) {
+        
+        guard let message = notification.userInfo?[DKFileLoggerKey.message] as? DKLogMessage,
+              let path = notification.userInfo?[DKFileLoggerKey.path] as? String,
+              path == filePath else {
+            return
+        }
+        
+        self.rejectKeywords.forEach { keyword in
+            if message.keyword.contains(keyword) {
+                return
+            }
+        }
+        
+        if self.onlyKeywords.count > 0 {
+            let notContain = !message.keyword.components(separatedBy: "/").reduce(false) {
+                $0 || self.onlyKeywords.contains($1)
+            }
+            if notContain {
+                return
+            }
+        }
+        
+        self.updateLogs()
     }
 }

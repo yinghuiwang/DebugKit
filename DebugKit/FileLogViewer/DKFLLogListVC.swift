@@ -36,6 +36,16 @@ class DKFLLogListVC: UIViewController {
         self.dateFomatter = dateFormatter
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        logReader?.startAddLogListener()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        logReader?.stopAddLogListener()
+    }
+    
     open override func viewDidLoad() {        
         setupViews()
         loadData()
@@ -64,6 +74,7 @@ class DKFLLogListVC: UIViewController {
         
         if logReader == nil {
             logReader = DKFileReaderDefault(filePath: fileInfo.filePath)
+            searchBar.text = logReader?.searchText
             logReader?.logsDidUpdateCallback = { [weak self](logs, keywords) in
                 self?.logs = logs
                 self?.keywordsGroup = keywords
