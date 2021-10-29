@@ -124,6 +124,7 @@ extension DKUserDefaultsVC: UICollectionViewDataSource, UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let searchText = viewModel.deleteHistoryList[indexPath.row]
+        searchBar.text = searchText;
         viewModel.search(keyword: searchText)
         tableView.reloadSections([0], with: .automatic)
         searchBar.resignFirstResponder()

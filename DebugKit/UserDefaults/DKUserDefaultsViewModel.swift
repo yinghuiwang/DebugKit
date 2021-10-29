@@ -11,7 +11,7 @@ class DKUserDefaultsViewModel: NSObject {
 
     var modelList: [DKUserDefaultModel] = []
     let deleteHistoryListKey = "deleteHistoryListKey"
-    
+    var searchText: String?
     var showModelList: [DKUserDefaultModel] = []
     var deleteHistoryList: [String] {
         get {
@@ -32,26 +32,29 @@ class DKUserDefaultsViewModel: NSObject {
             model1.key.lowercased() < model2.key.lowercased()
         }
 
-        showModelList = modelList
+        if let searchText = searchText, searchText.count > 0 {
+            showModelList = modelList.filter { $0.key.lowercased().contains(searchText.lowercased()) }
+        } else {
+            showModelList = modelList
+        }
     }
     
     func delete(model: DKUserDefaultModel) {
         UserDefaults.standard.setValue(nil, forKey: model.key)
         
-        deleteHistoryList = deleteHistoryList.filter { $0 != model.key }
-        deleteHistoryList.insert(model.key, at: 0)
+        if let searchText = self.searchText {
+            deleteHistoryList = deleteHistoryList.filter { $0 != searchText }
+            deleteHistoryList.insert(searchText, at: 0)
+        }
         
         reload()
     }
     
     func search(keyword: String?) {
-        if let keyword = keyword, keyword.count > 0 {
-            showModelList = modelList.filter { $0.key.lowercased().contains(keyword.lowercased()) }
-        } else {
-            showModelList = modelList
-        }   
+        searchText = keyword
+        
+        reload()
     }
-    
 }
 
 
