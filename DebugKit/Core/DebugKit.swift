@@ -15,7 +15,8 @@ open class DebugKit: NSObject {
     
     @objc public static let share = DebugKit()
     private override init() {}
-    private var navigationController: UINavigationController?
+    private var debugNC: UINavigationController?
+    @objc public let toolBox = DKToolBox()
     
     @objc public func setup() {
         if let openDebug = DebugKit.userDefault()?.bool(forKey: DKUserDefuaultKey.openDebug.rawValue),
@@ -35,17 +36,17 @@ extension DebugKit {
             return
         }
         
-        if let navigationController = self.navigationController {
-            if navigationController.presentingViewController == nil {
-                topViewController.present(navigationController, animated: true, completion: nil)
+        if let debugNC = self.debugNC {
+            if debugNC.presentingViewController == nil {
+                topViewController.present(debugNC, animated: true, completion: nil)
             }            
             return
         }
         
-        let debugVC = DKToolBoxVC()
+        let debugVC = DKToolBoxVC(toolBox: toolBox)
         let navigationController = UINavigationController(rootViewController: debugVC)
         topViewController.present(navigationController, animated: true, completion: nil)
-        self.navigationController = navigationController
+        self.debugNC = navigationController
     }
     
     // MARK: - PublicMethod
@@ -136,7 +137,7 @@ extension DebugKit {
     /// - Parameters:
     ///   - object: 分享内容：support NSString、NSURL、UIImage
     ///   - fromVC: from viewController
-    static func share(object: AnyObject, fromVC: UIViewController) {
+    @objc public static func share(object: AnyObject, fromVC: UIViewController) {
         let objectsToShare = [object] //support NSString、NSURL、UIImage
         let controller = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         fromVC.present(controller, animated: true, completion: nil)

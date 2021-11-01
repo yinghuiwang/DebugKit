@@ -7,17 +7,11 @@
 
 import Foundation
 
-struct DKTool {
-    let name: String
-    let summay: String
-    let vcClassName: String
-    let clickHandle: ((UIViewController) -> Void)?
-}
-
 open class DKToolBoxVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    var tools: [DKTool] = []
+    var toolBox: DKToolBox?
+    
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: "DKToolBoxVC", bundle: DebugKit.dk_bundle(name: "Core"))
@@ -25,6 +19,16 @@ open class DKToolBoxVC: UIViewController {
     
     public required init?(coder: NSCoder) {
         super.init(nibName: "DKToolBoxVC", bundle: DebugKit.dk_bundle(name: "Core"))
+    }
+    
+    convenience init(toolBox: DKToolBox) {
+        self.init()
+        self.toolBox = toolBox
+    }
+    
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     open override func viewDidLoad() {
@@ -39,20 +43,7 @@ open class DKToolBoxVC: UIViewController {
     }
     
     func loadData() {
-        tools.append(DKTool(name: "Log",
-                            summay: "查看本地记录的日志",
-                            vcClassName: "DebugKit.DKFLLogFileListVC",
-                            clickHandle: nil))
-        
-        tools.append(DKTool(name: "UserDefaults",
-                            summay: "查看本地记录的日志",
-                            vcClassName:  "DebugKit.DKUserDefaultsVC",
-                            clickHandle: nil))
-        
-        tools.append(DKTool(name: "H5调试",
-                            summay: "提供跳转到包房内部WebView页面的方法",
-                            vcClassName: "DebugKit.DKH5VC",
-                            clickHandle: nil))
+        tableView.reloadData()
     }
     
     @IBAction func closeAction(_ sender: Any) {
@@ -62,10 +53,14 @@ open class DKToolBoxVC: UIViewController {
     }
 }
 
+extension DKToolBoxVC {
+    
+}
+
 extension DKToolBoxVC: UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tools.count;
+        return toolBox?.tools.count ?? 0;
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -75,22 +70,34 @@ extension DKToolBoxVC: UITableViewDelegate, UITableViewDataSource {
             cell = UITableViewCell(style: .subtitle, reuseIdentifier: NSStringFromClass(Self.self))
         }
         
-        let tool = tools[indexPath.item]
+        guard let tool = toolBox?.tools[indexPath.item] else {
+            return cell!
+        }
         
         cell!.accessoryType = .disclosureIndicator
         cell!.textLabel?.text = tool.name
         cell!.detailTextLabel?.text = tool.summay
+        
         return cell!
     }
     
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let tool = tools[indexPath.item]
-        let toolVCName = tool.vcClassName
-        if let ToolVCClass = NSClassFromString(toolVCName) as? UIViewController.Type {
+        guard let tool = toolBox?.tools[indexPath.item] else {
+            return
+        }
+
+        if let toolVCName = tool.vcClassName,
+           let ToolVCClass = NSClassFromString(toolVCName) as? UIViewController.Type {
             let toolVC = ToolVCClass.init()
             toolVC.title = tool.name
             navigationController?.pushViewController(toolVC, animated: true)
+            return
+        }
+        
+        if let clickHandle = tool.clickHandle {
+            clickHandle(self)
+            return
         }
     }
 }
