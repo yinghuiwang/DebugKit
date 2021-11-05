@@ -66,6 +66,13 @@ TODO: Add long description of the pod here.
     }
   end
   
+  s.subspec "MsgSimulation" do |ss|
+    ss.source_files = 'DebugKit/MsgSimulation/**/*.{swift}'
+    ss.resource_bundles = {
+      'MsgSimulation' => ['DebugKit/MsgSimulation/**/*.{xib}']
+    }
+  end
+  
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'

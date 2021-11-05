@@ -23,6 +23,11 @@ class ViewController: UIViewController {
         loadData()
         
         DebugKit.share.setup()
+        
+        
+        DebugKit.share.actionHandle = { (key, value) in
+            print("actionHandle:{ \(key): \(value) }")
+        }
     }
     
     func setupViews() {

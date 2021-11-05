@@ -9,6 +9,7 @@ target 'DebugKit_Example' do
     'FileLogViewer',
     'JsonViewer',
     'UserDefaults',
+    'MsgSimulation',
   ]
 
   target 'DebugKit_Tests' do

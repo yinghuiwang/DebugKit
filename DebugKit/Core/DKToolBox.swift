@@ -33,6 +33,11 @@ public class DKToolBox: NSObject {
                             summay: "提供跳转到包房内部WebView页面的方法",
                             vcClassName: "DebugKit.DKH5VC",
                             clickHandle: nil))
+        
+        tools.append(DKTool(name: "WS消息发送",
+                            summay: "提供房间内消息模拟发送",
+                            vcClassName: "DebugKit.DKMsgSimulationVC",
+                            clickHandle: nil))
     }
     
     /// 时间复杂度O(n)

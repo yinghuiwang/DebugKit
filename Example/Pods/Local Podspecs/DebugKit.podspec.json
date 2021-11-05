@@ -64,6 +64,15 @@
           "DebugKit/UserDefaults/**/*.{xib}"
         ]
       }
+    },
+    {
+      "name": "MsgSimulation",
+      "source_files": "DebugKit/MsgSimulation/**/*.{swift}",
+      "resource_bundles": {
+        "MsgSimulation": [
+          "DebugKit/MsgSimulation/**/*.{xib}"
+        ]
+      }
     }
   ]
 }

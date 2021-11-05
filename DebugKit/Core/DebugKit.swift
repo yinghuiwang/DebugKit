@@ -16,7 +16,11 @@ open class DebugKit: NSObject {
     @objc public static let share = DebugKit()
     private override init() {}
     private var debugNC: UINavigationController?
+    /// 工具箱
     @objc public let toolBox = DKToolBox()
+    
+    /// 时间触发, $0是key，$1是Value
+    @objc public var actionHandle: ((_ key: String, _ value: String) -> Void)?
     
     @objc public func setup() {
         if let openDebug = DebugKit.userDefault()?.bool(forKey: DKUserDefuaultKey.openDebug.rawValue),
