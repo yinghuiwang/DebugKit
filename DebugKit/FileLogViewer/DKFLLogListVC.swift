@@ -81,6 +81,8 @@ class DKFLLogListVC: UIViewController {
                 
                 self?.tableView.reloadSections([0], with: .automatic)
                 self?.keywordCollectionView.reloadData()
+                
+                DebugKit.log("[\(DKDebugLogKey.life)] add log update UI");
             }
         }
     }
@@ -111,9 +113,9 @@ extension DKFLLogListVC: UITableViewDelegate, UITableViewDataSource {
         
         let message = logs[indexPath.item]
         
-        var text = ""
+        var text = "[\(logs.count - indexPath.item)]"
         if let dateFomatter = self.dateFomatter {
-            text.append( dateFomatter.string(from: message.date))
+            text.append( "[\(dateFomatter.string(from: message.date))]")
         }
         text.append("  \(message.keyword)")
         

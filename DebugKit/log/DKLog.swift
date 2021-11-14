@@ -33,19 +33,21 @@ open class DKLog: NSObject {
     }
     
     @objc public func log(keyword: String, summary: String?, message: String) {
-        let message = DKLogMessage(message: message,
-                                   keyword: keyword,
-                                   summary: summary,
-                                   timestamp: dateFormatter.string(from: Date()),
-                                   date: Date())
-        log(message: message)
+        DebugKit.log("[\(DKDebugLogKey.life)] add log start");
+        loggingQueue.async { [weak self] in
+            guard let self = self else { return }
+            let message = DKLogMessage(message: message,
+                                       keyword: keyword,
+                                       summary: summary,
+                                       timestamp: self.dateFormatter.string(from: Date()),
+                                       date: Date())
+            self.log(message: message)
+        }
     }
     
-    func log(message: DKLogMessage) {
+    private func log(message: DKLogMessage) {
         loggers.forEach { logger in
-            loggingQueue.async {
-                logger.log(message: message)
-            }
+            logger.log(message: message)
         }
     }
     
@@ -75,4 +77,8 @@ protocol DKLogger {
     var name: String { get }
     var logFromatter: DKLogFormatter? {get set}
     func log(message: DKLogMessage) -> Void
+}
+
+extension DKDebugLogKey {
+    static let life = "LIFE"
 }

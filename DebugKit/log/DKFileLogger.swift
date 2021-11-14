@@ -13,7 +13,7 @@ extension Notification.Name {
 }
 
 enum DKFileLoggerKey: String {
-    case message
+    case messagesData
     case path
     case rejectKeywords
     case onlyKeywords
@@ -22,7 +22,8 @@ enum DKFileLoggerKey: String {
 
 class DKFileLogger: NSObject, DKLogger {
     
-    let defaultLogMaxFileSize      = 1024 * 1024;      // 1 MB
+    /// 2 MB
+    let defaultLogMaxFileSize      = 1024 * 1024 * 2
     
     var name: String = "fileLogger"
     
@@ -30,41 +31,80 @@ class DKFileLogger: NSObject, DKLogger {
     
     let logFileManager: DKLogFileManager
     let queue: DispatchQueue
-    var fromLaunchCreatedFile = false
-    var _currentLogFileHandle: FileHandle?
-    var _currentLogFileInfo: DKLogFileInfo?
+    private var fromLaunchCreatedFile = false
+    private var _currentLogFileHandle: FileHandle?
+    private var _currentLogFileInfo: DKLogFileInfo?
+    
+    // 10KB
+    let cacheDataMaxSize = 10 * 1024
+    /// 延迟存储最长时间，单位毫秒
+    let cacheDataMaxDuration = 500
+    private var cacheData = Data()
+    private var cacheTimer: DispatchSourceTimer?
     
     init(manager: DKLogFileManager, queue: DispatchQueue?) {
         self.queue = queue ?? DispatchQueue(label: "DKFileLogger")
-        
         logFileManager = manager
         logFromatter = DKFileFormatter(dateFormatter: nil)
+        super.init()
     }
     
     
     // MARK: DKLogger Protocol
     func log(message: DKLogMessage) {
         queue.async { [weak self] in
-            guard let data = self?.data(logMessage: message), data.count > 0 else {
+            guard let self = self else { return }
+            guard let data = self.data(logMessage: message), data.count > 0 else {
                 return
             }
             
-            self?.logData(data: data)
-            
-            if let filePath = self?._currentLogFileInfo?.filePath {
-                NotificationCenter.default.post(name: .DKFLLogDidLog, object: nil,
-                                                userInfo: [
-                                                    DKFileLoggerKey.message: message,
-                                                    DKFileLoggerKey.path: filePath
-                                                ])
+            // 没有达到缓存的最大阈值，先缓存，不写文件，减少磁盘文件的IO操作
+            guard let needSaveData = self.cacheLogData(data: data) else {
+                // 延迟存储，如果在0.5秒后，cacheData还没有达到阈值，则直接将cacheData存到磁盘文件
+                self.delaySaveCacheData()
+                return
             }
+            
+            self.logData(data: needSaveData)
         }
     }
     
     // MARK: Internal
+    private func delaySaveCacheData() {
+        if cacheTimer == nil {
+            let timer = DispatchSource.makeTimerSource(flags: [], queue: self.queue)
+            timer.setEventHandler { [weak self] in
+                guard let self = self else { return }
+                if (self.cacheData.count > 0) {
+                    self.logData(data: self.cacheData)
+                    self.cacheData.removeAll()
+                } else {
+                    self.cacheTimer?.cancel()
+                    self.cacheTimer = nil
+                }
+            }
+            timer.schedule(deadline: DispatchTime.now() + .milliseconds(cacheDataMaxDuration),
+                           repeating: .milliseconds(cacheDataMaxDuration),
+                           leeway: .milliseconds(1))
+            timer.activate()
+            cacheTimer = timer
+        }
+    }
+    
+    private func cacheLogData(data: Data) -> Data? {
+        cacheData.append(data)
+        if cacheData.count >= cacheDataMaxSize {
+            let logData = self.cacheData
+            self.cacheData.removeAll()
+            return logData
+        }
+        return nil
+    }
+    
     private func logData(data: Data) {
         do {
-            let handle = currentLogFileHandle()
+            DebugKit.log("[\(DKDebugLogKey.life)][\(DKDebugLogKey.file)] write start");
+            let handle = self.currentLogFileHandle()
             if #available(iOS 13.4, *) {
                 try handle.seekToEnd()
                 handle.write(data)
@@ -72,11 +112,20 @@ class DKFileLogger: NSObject, DKLogger {
                 handle.seekToEndOfFile()
                 handle.write(data)
             }
+            DebugKit.log("[\(DKDebugLogKey.life)][\(DKDebugLogKey.file)] write end");
         } catch {
             DebugKit.log("DKLog: \(error)")
         }
+        
+        // 通知
+        if let filePath = self._currentLogFileInfo?.filePath {
+            NotificationCenter.default.post(name: .DKFLLogDidLog, object: nil,
+                                            userInfo: [
+                                                DKFileLoggerKey.messagesData: data,
+                                                DKFileLoggerKey.path: filePath
+                                            ])
+        }
     }
-    
     
     private func currentLogFileHandle() -> FileHandle {
         if let fileHandle = _currentLogFileHandle,
@@ -203,8 +252,8 @@ protocol DKLogFileManager {
 
 class DKFileManagerDefault: DKLogFileManager {
     
-    var maxinumNumberOfLogFiles: UInt = 20 // 5 Files
-    var logFilesDiskQuota: UInt64 = 20 * 1024 * 1024 // 20 MB
+    var maxinumNumberOfLogFiles: UInt = 40 // 40 Files
+    var logFilesDiskQuota: UInt64 = 40 * 1024 * 1024 // 40 MB
     
     let fileDateFormatter: DateFormatter
     
@@ -440,8 +489,10 @@ class DKFileReaderDefault: DKFileReader {
     var logsDidUpdateCallback: (([DKLogMessage], [[String]]) -> Void)?
     
     private var logs: [DKLogMessage] = []
-    
     private var keywords: [String] = []
+    
+    private var needRefreshUI = false
+    private var refreshUITimer: DispatchSourceTimer?
     
     /// 不查询此列表中的关键词
     private var rejectKeywords: [String] {
@@ -471,8 +522,6 @@ class DKFileReaderDefault: DKFileReader {
         self.rejectKeywords = DebugKit.userDefault()?.stringArray(forKey: DKFileLoggerKey.rejectKeywords.rawValue) ?? []
         self.onlyKeywords = DebugKit.userDefault()?.stringArray(forKey: DKFileLoggerKey.onlyKeywords.rawValue) ?? []
         self.searchText =  DebugKit.userDefault()?.string(forKey: DKFileLoggerKey.searchText.rawValue)
-        
-        startAddLogListener()
     }
     
     // MARK: Public
@@ -492,7 +541,7 @@ class DKFileReaderDefault: DKFileReader {
         queue.async {
             if let index = self.rejectKeywords.firstIndex(of: keyword) {
                 self.keywords.insert(self.rejectKeywords.remove(at: index), at: 0)
-                self.filtration()
+                self.refrashUIIfNeed()
             }
         }
     }
@@ -501,7 +550,7 @@ class DKFileReaderDefault: DKFileReader {
         queue.async {
             if let index = self.keywords.firstIndex(of: keyword) {
                 self.rejectKeywords.append(self.keywords.remove(at: index))
-                self.filtration()
+                self.refrashUIIfNeed()
             }
         }
     }
@@ -510,7 +559,7 @@ class DKFileReaderDefault: DKFileReader {
         queue.async {
             if let index = self.onlyKeywords.firstIndex(of: keyword) {
                 self.keywords.insert(self.onlyKeywords.remove(at: index), at: 0)
-                self.filtration()
+                self.refrashUIIfNeed()
             }
         }
     }
@@ -519,7 +568,7 @@ class DKFileReaderDefault: DKFileReader {
         queue.async {
             if let index = self.keywords.firstIndex(of: keyword) {
                 self.onlyKeywords.append(self.keywords.remove(at: index))
-                self.filtration()
+                self.refrashUIIfNeed()
             }
         }
     }
@@ -527,11 +576,131 @@ class DKFileReaderDefault: DKFileReader {
     func updateSearch(text: String?) {
         queue.async {
             self.searchText = text
+            self.refrashUIIfNeed()
+        }
+    }
+    
+    // MARK: private
+    private func updateLogs() {
+        queue.async {
+            guard let (newLogs, keywords) = self.read(atPath: self.filePath) else {
+                return
+            }
+            
+            self.logs = newLogs
+            self.keywords = keywords.filter {
+                !(self.rejectKeywords.contains($0) || self.onlyKeywords.contains($0))
+            }
             self.filtration()
         }
     }
     
-    func filtration() {
+    internal func read(atPath: String) -> ([DKLogMessage], [String])? {
+        guard let fileHandle = FileHandle(forReadingAtPath: atPath) else {
+            DebugKit.showToast(text: "文件读取失败\n文件可能过期被移除")
+            return nil
+        }
+        
+        DebugKit.log("[\(DKDebugLogKey.life)][\(DKDebugLogKey.file)] read start");
+        let data = fileHandle.readDataToEndOfFile()
+        DebugKit.log("[\(DKDebugLogKey.life)][\(DKDebugLogKey.file)] read end");
+        
+
+        var messages = decode(data: data)
+        messages.sort(by: { $1.date.compare($0.date) == .orderedAscending })
+        
+        let keywords = messages.reduce(Set<String>(), { result, logMessage in
+            result.union(logMessage.keyword.components(separatedBy: "/"))
+        })
+        
+        return (messages, keywords.sorted())
+    }
+    private func decode(data: Data) -> [DKLogMessage] {
+        let content = String(data: data, encoding: .utf8)
+        
+        let messageStringArray = content?.components(separatedBy: "\n")
+        
+        let jsonDecoder = JSONDecoder()
+        let messages = messageStringArray?.reduce( [DKLogMessage](), { lastResult, message in
+            if let messageData = message.data(using: .utf8),
+               let logMessage = try? jsonDecoder.decode(DKLogMessage.self, from: messageData) {
+                var result = Array(lastResult)
+                result.append(logMessage)
+                return result
+            } else {
+                return lastResult
+            }
+        })
+        return messages ?? []
+    }
+    // MARK:
+    @objc private func didAddLog(notification: Notification) {
+        queue.async {
+            guard let messagesData = notification.userInfo?[DKFileLoggerKey.messagesData] as? Data,
+                  let path = notification.userInfo?[DKFileLoggerKey.path] as? String,
+                  path == self.filePath else {
+                return
+            }
+            
+            let messages = self.decode(data: messagesData)
+            self.logs.insert(contentsOf: messages, at: 0)
+            
+            let needRefrashUI = messages.reduce(false) { result, message in
+                do { // 有排除关键词，此消息包含在关键词内，不用刷新UI
+                    let isRejectMessage = self.rejectKeywords.reduce(false) {
+                        $0 || message.keyword.contains($1)
+                    }
+                    
+                    if isRejectMessage {
+                        return result || false
+                    }
+                }
+                
+                do {  // 有筛选关键词，此消息不包含在关键词内，不用刷新UI
+                    if self.onlyKeywords.count > 0 {
+                        let notContain = !message.keyword.components(separatedBy: "/").reduce(false) {
+                            $0 || self.onlyKeywords.contains($1)
+                        }
+                        if notContain {
+                            return result || false
+                        }
+                    }
+                }
+                
+                return result || true
+            }
+            
+            if (needRefrashUI) {
+                self.refrashUIIfNeed()
+            }
+           
+        }
+    }
+    
+    private func refrashUIIfNeed() {
+        needRefreshUI = true
+        if refreshUITimer == nil {
+            let timer = DispatchSource.makeTimerSource(flags: [], queue: self.queue)
+            timer.setEventHandler { [weak self] in
+                guard let self = self else { return }
+                if (self.needRefreshUI) {
+                    self.filtration()
+                    self.needRefreshUI = false;
+                } else {
+                    self.refreshUITimer?.cancel()
+                    self.refreshUITimer = nil
+                }
+            }
+            timer.schedule(deadline: DispatchTime.now() + .milliseconds(500),
+                           repeating: .milliseconds(500),
+                           leeway: .milliseconds(1))
+            timer.activate()
+            refreshUITimer = timer
+            self.filtration()
+        }
+    }
+    
+    private func filtration() {
         let result = logs.filter { message in
             // 排除包含此关键词的log
             if rejectKeywords.count > 0 {
@@ -563,79 +732,8 @@ class DKFileReaderDefault: DKFileReader {
             }
         }
     }
-    
-    
-    // MARK: private
-    private func updateLogs() {
-        queue.async {
-            guard let (newLogs, keywords) = self.read(atPath: self.filePath) else {
-                return
-            }
-            
-            self.logs = newLogs
-            self.keywords = keywords.filter {
-                !(self.rejectKeywords.contains($0) || self.onlyKeywords.contains($0))
-            }
-            self.filtration()
-        }
-    }
-    
-    internal func read(atPath: String) -> ([DKLogMessage], [String])? {
-        guard let fileHandle = FileHandle(forReadingAtPath: atPath) else {
-            return nil
-        }
-        
-        let data = fileHandle.readDataToEndOfFile()
-        
-        let content = String(data: data, encoding: .utf8)
-        
-        let messageStringArray = content?.components(separatedBy: "\n")
-        
-        let jsonDecoder = JSONDecoder()
-        var messages = messageStringArray?.reduce( [DKLogMessage](), { lastResult, message in
-            if let messageData = message.data(using: .utf8),
-               let logMessage = try? jsonDecoder.decode(DKLogMessage.self, from: messageData) {
-                var result = Array(lastResult)
-                result.append(logMessage)
-                return result
-            } else {
-                return lastResult
-            }
-        })
-        
-        messages = messages?.sorted(by: { $1.date.compare($0.date) == .orderedAscending })
-        
-        let keywords = messages?.reduce(Set<String>(), { result, logMessage in
-            result.union(logMessage.keyword.components(separatedBy: "/"))
-        })
-        
-        return (messages ?? [], keywords?.sorted() ?? [])
-    }
-    
-    // MARK:
-    @objc private func didAddLog(notification: Notification) {
-        
-        guard let message = notification.userInfo?[DKFileLoggerKey.message] as? DKLogMessage,
-              let path = notification.userInfo?[DKFileLoggerKey.path] as? String,
-              path == filePath else {
-            return
-        }
-        
-        self.rejectKeywords.forEach { keyword in
-            if message.keyword.contains(keyword) {
-                return
-            }
-        }
-        
-        if self.onlyKeywords.count > 0 {
-            let notContain = !message.keyword.components(separatedBy: "/").reduce(false) {
-                $0 || self.onlyKeywords.contains($1)
-            }
-            if notContain {
-                return
-            }
-        }
-        
-        self.updateLogs()
-    }
+}
+
+extension DKDebugLogKey {
+    static let file = "FILE"
 }

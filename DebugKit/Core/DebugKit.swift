@@ -11,11 +11,16 @@ enum DKUserDefuaultKey: String {
     case openDebug
 }
 
+struct DKDebugLogKey {
+    static let dk = "DK"
+}
+
 open class DebugKit: NSObject {
     
     @objc public static let share = DebugKit()
     private override init() {}
     private var debugNC: UINavigationController?
+    @objc public var enableConsoleLog = false
     /// 工具箱
     @objc public let toolBox = DKToolBox()
     
@@ -112,7 +117,11 @@ extension DebugKit {
     }
     
     static func log(_ msg: String) {
-        debugPrint("DK: \(msg)")
+        guard DebugKit.share.enableConsoleLog else {
+            return
+        }
+        let timeStr = String(format: "%.4f", Date().timeIntervalSince1970)
+        debugPrint("[\(timeStr)][\(DKDebugLogKey.dk)]\(msg)")
     }
     
     static func sizeFrom750(value: CGFloat) -> CGFloat {

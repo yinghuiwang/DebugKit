@@ -24,14 +24,16 @@ class DKToast: NSObject {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 18)
         label.text = text;
+        label.textAlignment = .center
+        label.numberOfLines = 0;
         label.textColor = UIColor.white
         containerView.addSubview(label)
         
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10).isActive = true;
-        label.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10).isActive = true;
-        label.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10).isActive = true;
-        label.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10).isActive = true;
+        label.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10).isActive = true
+        label.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -10).isActive = true
+        label.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10).isActive = true
+        label.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -10).isActive = true
         
         UIView.animate(withDuration: 0.3) {
             containerView.alpha = 1;
