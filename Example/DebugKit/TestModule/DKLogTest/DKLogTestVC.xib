@@ -20,13 +20,48 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="kJa-uu-NEu">
-                    <rect key="frame" x="0.0" y="433" width="414" height="30"/>
+                    <rect key="frame" x="0.0" y="358" width="414" height="180"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zKe-tE-44a">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
-                            <state key="normal" title="add log"/>
+                            <state key="normal" title="0.001秒添加一条log"/>
                             <connections>
                                 <action selector="addAction:" destination="-1" eventType="touchUpInside" id="GsB-Kj-aZb"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5eB-dY-bOR">
+                            <rect key="frame" x="0.0" y="30" width="414" height="30"/>
+                            <state key="normal" title="0.005秒添加一条log"/>
+                            <connections>
+                                <action selector="add0_05secondAddOneLog:" destination="-1" eventType="touchUpInside" id="Oxw-7E-k1c"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ccx-Ah-s6f">
+                            <rect key="frame" x="0.0" y="60" width="414" height="30"/>
+                            <state key="normal" title="0.01秒添加一条log"/>
+                            <connections>
+                                <action selector="add0_01secondAddOneLog:" destination="-1" eventType="touchUpInside" id="cT4-b5-ggf"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ld-wV-ncf">
+                            <rect key="frame" x="0.0" y="90" width="414" height="30"/>
+                            <state key="normal" title="1秒添加一条log"/>
+                            <connections>
+                                <action selector="add1SecondAddOneLog:" destination="-1" eventType="touchUpInside" id="rSY-Zd-Sqm"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XQL-Yk-Plt">
+                            <rect key="frame" x="0.0" y="120" width="414" height="30"/>
+                            <state key="normal" title="停止添加log"/>
+                            <connections>
+                                <action selector="stopAddLog:" destination="-1" eventType="touchUpInside" id="EcI-xJ-i7R"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zX8-1c-cQc">
+                            <rect key="frame" x="0.0" y="150" width="414" height="30"/>
+                            <state key="normal" title="直接添加一条log"/>
+                            <connections>
+                                <action selector="addOneLog:" destination="-1" eventType="touchUpInside" id="vO3-gk-UQR"/>
                             </connections>
                         </button>
                     </subviews>

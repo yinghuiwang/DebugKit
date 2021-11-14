@@ -23,6 +23,7 @@ class ViewController: UIViewController {
         loadData()
         
         DebugKit.share.setup()
+        DebugKit.share.enableConsoleLog = true
         
         
         DebugKit.share.actionHandle = { (key, value) in
