@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DKToastTestVC" customModule="DebugKit_Example" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="NQt-2J-6q6">
+                    <rect key="frame" x="0.0" y="403" width="414" height="90"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i3S-NK-Vft">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
+                            <state key="normal" title="showToast1"/>
+                            <connections>
+                                <action selector="showToast1:" destination="-1" eventType="touchUpInside" id="iGm-xt-7Yw"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LmJ-lf-4XT">
+                            <rect key="frame" x="0.0" y="30" width="414" height="30"/>
+                            <state key="normal" title="showToast2"/>
+                            <connections>
+                                <action selector="showToast2:" destination="-1" eventType="touchUpInside" id="2Sq-a6-puz"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k5t-ji-r0Q">
+                            <rect key="frame" x="0.0" y="60" width="414" height="30"/>
+                            <state key="normal" title="showToast3"/>
+                            <connections>
+                                <action selector="showToast3:" destination="-1" eventType="touchUpInside" id="jiq-cb-vHy"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                </stackView>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="NQt-2J-6q6" secondAttribute="trailing" id="23R-eF-dIV"/>
+                <constraint firstItem="NQt-2J-6q6" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="QoD-T3-PFS"/>
+                <constraint firstItem="NQt-2J-6q6" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="ckm-xC-c9Z"/>
+                <constraint firstItem="NQt-2J-6q6" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="jj1-tH-vZ9"/>
+            </constraints>
+            <point key="canvasLocation" x="72" y="108"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -151,6 +151,39 @@ extension DebugKit {
     static func userDefault() -> UserDefaults? {
         UserDefaults(suiteName: "DebugKit")
     }
+    
+    // toast
+    public static func showToast(text: String) {
+//        UIWindow *currentWindow = nil;
+//        if ([DoraemonHomeWindow shareInstance].hidden) {
+//            currentWindow = [UIApplication sharedApplication].keyWindow;
+//        }else {
+//            currentWindow = [DoraemonHomeWindow shareInstance];
+//        }
+//        if ([NSThread currentThread].isMainThread) {
+//            [DoraemonToastUtil showToastBlack:toastContent inView:currentWindow];
+//        }else {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [DoraemonToastUtil showToastBlack:toastContent inView:currentWindow];
+//            });
+//        }
+        
+        let showToast = {
+            guard let currentWindow = UIApplication.shared.keyWindow else {
+                return
+            }
+
+            DKToast.show(text: text, inView: currentWindow)
+        }
+                
+        if Thread.current.isMainThread {
+            showToast()
+        } else {
+            DispatchQueue.main.async {
+                showToast()
+            }
+        }
+    }
 }
 
 extension UIColor {
