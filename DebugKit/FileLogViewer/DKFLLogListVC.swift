@@ -76,11 +76,14 @@ class DKFLLogListVC: UIViewController {
             logReader = DKFileReaderDefault(filePath: fileInfo.filePath)
             searchBar.text = logReader?.searchText
             logReader?.logsDidUpdateCallback = { [weak self](logs, keywords) in
-                self?.logs = logs
-                self?.keywordsGroup = keywords
+                guard let self = self else { return }
+                self.logs = logs
+                self.keywordsGroup = keywords
                 
-                self?.tableView.reloadSections([0], with: .automatic)
-                self?.keywordCollectionView.reloadData()
+                if self.tableView.contentOffset.y <= 0 {
+                    self.tableView.reloadSections([0], with: .automatic)
+                }
+                self.keywordCollectionView.reloadData()
                 
                 DebugKit.log("[\(DKDebugLogKey.life)] add log update UI");
             }
