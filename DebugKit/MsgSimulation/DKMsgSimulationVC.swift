@@ -67,8 +67,9 @@ class DKMsgSimulationVC: DKBaseVC {
         guard let name = self.nameTextField.text else {
             return
         }
-        
-        msgSimulation.sendMsg(key: name, body: self.bodyTextView.text)
+        navigationController?.dismiss(animated: true) {
+            self.msgSimulation.sendMsg(key: name, body: self.bodyTextView.text)
+        }
     }
     
     @IBAction func clickClear(_ sender: Any) {

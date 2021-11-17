@@ -9,10 +9,11 @@ import Foundation
 
 open class DKLog: NSObject {
     
-    let loggingQueue = DispatchQueue(label: "DebugKit")
-    let loggingGroup = DispatchGroup()
-    var loggers:[DKLogger] = []
-    let dateFormatter: DateFormatter
+    private let loggingQueue = DispatchQueue(label: "DebugKit")
+    private let loggingGroup = DispatchGroup()
+    private var loggers:[DKLogger] = []
+    private let dateFormatter: DateFormatter
+    var enable = true
     
     @objc public static let share = DKLog()
     private override init() {
@@ -33,6 +34,8 @@ open class DKLog: NSObject {
     }
     
     @objc public func log(keyword: String, summary: String?, message: String) {
+        guard enable else { return }
+        
         DebugKit.log("[\(DKDebugLogKey.life)] add log start");
         loggingQueue.async { [weak self] in
             guard let self = self else { return }
