@@ -39,7 +39,7 @@ class DKToast: NSObject {
             containerView.alpha = 1;
         }
         
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(2)) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(3)) {
             UIView.animate(withDuration: 0.3) {
                 containerView.alpha = 0;
             } completion: { _ in

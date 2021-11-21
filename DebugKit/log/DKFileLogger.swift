@@ -10,6 +10,7 @@ import Foundation
 
 extension Notification.Name {
     static let DKFLLogDidLog = Notification.Name("DKFileLoggerDidLog")
+    static let DKFLLogCreatedLogFile = Notification.Name("DKFLLogCreatedLogFile")
 }
 
 enum DKFileLoggerKey: String {
@@ -375,6 +376,11 @@ class DKFileManagerDefault: DKLogFileManager {
         try fileHeader.write(to: URL(fileURLWithPath: filePath), options: .atomicWrite)
         
         deleteOldLogFiles()
+        
+        NotificationCenter.default.post(name: .DKFLLogCreatedLogFile, object: nil,
+                                        userInfo: [
+                                            DKFileLoggerKey.path: filePath
+                                        ])
         DebugKit.log("DKLog: createFile: \(filePath)")
         
         return filePath

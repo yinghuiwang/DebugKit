@@ -36,6 +36,10 @@ class DKFLLogListVC: UIViewController {
         self.dateFomatter = dateFormatter
     }
     
+    deinit {
+        DebugKit.log("[\(DKDebugLogKey.life)] DKFLLogListVC deinit");
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         logReader?.startAddLogListener()
@@ -49,6 +53,7 @@ class DKFLLogListVC: UIViewController {
     open override func viewDidLoad() {        
         setupViews()
         loadData()
+        addObserver()
     }
     
     func setupViews() {
@@ -82,13 +87,26 @@ class DKFLLogListVC: UIViewController {
                 
                 if self.tableView.contentOffset.y <= 0 {
                     self.tableView.reloadSections([0], with: .automatic)
+                    self.keywordCollectionView.reloadData()
                 }
-                self.keywordCollectionView.reloadData()
                 
                 DebugKit.log("[\(DKDebugLogKey.life)] add log update UI");
             }
         }
     }
+    
+    func addObserver() {
+        // 监听文件创建
+        NotificationCenter.default.addObserver(self, selector: #selector(notiCreatedLogFile(noti:)), name: .DKFLLogCreatedLogFile, object: nil)
+    }
+    
+    // MARK: 文件创建监听
+    @objc func notiCreatedLogFile(noti: Notification) {
+        DispatchQueue.main.async {
+            DebugKit.showToast(text: "已生成新的Log文件\n查看新log请移步到最新log文件")
+        }
+    }
+
     
     @objc func export() {
         if let filePath = fileInfo?.filePath {
@@ -208,6 +226,10 @@ extension DKFLLogListVC: UICollectionViewDataSource, UICollectionViewDelegate, U
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         searchBar.resignFirstResponder()
+        if scrollView.contentOffset.y == 0 {
+            self.tableView.reloadSections([0], with: .automatic)
+            self.keywordCollectionView.reloadData()
+        }
     }
 }
 

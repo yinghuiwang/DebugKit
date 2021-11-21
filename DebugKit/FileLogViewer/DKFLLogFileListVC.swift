@@ -23,6 +23,8 @@ class DKFLLogFileListVC: UIViewController {
     open override func viewDidLoad() {        
         setupViews()
         loadData()
+        addObserver()
+        
     }
     
     func setupViews() {
@@ -34,6 +36,17 @@ class DKFLLogFileListVC: UIViewController {
         tableView.reloadData()
     }
     
+    func addObserver() {
+        // 监听文件创建
+        NotificationCenter.default.addObserver(self, selector: #selector(notiCreatedLogFile(noti:)), name: .DKFLLogCreatedLogFile, object: nil)
+    }
+    
+    // MARK: 文件创建监听
+    @objc func notiCreatedLogFile(noti: Notification) {
+        DispatchQueue.main.async {
+            self.loadData()
+        }
+    }
 }
 
 extension DKFLLogFileListVC: UITableViewDelegate, UITableViewDataSource {
