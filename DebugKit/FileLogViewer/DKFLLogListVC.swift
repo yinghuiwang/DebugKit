@@ -230,7 +230,7 @@ extension DKFLLogListVC: UICollectionViewDataSource, UICollectionViewDelegate, U
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         searchBar.resignFirstResponder()
-        if scrollView.contentOffset.y == 0 {
+        if scrollView == self.tableView && scrollView.contentOffset.y == 0 {
             self.tableView.reloadSections([0], with: .automatic)
             self.keywordCollectionView.reloadData()
         }
