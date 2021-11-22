@@ -132,6 +132,8 @@ extension DKFLLogListVC: UITableViewDelegate, UITableViewDataSource {
             cell!.accessoryType = .disclosureIndicator
         }
         
+        guard indexPath.item < logs.count else { return cell!}
+        
         let message = logs[indexPath.item]
         
         var text = "[\(logs.count - indexPath.item)]"
@@ -152,6 +154,8 @@ extension DKFLLogListVC: UITableViewDelegate, UITableViewDataSource {
     
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard indexPath.item < logs.count else { return }
+        
         let logMessage = logs[indexPath.item]
         
         let jsonViewerVC = DKJsonViewerVC()
