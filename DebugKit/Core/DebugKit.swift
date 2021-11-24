@@ -73,6 +73,7 @@ extension DebugKit {
         
         enterView.removeFromSuperview()
         self.enterView = nil
+        self.debugNC = nil
         
         DebugKit.userDefault()?.setValue(false, forKey: DKUserDefuaultKey.openDebug.rawValue)
     }
@@ -162,21 +163,7 @@ extension DebugKit {
     }
     
     // toast
-    public static func showToast(text: String) {
-//        UIWindow *currentWindow = nil;
-//        if ([DoraemonHomeWindow shareInstance].hidden) {
-//            currentWindow = [UIApplication sharedApplication].keyWindow;
-//        }else {
-//            currentWindow = [DoraemonHomeWindow shareInstance];
-//        }
-//        if ([NSThread currentThread].isMainThread) {
-//            [DoraemonToastUtil showToastBlack:toastContent inView:currentWindow];
-//        }else {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [DoraemonToastUtil showToastBlack:toastContent inView:currentWindow];
-//            });
-//        }
-        
+    public static func showToast(text: String) {        
         let showToast = {
             guard let currentWindow = UIApplication.shared.keyWindow else {
                 return

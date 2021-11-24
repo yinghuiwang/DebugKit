@@ -26,6 +26,10 @@ open class DKToolBoxVC: UIViewController {
         self.toolBox = toolBox
     }
     
+    deinit {
+        DebugKit.log("DKToolBoxVC deinit")
+    }
+    
     open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
