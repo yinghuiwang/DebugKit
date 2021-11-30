@@ -17,6 +17,7 @@ class DKFLLogListVC: UIViewController {
     var dateFomatter: DateFormatter?
     var logReader: DKFileReaderDefault?
     var logs: [DKLogMessage] = []
+    var newLogs: [DKLogMessage] = []
     var keywordsGroup: [[String]] = []
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -82,10 +83,11 @@ class DKFLLogListVC: UIViewController {
             searchBar.text = logReader?.searchText
             logReader?.logsDidUpdateCallback = { [weak self](logs, keywords) in
                 guard let self = self else { return }
-                self.logs = logs
                 self.keywordsGroup = keywords
+                self.newLogs = logs
                 
                 if self.tableView.contentOffset.y <= 0 {
+                    self.logs = logs
                     self.tableView.reloadSections([0], with: .automatic)
                     self.keywordCollectionView.reloadData()
                 }
@@ -231,6 +233,7 @@ extension DKFLLogListVC: UICollectionViewDataSource, UICollectionViewDelegate, U
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         searchBar.resignFirstResponder()
         if scrollView == self.tableView && scrollView.contentOffset.y == 0 {
+            self.logs = self.newLogs
             self.tableView.reloadSections([0], with: .automatic)
             self.keywordCollectionView.reloadData()
         }
