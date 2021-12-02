@@ -3,14 +3,11 @@ use_frameworks!
 platform :ios, '10.0'
 
 target 'DebugKit_Example' do
-  pod 'DebugKit', :path => '../', :subspecs => [
-    'Core',
-    'Log',
-    'FileLogViewer',
-    'JsonViewer',
-    'UserDefaults',
-    'MsgSimulation',
-  ]
+ 
+  pod 'DebugKit/Core', :path => '../'
+  pod 'DebugKit/FileLogViewer', :path => '../'
+  pod 'DebugKit/UserDefaults', :path => '../'
+  pod 'DebugKit/MsgSimulation', :path => '../'
 
   target 'DebugKit_Tests' do
     inherit! :search_paths
