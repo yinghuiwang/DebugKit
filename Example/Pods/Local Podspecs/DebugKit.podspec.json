@@ -31,6 +31,11 @@
     },
     {
       "name": "Log",
+      "dependencies": {
+        "DebugKit/Core": [
+
+        ]
+      },
       "source_files": "DebugKit/Log/**/*.{swift}",
       "resource_bundles": {
         "Log": [
@@ -40,6 +45,17 @@
     },
     {
       "name": "FileLogViewer",
+      "dependencies": {
+        "DebugKit/Core": [
+
+        ],
+        "DebugKit/Log": [
+
+        ],
+        "DebugKit/JsonViewer": [
+
+        ]
+      },
       "source_files": "DebugKit/FileLogViewer/**/*.{swift}",
       "resource_bundles": {
         "FileLogViewer": [
@@ -49,6 +65,11 @@
     },
     {
       "name": "JsonViewer",
+      "dependencies": {
+        "DebugKit/Core": [
+
+        ]
+      },
       "source_files": "DebugKit/JsonViewer/**/*.{swift}",
       "resource_bundles": {
         "JsonViewer": [
@@ -58,6 +79,11 @@
     },
     {
       "name": "UserDefaults",
+      "dependencies": {
+        "DebugKit/Core": [
+
+        ]
+      },
       "source_files": "DebugKit/UserDefaults/**/*.{swift}",
       "resource_bundles": {
         "UserDefaults": [
@@ -67,6 +93,14 @@
     },
     {
       "name": "MsgSimulation",
+      "dependencies": {
+        "DebugKit/Core": [
+
+        ],
+        "DebugKit/Log": [
+
+        ]
+      },
       "source_files": "DebugKit/MsgSimulation/**/*.{swift}",
       "resource_bundles": {
         "MsgSimulation": [

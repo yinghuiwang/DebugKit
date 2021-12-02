@@ -1,10 +1,18 @@
 PODS:
   - DebugKit/Core (0.1.0)
-  - DebugKit/FileLogViewer (0.1.0)
-  - DebugKit/JsonViewer (0.1.0)
-  - DebugKit/Log (0.1.0)
-  - DebugKit/MsgSimulation (0.1.0)
-  - DebugKit/UserDefaults (0.1.0)
+  - DebugKit/FileLogViewer (0.1.0):
+    - DebugKit/Core
+    - DebugKit/JsonViewer
+    - DebugKit/Log
+  - DebugKit/JsonViewer (0.1.0):
+    - DebugKit/Core
+  - DebugKit/Log (0.1.0):
+    - DebugKit/Core
+  - DebugKit/MsgSimulation (0.1.0):
+    - DebugKit/Core
+    - DebugKit/Log
+  - DebugKit/UserDefaults (0.1.0):
+    - DebugKit/Core
 
 DEPENDENCIES:
   - DebugKit/Core (from `../`)
@@ -19,7 +27,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  DebugKit: 8083129762be4a9897e4fae3f834ceb7b62ddc7f
+  DebugKit: d1dc34c9f0170f40f7615ff5fd8eb101d1dab9bc
 
 PODFILE CHECKSUM: c580e38cec51d6b5afd9aef3dca8968707ba0d47
 

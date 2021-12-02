@@ -39,6 +39,7 @@ TODO: Add long description of the pod here.
   end
   
   s.subspec "Log" do |ss|
+    ss.dependency 'DebugKit/Core'
     ss.source_files = 'DebugKit/Log/**/*.{swift}'
     ss.resource_bundles = {
       'Log' => ['DebugKit/Log/**/*.xib']
@@ -46,6 +47,9 @@ TODO: Add long description of the pod here.
   end
   
   s.subspec "FileLogViewer" do |ss|
+    ss.dependency 'DebugKit/Core'
+    ss.dependency 'DebugKit/Log'
+    ss.dependency 'DebugKit/JsonViewer'
     ss.source_files = 'DebugKit/FileLogViewer/**/*.{swift}'
     ss.resource_bundles = {
       'FileLogViewer' => ['DebugKit/FileLogViewer/**/*.xib']
@@ -53,6 +57,7 @@ TODO: Add long description of the pod here.
   end
   
   s.subspec "JsonViewer" do |ss|
+    ss.dependency 'DebugKit/Core'
     ss.source_files = 'DebugKit/JsonViewer/**/*.{swift}'
     ss.resource_bundles = {
       'JsonViewer' => ['DebugKit/JsonViewer/**/*.{html,js,css}']
@@ -60,6 +65,7 @@ TODO: Add long description of the pod here.
   end
   
   s.subspec "UserDefaults" do |ss|
+    ss.dependency 'DebugKit/Core'
     ss.source_files = 'DebugKit/UserDefaults/**/*.{swift}'
     ss.resource_bundles = {
       'UserDefaults' => ['DebugKit/UserDefaults/**/*.{xib}']
@@ -67,6 +73,8 @@ TODO: Add long description of the pod here.
   end
   
   s.subspec "MsgSimulation" do |ss|
+    ss.dependency 'DebugKit/Core'
+    ss.dependency 'DebugKit/Log'
     ss.source_files = 'DebugKit/MsgSimulation/**/*.{swift}'
     ss.resource_bundles = {
       'MsgSimulation' => ['DebugKit/MsgSimulation/**/*.{xib}']
