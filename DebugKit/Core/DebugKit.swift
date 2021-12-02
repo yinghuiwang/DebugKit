@@ -83,7 +83,7 @@ extension DebugKit {
 
 // MARK: - Utils
 extension DebugKit {
-    static func topViewController(controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+    static func topViewController(controller: UIViewController? = UIApplication.shared.delegate?.window??.rootViewController) -> UIViewController? {
         if let navigationController = controller as? UINavigationController {
             return topViewController(controller: navigationController.visibleViewController)
         }
