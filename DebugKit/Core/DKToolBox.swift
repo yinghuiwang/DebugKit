@@ -19,25 +19,46 @@ public class DKToolBox: NSObject {
     
     override init() {
         super.init()
-        tools.append(DKTool(name: "Log",
-                            summay: "查看本地记录的日志",
-                            vcClassName: "DebugKit.DKFLLogFileListVC",
-                            clickHandle: nil))
         
-        tools.append(DKTool(name: "UserDefaults",
-                            summay: "查看本地记录的日志",
-                            vcClassName:  "DebugKit.DKUserDefaultsVC",
-                            clickHandle: nil))
+        do {
+            let vcClassName = "DebugKit.DKFLLogFileListVC"
+            if NSClassFromString(vcClassName) != nil {
+                tools.append(DKTool(name: "Log",
+                                    summay: "查看本地记录的日志",
+                                    vcClassName: vcClassName,
+                                    clickHandle: nil))
+            }
+        }
         
-        tools.append(DKTool(name: "H5调试",
-                            summay: "提供跳转到包房内部WebView页面的方法",
-                            vcClassName: "DebugKit.DKH5VC",
-                            clickHandle: nil))
+        do {
+            let vcClassName = "DebugKit.DKUserDefaultsVC"
+            if NSClassFromString(vcClassName) != nil {
+                tools.append(DKTool(name: "UserDefaults",
+                                    summay: "查看本地记录的日志",
+                                    vcClassName:  vcClassName,
+                                    clickHandle: nil))
+            }
+        }
         
-        tools.append(DKTool(name: "WS消息发送",
-                            summay: "提供房间内消息模拟发送",
-                            vcClassName: "DebugKit.DKMsgSimulationVC",
-                            clickHandle: nil))
+        do {
+            let vcClassName = "DebugKit.DKH5VC"
+            if NSClassFromString(vcClassName) != nil {
+                tools.append(DKTool(name: "H5调试",
+                                    summay: "提供跳转到包房内部WebView页面的方法",
+                                    vcClassName: vcClassName,
+                                    clickHandle: nil))
+            }
+        }
+        
+        do {
+            let vcClassName = "DebugKit.DKMsgSimulationVC"
+            if NSClassFromString(vcClassName) != nil {
+                tools.append(DKTool(name: "WS消息发送",
+                                    summay: "提供房间内消息模拟发送",
+                                    vcClassName: vcClassName,
+                                    clickHandle: nil))
+            }
+        }
     }
     
     /// 时间复杂度O(n)
