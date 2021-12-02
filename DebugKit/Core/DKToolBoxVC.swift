@@ -43,11 +43,6 @@ open class DKToolBoxVC: UIViewController {
     }
     
     func setupViews() {
-        if #available(iOS 13, *) {
-            
-        } else {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(goBack))
-        }
     }
     
     func loadData() {
@@ -58,10 +53,6 @@ open class DKToolBoxVC: UIViewController {
         dismiss(animated: true) {
             DebugKit.share.closeDebug()
         }   
-    }
-    
-    @objc func goBack() {
-        navigationController?.dismiss(animated: true, completion: nil)
     }
 }
 

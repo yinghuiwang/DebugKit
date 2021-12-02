@@ -48,7 +48,9 @@ extension DebugKit {
         if let debugNC = self.debugNC {
             if debugNC.presentingViewController == nil {
                 topViewController.present(debugNC, animated: true, completion: nil)
-            }            
+            } else {
+                debugNC.dismiss(animated: true, completion: nil)
+            }
             return
         }
         
