@@ -28,11 +28,11 @@ class DKH5VC: DKBaseVC {
     }
     
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: "DKH5VC", bundle: DebugKit.dk_bundle(name: "Core"))
+        super.init(nibName: "DKH5VC", bundle: DebugKit.dk_bundle(name: "H5Portal"))
     }
     
     public required init?(coder: NSCoder) {
-        super.init(nibName: "DKH5VC", bundle: DebugKit.dk_bundle(name: "Core"))
+        super.init(nibName: "DKH5VC", bundle: DebugKit.dk_bundle(name: "H5Portal"))
     }
     
     override func viewDidLoad() {

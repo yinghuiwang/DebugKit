@@ -38,6 +38,14 @@ TODO: Add long description of the pod here.
     }
   end
   
+  s.subspec "H5Portal" do |ss|
+    ss.dependency 'DebugKit/Core'
+    ss.source_files = 'DebugKit/H5Portal/**/*.{swift}'
+    ss.resource_bundles = {
+      'H5Portal' => ['DebugKit/H5Portal/**/*.xib']
+    }
+  end
+  
   s.subspec "Log" do |ss|
     ss.dependency 'DebugKit/Core'
     ss.source_files = 'DebugKit/Log/**/*.{swift}'

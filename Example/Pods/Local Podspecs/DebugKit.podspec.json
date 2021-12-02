@@ -30,6 +30,20 @@
       }
     },
     {
+      "name": "H5Portal",
+      "dependencies": {
+        "DebugKit/Core": [
+
+        ]
+      },
+      "source_files": "DebugKit/H5Portal/**/*.{swift}",
+      "resource_bundles": {
+        "H5Portal": [
+          "DebugKit/H5Portal/**/*.xib"
+        ]
+      }
+    },
+    {
       "name": "Log",
       "dependencies": {
         "DebugKit/Core": [
