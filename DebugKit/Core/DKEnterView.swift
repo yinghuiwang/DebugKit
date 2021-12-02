@@ -92,7 +92,7 @@ class DKEnterView: UIControl {
 
 extension DKEnterView {
     func show() {
-        guard let keyWindow = UIApplication.shared.keyWindow else {
+        guard let keyWindow = UIApplication.shared.delegate?.window! else {
             return
         }
         
