@@ -34,7 +34,7 @@ public class DKToolBox: NSObject {
             let vcClassName = "DebugKit.DKUserDefaultsVC"
             if NSClassFromString(vcClassName) != nil {
                 tools.append(DKTool(name: "UserDefaults",
-                                    summay: "查看本地记录的日志",
+                                    summay: "管理本地NSUserDefaults的工具",
                                     vcClassName:  vcClassName,
                                     clickHandle: nil))
             }
