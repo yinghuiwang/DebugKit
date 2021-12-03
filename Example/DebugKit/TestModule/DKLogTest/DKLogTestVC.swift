@@ -132,7 +132,15 @@ class DKLogTestVC: UIViewController {
                 "errorcode": "ok"
             }
         """
-        DKLog.share.log(keyword: "testkey/\(Int(arc4random() % 300))",
+        
+        var keyword = "testkey/"
+        var keywordCount = Int(arc4random() % 20)
+        while keywordCount >= 0 {
+            keyword.append("\(Int(arc4random() % 1000000))")
+            keywordCount -= 1;
+        }
+        
+        DKLog.share.log(keyword: keyword,
                         message: message)
     }
     

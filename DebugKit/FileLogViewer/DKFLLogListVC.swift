@@ -186,8 +186,11 @@ extension DKFLLogListVC: UICollectionViewDataSource, UICollectionViewDelegate, U
         let keyword = keywords[indexPath.item]
         cell.title.text = keyword
         
-        cell.longPressCallback = { [weak self] in
-            self?.logReader?.addRejectKeyword(keyword: keyword)
+        cell.longPressCallback = { [weak self] longPressCell in
+            if let longPressKeyword = longPressCell.title.text {
+                self?.logReader?.addRejectKeyword(keyword: longPressKeyword)
+            }
+            self?.keywordCollectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
         }
     
         return cell
@@ -225,6 +228,7 @@ extension DKFLLogListVC: UICollectionViewDataSource, UICollectionViewDelegate, U
             logReader?.removeOnlyKeyword(keyword: keyword)
         } else if indexPath.section == 2 {
             logReader?.addOnlyKeyword(keyword: keyword)
+            collectionView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
         }
         
         searchBar.resignFirstResponder()

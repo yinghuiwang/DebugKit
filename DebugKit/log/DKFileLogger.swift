@@ -484,7 +484,7 @@ struct DKLogFileInfo {
 
 protocol DKFileReader {
     init(filePath: String)
-    func read(atPath: String) -> ([DKLogMessage], [String])?
+    func read(atPath: String) -> [DKLogMessage]?
 }
 
 
@@ -495,7 +495,10 @@ class DKFileReaderDefault: DKFileReader {
     var logsDidUpdateCallback: (([DKLogMessage], [[String]]) -> Void)?
     
     private var logs: [DKLogMessage] = []
-    private var keywords: [String] = []
+    private var keywordsSet: Set<String> = Set<String>()
+    private var keywords: [String] {
+        keywordsSet.sorted().filter { !(self.rejectKeywords.contains($0) || self.onlyKeywords.contains($0)) }
+    }
     
     private var needRefreshUI = false
     private var refreshUITimer: DispatchSourceTimer?
@@ -546,36 +549,32 @@ class DKFileReaderDefault: DKFileReader {
     func removeRejectKeyword(keyword: String) {
         queue.async {
             if let index = self.rejectKeywords.firstIndex(of: keyword) {
-                self.keywords.insert(self.rejectKeywords.remove(at: index), at: 0)
-                self.refrashUIIfNeed()
+                self.rejectKeywords.remove(at: index)
+                self.refrashUIIfNeed(atOnce: true)
             }
         }
     }
     
     func addRejectKeyword(keyword: String) {
         queue.async {
-            if let index = self.keywords.firstIndex(of: keyword) {
-                self.rejectKeywords.append(self.keywords.remove(at: index))
-                self.refrashUIIfNeed()
-            }
+            self.rejectKeywords.append(keyword)
+            self.refrashUIIfNeed(atOnce: true)
         }
     }
     
     func removeOnlyKeyword(keyword: String) {
         queue.async {
             if let index = self.onlyKeywords.firstIndex(of: keyword) {
-                self.keywords.insert(self.onlyKeywords.remove(at: index), at: 0)
-                self.refrashUIIfNeed()
+                self.onlyKeywords.remove(at: index)
+                self.refrashUIIfNeed(atOnce: true)
             }
         }
     }
     
     func addOnlyKeyword(keyword: String) {
         queue.async {
-            if let index = self.keywords.firstIndex(of: keyword) {
-                self.onlyKeywords.append(self.keywords.remove(at: index))
-                self.refrashUIIfNeed()
-            }
+            self.onlyKeywords.append(keyword)
+            self.refrashUIIfNeed(atOnce: true)
         }
     }
     
@@ -589,19 +588,17 @@ class DKFileReaderDefault: DKFileReader {
     // MARK: private
     private func updateLogs() {
         queue.async {
-            guard let (newLogs, keywords) = self.read(atPath: self.filePath) else {
+            guard let newLogs = self.read(atPath: self.filePath) else {
                 return
             }
             
             self.logs = newLogs
-            self.keywords = keywords.filter {
-                !(self.rejectKeywords.contains($0) || self.onlyKeywords.contains($0))
-            }
+            self.keywordsSet = self.keywordsSet.union(self.keywords(messages: newLogs))
             self.filtration()
         }
     }
     
-    internal func read(atPath: String) -> ([DKLogMessage], [String])? {
+    internal func read(atPath: String) -> [DKLogMessage]? {
         guard let fileHandle = FileHandle(forReadingAtPath: atPath) else {
             DebugKit.showToast(text: "文件读取失败\n文件可能过期被移除")
             return nil
@@ -615,12 +612,21 @@ class DKFileReaderDefault: DKFileReader {
         var messages = decode(data: data)
         messages.sort(by: { $1.date.compare($0.date) == .orderedAscending })
         
-        let keywords = messages.reduce(Set<String>(), { result, logMessage in
-            result.union(logMessage.keyword.components(separatedBy: "/"))
-        })
-        
-        return (messages, keywords.sorted())
+        return messages
     }
+    
+    private func keywords(messages: [DKLogMessage]) -> Set<String> {
+        return messages.reduce(Set<String>()) { result, message in
+            let keywords = message.keyword.components(separatedBy: "/").filter { keyword in
+                if keyword.count <= 0 {
+                    return false
+                }
+                return true
+            }
+            return result.union(keywords)
+        }
+    }
+    
     private func decode(data: Data) -> [DKLogMessage] {
         let content = String(data: data, encoding: .utf8)
         
@@ -649,6 +655,7 @@ class DKFileReaderDefault: DKFileReader {
             }
             
             let messages = self.decode(data: messagesData)
+            self.keywordsSet = self.keywordsSet.union(self.keywords(messages: messages))
             self.logs.insert(contentsOf: messages, at: 0)
             
             let needRefrashUI = messages.reduce(false) { result, message in
@@ -683,7 +690,15 @@ class DKFileReaderDefault: DKFileReader {
         }
     }
     
-    private func refrashUIIfNeed() {
+    private func refrashUIIfNeed(atOnce: Bool = false) {
+        
+        if atOnce { // 立刻刷新
+            if let refreshUITimer = self.refreshUITimer {
+                refreshUITimer.cancel()
+                self.refreshUITimer = nil
+            }
+        }
+        
         needRefreshUI = true
         if refreshUITimer == nil {
             let timer = DispatchSource.makeTimerSource(flags: [], queue: self.queue)
