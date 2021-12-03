@@ -29,10 +29,22 @@
 
 - 功能介绍
 
-<img src="Docs/img/RPReplay_Final1638516671.gif" alt="RPReplay_Final1638516671" style="zoom: 67%;" /><img src="Docs/img/RPReplay_Final1638529373.gif" alt="RPReplay_Final1638529373" style="zoom: 67%;" /><img src="Docs/img/RPReplay_Final1638528987.gif" alt="RPReplay_Final1638528987" style="zoom: 67%;" /><img src="Docs/img/RPReplay_Final1638529399.gif" alt="RPReplay_Final1638529399" style="zoom:67%;" />
+  <img src="Docs/img/RPReplay_Final1638516671.gif" alt="RPReplay_Final1638516671" style="zoom: 67%;" /><img src="Docs/img/RPReplay_Final1638529373.gif" alt="RPReplay_Final1638529373" style="zoom: 67%;" /><img src="Docs/img/RPReplay_Final1638528987.gif" alt="RPReplay_Final1638528987" style="zoom: 67%;" /><img src="Docs/img/RPReplay_Final1638529399.gif" alt="RPReplay_Final1638529399" style="zoom:67%;" />
 
   
 
+- 性能数据
+
+  iPhone XR，iOS 15.0.2，每条log大小2KB，不带UI实时更新
+
+  | 每秒数据量（条） | CPU占用 | 内存占用（MB） | FPS  | 能效 |
+  | ---------------- | ------- | -------------- | ---- | ---- |
+  | 1000             | 67%     | 11.4           | 60   | High |
+  | 200              | 24%     | 11.6           | 60   | Low  |
+  | 100              | 12%     | 11.7           | 60   | Low  |
+  
+  ## 
+  
 - 接入
 
   1. 在podfile引入依赖
