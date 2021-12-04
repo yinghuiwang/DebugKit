@@ -43,7 +43,7 @@
   | 200              | 24%     | 11.6           | 60   | Low  |
   | 100              | 12%     | 11.7           | 60   | Low  |
   
-  ## 
+  
   
 - 接入
 
@@ -100,7 +100,7 @@
 
      4. DebugKit页面就会显示其入口
 
-        <img src="Docs/img/DKLog入口.jpg" alt="DKLog入口" style="zoom: 25%;" />
+        <img src="Docs/img/DKLog入口.jpg" alt="DKLog入口" style="zoom:50%;" />
 
 ### H5Portal
 
@@ -136,7 +136,7 @@ WebViewController传送门工具
 
 3.  DebugKit页面就会显示此工具入口
 
-   <img src="Docs/img/H5Portal入口.jpg" alt="H5Portal入口" style="zoom: 25%;" />
+   <img src="Docs/img/H5Portal入口.jpg" alt="H5Portal入口" style="zoom: 50%;" />
 
 ### DKUserDefaults
 
@@ -172,7 +172,7 @@ WebViewController传送门工具
 
 3.   DebugKit页面就会显示此工具入口
 
-   <img src="Docs/img/DKUserDefaults入口.jpg" alt="DKUserDefaults入口" style="zoom: 25%;" />
+   <img src="Docs/img/DKUserDefaults入口.jpg" alt="DKUserDefaults入口" style="zoom: 50%;" />
 
 ### MsgSimulation
 
@@ -208,7 +208,7 @@ WebViewController传送门工具
 
 3.   DebugKit页面就会显示此工具入口
 
-   <img src="Docs/img/MsgSimulation入口.jpg" alt="MsgSimulation入口" style="zoom: 25%;" />
+   <img src="Docs/img/MsgSimulation入口.jpg" alt="MsgSimulation入口" style="zoom: 50%;" />
 
 ## Example
 
@@ -217,22 +217,6 @@ To run the example project, clone the repo, and run `pod install` from the Examp
 ## 要求
 
 最低支持系统版本iOS10
-
-## Installation
-
-DebugKit is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-# podfile
-debugKitGit = 'git@gitlab.changbaops.com:wangyinghui/DebugKit.git'
-pod 'DebugKit/Core', :git => debugKitGit, :configurations => ['Debug'] # 核心类
-pod 'DebugKit/Log', :git => debugKitGit, :configurations => ['Debug'] # log记录工具
-pod 'DebugKit/FileLogViewer', :git => debugKitGit, :configurations => ['Debug'] # log查看工具
-pod 'DebugKit/JsonViewer', :git => debugKitGit, :configurations => ['Debug'] # Json展示ViewController
-pod 'DebugKit/UserDefaults', :git => debugKitGit, :configurations => ['Debug'] # UserDefaults操作工具
-pod 'DebugKit/MsgSimulation', :git => debugKitGit, :configurations => ['Debug'] # 消息模拟发送工具
-```
 
 ## Author
 
