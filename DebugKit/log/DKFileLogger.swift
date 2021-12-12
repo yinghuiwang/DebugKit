@@ -517,33 +517,20 @@ class DKFileReaderDefault: DKFileReader {
     private var refreshUITimer: DispatchSourceTimer?
     
     /// 不查询此列表中的关键词
-    private var rejectKeywords: [String] {
-        didSet {
-            DebugKit.userDefault()?.setValue(rejectKeywords, forKey: DKFileLoggerKey.rejectKeywords.rawValue)
-        }
-    }
+    @UserDefault(key: DKFileLoggerKey.rejectKeywords.rawValue, defaultValue: [])
+    private var rejectKeywords: [String]
     
     /// 仅查询此列表中的关键词
-    private var onlyKeywords: [String] {
-        didSet {
-            DebugKit.userDefault()?.setValue(onlyKeywords, forKey: DKFileLoggerKey.onlyKeywords.rawValue)
-        }
-    }
+    @UserDefault(key: DKFileLoggerKey.onlyKeywords.rawValue, defaultValue: [])
+    private var onlyKeywords: [String]
     
-    private(set) var searchText: String? {
-        didSet {
-            DebugKit.userDefault()?.setValue(searchText, forKey: DKFileLoggerKey.searchText.rawValue)
-        }
-    }
+    @UserDefault(key: DKFileLoggerKey.searchText.rawValue, defaultValue: "")
+    private(set) var searchText: String?
     
     
     required init(filePath: String) {
         
         self.filePath = filePath
-        
-        self.rejectKeywords = DebugKit.userDefault()?.stringArray(forKey: DKFileLoggerKey.rejectKeywords.rawValue) ?? []
-        self.onlyKeywords = DebugKit.userDefault()?.stringArray(forKey: DKFileLoggerKey.onlyKeywords.rawValue) ?? []
-        self.searchText =  DebugKit.userDefault()?.string(forKey: DKFileLoggerKey.searchText.rawValue)
     }
     
     // MARK: Public
