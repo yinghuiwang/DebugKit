@@ -9,40 +9,40 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DKToolBoxVC" customModule="Core" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DKTBSetupVC" customModule="DebugKit" customModuleProvider="target">
             <connections>
-                <outlet property="tableView" destination="r5y-be-Mza" id="i87-wN-xfw"/>
-                <outlet property="view" destination="iN0-l3-epB" id="cRG-JM-3G9"/>
+                <outlet property="tableView" destination="kg8-4T-2rt" id="ImN-xw-Nw9"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="r5y-be-Mza">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="kg8-4T-2rt">
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    <view key="tableFooterView" contentMode="scaleToFill" id="tgD-Qz-szh">
-                        <rect key="frame" x="0.0" y="828.00000104037201" width="414" height="40"/>
+                    <view key="tableFooterView" contentMode="scaleToFill" id="ZPA-O7-OLQ">
+                        <rect key="frame" x="0.0" y="828.00000104037201" width="414" height="128"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
-                        <outlet property="dataSource" destination="-1" id="pTC-um-Q7q"/>
-                        <outlet property="delegate" destination="-1" id="Gc5-mD-tht"/>
+                        <outlet property="dataSource" destination="-1" id="Y6x-Wa-0ru"/>
+                        <outlet property="delegate" destination="-1" id="AMi-jG-1tN"/>
                     </connections>
                 </tableView>
             </subviews>
-            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
-                <constraint firstItem="r5y-be-Mza" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="LbK-cO-8UF"/>
-                <constraint firstItem="r5y-be-Mza" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" id="XOE-VD-Vjt"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="r5y-be-Mza" secondAttribute="trailing" id="YZ6-vK-rv5"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="r5y-be-Mza" secondAttribute="bottom" id="uYZ-Yb-q98"/>
+                <constraint firstItem="kg8-4T-2rt" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="MsI-CY-ErK"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="kg8-4T-2rt" secondAttribute="trailing" id="Vds-6o-mx4"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="kg8-4T-2rt" secondAttribute="bottom" id="p5B-r0-EdO"/>
+                <constraint firstItem="kg8-4T-2rt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="q8e-Pt-PsT"/>
             </constraints>
-            <point key="canvasLocation" x="137.68115942028987" y="152.67857142857142"/>
+            <point key="canvasLocation" x="81" y="113"/>
         </view>
     </objects>
     <resources>

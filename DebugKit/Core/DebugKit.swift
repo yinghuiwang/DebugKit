@@ -20,12 +20,18 @@ open class DebugKit: NSObject {
     @objc public static let share = DebugKit()
     private override init() {}
     private var debugNC: UINavigationController?
+    private(set) var tools: [Tool] = []
     @objc public var enableConsoleLog = false
     /// 工具箱
     @objc public let toolBox = DKToolBox()
     
+    var enterView: DKEnterView?
+    
+    @objc public var h5Handler: ((String) -> Void)?
+    
     /// 时间触发, $0是key，$1是Value
     @objc public var actionHandle: ((_ key: String, _ value: String) -> Void)?
+    
     
     @objc public func setup() {
         if let openDebug = DebugKit.userDefault()?.bool(forKey: DKUserDefuaultKey.openDebug.rawValue),
@@ -33,9 +39,7 @@ open class DebugKit: NSObject {
             self.openDebug()
         }
     }
-    var enterView: DKEnterView?
     
-    @objc public var h5Handler: ((String) -> Void)?
 }
 
 extension DebugKit {

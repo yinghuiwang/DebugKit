@@ -63,9 +63,9 @@ public class DKToolBox: NSObject {
     
     /// 时间复杂度O(n)
     @objc public func add(name: String,
-                   summary: String,
-                   vcClassName: String?,
-                   clickHandle: ((UIViewController) -> Void)?) {
+                          summary: String,
+                          vcClassName: String?,
+                          clickHandle: ((UIViewController) -> Void)?) {
         let tool = DKTool(name: name, summay: summary, vcClassName: vcClassName, clickHandle: clickHandle)
         tools = tools.filter {$0.name != tool.name }
         tools.append(tool)

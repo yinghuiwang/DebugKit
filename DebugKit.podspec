@@ -34,7 +34,7 @@ TODO: Add long description of the pod here.
   s.subspec "Core" do |ss|
     ss.source_files = 'DebugKit/Core/**/*.{swift}'
     ss.resource_bundles = {
-      'Core' => ['DebugKit/Core/**/*.xib']
+      'Core' => ['DebugKit/Core/**/*.xib', 'DebugKit/Core/Resources/*']
     }
   end
   

@@ -43,16 +43,16 @@ open class DKToolBoxVC: UIViewController {
     }
     
     func setupViews() {
+        let setIcon = UIImage(contentsOfFile: DebugKit.dk_bundle(name: "Core")?.path(forResource: "dk_icon_set.png", ofType: nil) ?? "")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: setIcon, style: .plain, target: self, action: #selector(moreClick))
     }
     
     func loadData() {
         tableView.reloadData()
     }
     
-    @IBAction func closeAction(_ sender: Any) {
-        dismiss(animated: true) {
-            DebugKit.share.closeDebug()
-        }   
+    @objc func moreClick() {
+        navigationController?.pushViewController(DKTBSetupVC(), animated: true)
     }
 }
 
