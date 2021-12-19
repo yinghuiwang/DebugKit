@@ -30,11 +30,11 @@ class DKFileLogger: NSObject, DKLogger {
     
     var logFromatter: DKLogFormatter?
     
-    let logFileManager: DKLogFileManager
+    let manager: DKLogFileManager
     let queue: DispatchQueue
     private var fromLaunchCreatedFile = false
-    private var _currentLogFileHandle: FileHandle?
-    private var _currentLogFileInfo: DKLogFileInfo?
+    private var currentHandle: FileHandle?
+    private var currentInfo: DKLogFileInfo?
     
     // 10KB
     let cacheDataMaxSize = 10 * 1024
@@ -43,11 +43,21 @@ class DKFileLogger: NSObject, DKLogger {
     private var cacheData = Data()
     private var cacheTimer: DispatchSourceTimer?
     
-    init(manager: DKLogFileManager, queue: DispatchQueue?) {
+    init(manager m: DKLogFileManager, queue: DispatchQueue?) {
         self.queue = queue ?? DispatchQueue(label: "DKFileLogger")
-        logFileManager = manager
+        manager = m
         logFromatter = DKFileFormatter(dateFormatter: nil)
         super.init()
+    }
+    
+    deinit {
+        queue.async { [weak self] in
+            if #available(iOS 13.0, *) {
+                try? self?.currentHandle?.close()
+            } else {
+                self?.currentHandle?.closeFile()
+            }
+        }
     }
     
     
@@ -119,7 +129,7 @@ class DKFileLogger: NSObject, DKLogger {
         }
         
         // 通知
-        if let filePath = self._currentLogFileInfo?.filePath {
+        if let filePath = self.currentInfo?.filePath {
             NotificationCenter.default.post(name: .DKFLLogDidLog, object: nil,
                                             userInfo: [
                                                 DKFileLoggerKey.messagesData: data,
@@ -129,8 +139,8 @@ class DKFileLogger: NSObject, DKLogger {
     }
     
     private func currentLogFileHandle() -> FileHandle {
-        if let fileHandle = _currentLogFileHandle,
-           let fileInfo = _currentLogFileInfo,
+        if let fileHandle = currentHandle,
+           let fileInfo = currentInfo,
            canUseFile(fileInfo: fileInfo) {
             return fileHandle
         } else {
@@ -139,32 +149,35 @@ class DKFileLogger: NSObject, DKLogger {
             if #available(iOS 13.4, *) {
                 do {
                     try logFileHandle.seekToEnd()
+                    try currentHandle?.close()
                 } catch {
                     DebugKit.log("DKLog: \(error)")
                 }
                 
             } else {
                 logFileHandle.seekToEndOfFile()
+                currentHandle?.closeFile()
             }
-            _currentLogFileHandle = logFileHandle
+            
+            currentHandle = logFileHandle
             return logFileHandle
         }
     }
     
     private func currentLogFileInfo() -> DKLogFileInfo {
-        var newCurrentLogFile = _currentLogFileInfo
+        var newCurrentLogFile = currentInfo
         
         if newCurrentLogFile == nil {
-            newCurrentLogFile = logFileManager.sortedLogFileInfos.first
+            newCurrentLogFile = manager.sortedLogFileInfos.first
         }
         
         if let currentLogFile = newCurrentLogFile,
            canUseFile(fileInfo: currentLogFile) {
             return currentLogFile
         } else {
-            let currentLogFilePath = try! logFileManager.createNewLogFile()
+            let currentLogFilePath = try! manager.createNewLogFile()
             let currentLogFile = DKLogFileInfo(filePath: currentLogFilePath!)
-            _currentLogFileInfo = currentLogFile
+            currentInfo = currentLogFile
             fromLaunchCreatedFile = true
             return currentLogFile
         }
@@ -606,6 +619,7 @@ class DKFileReaderDefault: DKFileReader {
         
         DebugKit.log("[\(DKDebugLogKey.life)][\(DKDebugLogKey.file)] read start");
         let data = fileHandle.readDataToEndOfFile()
+        fileHandle.closeFile()
         DebugKit.log("[\(DKDebugLogKey.life)][\(DKDebugLogKey.file)] read end");
         
 
