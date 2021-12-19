@@ -20,7 +20,6 @@ open class DebugKit: NSObject {
     @objc public static let share = DebugKit()
     private override init() {}
     private var debugNC: UINavigationController?
-    private(set) var tools: [Tool] = []
     @objc public var enableConsoleLog = false
     /// 工具箱
     @objc public let toolBox = DKToolBox()
