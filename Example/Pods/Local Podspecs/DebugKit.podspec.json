@@ -1,9 +1,9 @@
 {
   "name": "DebugKit",
   "version": "0.1.0",
-  "summary": "A short description of DebugKit.",
-  "description": "TODO: Add long description of the pod here.",
-  "homepage": "https://github.com/iyinghui@163.com/DebugKit",
+  "summary": "方便调试的工具箱",
+  "description": "方便调试的工具箱",
+  "homepage": "http://gitlab.changbaops.com/wangyinghui/DebugKit",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,7 +12,7 @@
     "iyinghui@163.com": "wangyinghui@changba.com"
   },
   "source": {
-    "git": "https://github.com/iyinghui@163.com/DebugKit.git",
+    "git": "git@gitlab.changbaops.com:wangyinghui/DebugKit.git",
     "tag": "0.1.0"
   },
   "default_subspecs": "Core",
