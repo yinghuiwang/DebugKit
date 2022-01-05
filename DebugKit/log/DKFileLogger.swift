@@ -636,6 +636,7 @@ class DKFileReaderDefault: DKFileReader {
         let jsonDecoder = JSONDecoder()
         let messages = messageStringArray?.reduce( [DKLogMessage](), { lastResult, message in
             if let messageData = message.data(using: .utf8),
+               messageData.count > 0,
                let logMessage = try? jsonDecoder.decode(DKLogMessage.self, from: messageData) {
                 var result = Array(lastResult)
                 result.append(logMessage)
