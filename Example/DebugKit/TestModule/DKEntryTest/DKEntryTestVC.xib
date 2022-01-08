@@ -20,13 +20,20 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="QCn-Pv-cF6">
-                    <rect key="frame" x="0.0" y="433" width="414" height="30"/>
+                    <rect key="frame" x="0.0" y="418" width="414" height="60"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iIh-S4-j5y">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
                             <state key="normal" title="show debug kit entry"/>
                             <connections>
                                 <action selector="showEntry:" destination="-1" eventType="touchUpInside" id="gmd-ni-qKF"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Fm-bO-LPb">
+                            <rect key="frame" x="0.0" y="30" width="414" height="30"/>
+                            <state key="normal" title="Present self vc"/>
+                            <connections>
+                                <action selector="presentSelfVC:" destination="-1" eventType="touchUpInside" id="FRa-eo-iOn"/>
                             </connections>
                         </button>
                     </subviews>

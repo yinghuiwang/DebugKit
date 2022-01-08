@@ -73,6 +73,12 @@ extension DebugKit {
         DebugKit.userDefault()?.setValue(true, forKey: DKUserDefuaultKey.openDebug.rawValue)
     }
     
+    @objc public func enterViewMoveToTopView() {
+        if let enterView = self.enterView {
+            enterView.show()
+        }
+    }
+    
     public func closeDebug() {
         guard let enterView = enterView else { return }
         

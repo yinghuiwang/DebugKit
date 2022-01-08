@@ -92,10 +92,7 @@ class DKEnterView: UIControl {
 
 extension DKEnterView {
     func show() {
-        guard let keyWindow = UIApplication.shared.delegate?.window! else {
-            return
-        }
-        
+        guard let keyWindow = keyWindow() else { return }
         keyWindow.addSubview(self)
         
         var safeAreaInsets: UIEdgeInsets = UIEdgeInsets(top: 20, left: margin, bottom: 0, right: margin)
@@ -108,6 +105,10 @@ extension DKEnterView {
         contentConstraintTop?.isActive = true
         contentConstraintLeft = self.leftAnchor.constraint(equalTo: keyWindow.leftAnchor, constant: screenSize.width - contentViewWH - safeAreaInsets.right)
         contentConstraintLeft?.isActive = true
+    }
+    
+    func keyWindow() -> UIWindow? {
+        return UIApplication.shared.delegate?.window!
     }
     
     
