@@ -59,6 +59,16 @@ public class DKToolBox: NSObject {
                                     clickHandle: nil))
             }
         }
+        
+        do {
+            let vcClassName = "DebugKit.DKInfoViewerVC"
+            if NSClassFromString(vcClassName) != nil {
+                tools.append(DKTool(name: "App重要信息",
+                                    summay: "经常关注的一些关键信息",
+                                    vcClassName: vcClassName,
+                                    clickHandle: nil))
+            }
+        }
     }
     
     /// 时间复杂度O(n)

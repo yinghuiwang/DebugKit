@@ -59,9 +59,7 @@ class DKMsgSimulation: NSObject {
         
         refreshView()
         
-        if let actionHandle = DebugKit.share.actionHandle {
-            actionHandle("发WS消息", body)
-        }
+        DebugKit.share.mediator.notinationCenter.send(name: "发WS消息", content: body)
         
         saveMessages()
     }

@@ -9,6 +9,7 @@ target 'DebugKit_Example' do
   pod 'DebugKit/FileLogViewer', :path => '../'
   pod 'DebugKit/UserDefaults', :path => '../'
   pod 'DebugKit/MsgSimulation', :path => '../'
+  pod 'DebugKit/InfoViewer', :path => '../'
 
   target 'DebugKit_Tests' do
     inherit! :search_paths

@@ -122,6 +122,20 @@
           "DebugKit/MsgSimulation/**/*.{xib}"
         ]
       }
+    },
+    {
+      "name": "InfoViewer",
+      "dependencies": {
+        "DebugKit/Core": [
+
+        ]
+      },
+      "source_files": "DebugKit/InfoViewer/**/*.{swift}",
+      "resource_bundles": {
+        "InfoViewer": [
+          "DebugKit/InfoViewer/**/*.{xib}"
+        ]
+      }
     }
   ]
 }

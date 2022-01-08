@@ -25,9 +25,25 @@ class ViewController: UIViewController {
         DebugKit.share.setup()
         DebugKit.share.enableConsoleLog = true
         
+        DebugKit.share.mediator.router.register(url: "dk://getInfo") { params, success, fail in
+            
+            
+//            var items: [DKInfoItem] = []
+//            items.append(DKInfoItem(name: "关闭DebugKit入口", summay: "仅仅关闭入口以及UI页面，后台任务不关闭，比如日志记录"))
+//            items.append(DKInfoItem(name: "关闭DebugKit", summay: "关闭入口、UI页面以及后台任务，比如日志记录"))
+//
+//            guard let json = try? JSONEncoder().encode(items) else {
+//                fail?(DKRouterError(code: 1, errStr: "数据格式失败"))
+//                return
+//            }
+//            success?(json)
+        }
         
-        DebugKit.share.actionHandle = { (key, value) in
-            print("actionHandle:{ \(key): \(value) }")
+        
+        DebugKit.share.mediator.notinationCenter.add(observer: self, name: "发WS消息") { value in
+            if let body = value as? String {
+                print("notinationCenter \(body)")
+            }
         }
     }
     

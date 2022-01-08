@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DebugKit'
-  s.version          = '0.1.1'
+  s.version          = '0.1.0'
   s.summary          = '方便调试的工具箱'
 
 # This description is used to generate tags and improve search results.
@@ -86,6 +86,14 @@ Pod::Spec.new do |s|
     ss.source_files = 'DebugKit/MsgSimulation/**/*.{swift}'
     ss.resource_bundles = {
       'MsgSimulation' => ['DebugKit/MsgSimulation/**/*.{xib}']
+    }
+  end
+  
+  s.subspec "InfoViewer" do |ss|
+    ss.dependency 'DebugKit/Core'
+    ss.source_files = 'DebugKit/InfoViewer/**/*.{swift}'
+    ss.resource_bundles = {
+      'InfoViewer' => ['DebugKit/InfoViewer/**/*.{xib}']
     }
   end
   

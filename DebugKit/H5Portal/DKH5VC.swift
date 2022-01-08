@@ -88,15 +88,15 @@ class DKH5VC: DKBaseVC {
             return
         }
         
-        if let h5Handler = DebugKit.share.h5Handler {
-            navigationController?.dismiss(animated: true, completion: {
-                h5Handler(urlStr)
-            })
-        } else {
-            let webVC = DKWebVC()
-            webVC.urlStr = url.absoluteString
-            navigationController?.pushViewController(webVC, animated: true)
-        }
+//        if let h5Handler = DebugKit.share.h5Handler {
+//            navigationController?.dismiss(animated: true, completion: {
+//                h5Handler(urlStr)
+//            })
+//        } else {
+//            let webVC = DKWebVC()
+//            webVC.urlStr = url.absoluteString
+//            navigationController?.pushViewController(webVC, animated: true)
+//        }
        
         if !searchHistoricals.contains(urlStr) {
             searchHistoricals.insert(urlStr, at: 0)
