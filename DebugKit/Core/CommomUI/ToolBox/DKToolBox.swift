@@ -7,66 +7,43 @@
 
 import Foundation
 
-struct DKTool {
+
+@objc protocol DKTool {
+    static func configTool()
+}
+
+struct DKToolInfo {
     let name: String
     let summay: String
-    let vcClassName: String?
+    let priority: Int
     let clickHandle: ((UIViewController) -> Void)?
 }
 
 public class DKToolBox: NSObject {
-    private(set) var tools: [DKTool] = []
+    private(set) var tools: [DKToolInfo] = []
+    private var loaded = false
     
     override init() {
         super.init()
-        
-        do {
-            let vcClassName = "DebugKit.DKFLLogFileListVC"
-            if NSClassFromString(vcClassName) != nil {
-                tools.append(DKTool(name: "Log",
-                                    summay: "查看本地记录的日志",
-                                    vcClassName: vcClassName,
-                                    clickHandle: nil))
-            }
+    }
+    
+    func loadTools(success:(() -> Void)?) {
+        guard !loaded else {
+            success?()
+            return
         }
         
-        do {
-            let vcClassName = "DebugKit.DKUserDefaultsVC"
-            if NSClassFromString(vcClassName) != nil {
-                tools.append(DKTool(name: "UserDefaults",
-                                    summay: "管理本地NSUserDefaults的工具",
-                                    vcClassName:  vcClassName,
-                                    clickHandle: nil))
-            }
-        }
+        loaded = true
         
-        do {
-            let vcClassName = "DebugKit.DKH5VC"
-            if NSClassFromString(vcClassName) != nil {
-                tools.append(DKTool(name: "H5调试",
-                                    summay: "提供跳转到包房内部WebView页面的方法",
-                                    vcClassName: vcClassName,
-                                    clickHandle: nil))
+        DispatchQueue.global().async {
+            // 模块配置
+            let routables: [DKTool.Type] = DebugKit.classes(implementing: DKTool.self)
+            routables.forEach { tool in
+                tool.configTool()
             }
-        }
-        
-        do {
-            let vcClassName = "DebugKit.DKMsgSimulationVC"
-            if NSClassFromString(vcClassName) != nil {
-                tools.append(DKTool(name: "WS消息发送",
-                                    summay: "提供房间内消息模拟发送",
-                                    vcClassName: vcClassName,
-                                    clickHandle: nil))
-            }
-        }
-        
-        do {
-            let vcClassName = "DebugKit.DKInfoViewerVC"
-            if NSClassFromString(vcClassName) != nil {
-                tools.append(DKTool(name: "App重要信息",
-                                    summay: "经常关注的一些关键信息",
-                                    vcClassName: vcClassName,
-                                    clickHandle: nil))
+            
+            DispatchQueue.main.async {
+                success?()
             }
         }
     }
@@ -74,10 +51,12 @@ public class DKToolBox: NSObject {
     /// 时间复杂度O(n)
     @objc public func add(name: String,
                           summary: String,
-                          vcClassName: String?,
-                          clickHandle: ((UIViewController) -> Void)?) {
-        let tool = DKTool(name: name, summay: summary, vcClassName: vcClassName, clickHandle: clickHandle)
+                          priority: Int = 500,
+                          clickHandle: ((UIViewController) -> Void)? = nil) {
+        let tool = DKToolInfo(name: name, summay: summary, priority: priority, clickHandle: clickHandle)
         tools = tools.filter {$0.name != tool.name }
         tools.append(tool)
+        
+        tools.sort { $0.priority >= $1.priority }
     }
 }

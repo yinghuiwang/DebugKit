@@ -8,5 +8,12 @@
 import UIKit
 
 class DKInfoProvider: NSObject {
+    
+}
 
+
+extension DKInfoProvider: DKTool {
+    static func configTool() {
+        
+    }
 }

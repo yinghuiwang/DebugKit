@@ -45,10 +45,10 @@ public class DKRouter: NSObject {
         handleMap.removeValue(forKey: baseUrl)
     }
     
-    @objc public func requset(url: String, params p: [String: Any]? = nil, success:@escaping (Any?) -> Void, fail:@escaping (Error)->Void) {
+    @objc public func requset(url: String, params p: [String: Any]? = nil, success:((Any?) -> Void)? = nil, fail:((Error)->Void)? = nil) {
         guard let (baseUrl, urlParams) = resolve(url: url),
               let handle = handleMap[baseUrl] else {
-            fail(DKRouterError(code: 404, errStr: "无匹配资源"))
+            fail?(DKRouterError(code: 404, errStr: "无匹配资源"))
             return
         }
         
@@ -65,7 +65,11 @@ public class DKRouter: NSObject {
         handle(params, success, fail)
     }
     
-    func resolve(url u: String) -> (baseURL: String, params: [String: Any]?)? {
+    @objc public func open(url: String) {
+        requset(url: url)
+    }
+    
+    private func resolve(url u: String) -> (baseURL: String, params: [String: Any]?)? {
         guard let url = URL(string: u) else { return nil }
          
         let baseURL: String = u.components(separatedBy: "?").first ?? ""

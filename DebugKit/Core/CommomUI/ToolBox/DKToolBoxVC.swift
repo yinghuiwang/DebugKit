@@ -48,7 +48,10 @@ open class DKToolBoxVC: UIViewController {
     }
     
     func loadData() {
-        tableView.reloadData()
+        guard let toolBox = self.toolBox else { return }
+        toolBox.loadTools { [weak self] in
+            self?.tableView.reloadData()
+        }
     }
     
     @objc func moreClick() {
@@ -86,22 +89,9 @@ extension DKToolBoxVC: UITableViewDelegate, UITableViewDataSource {
     
     
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let tool = toolBox?.tools[indexPath.item] else {
-            return
-        }
-
-        if let toolVCName = tool.vcClassName,
-           let ToolVCClass = NSClassFromString(toolVCName) as? UIViewController.Type {
-            let toolVC = ToolVCClass.init()
-            toolVC.title = tool.name
-            navigationController?.pushViewController(toolVC, animated: true)
-            return
-        }
+        guard let tool = toolBox?.tools[indexPath.item] else { return }
         
-        if let clickHandle = tool.clickHandle {
-            clickHandle(self)
-            return
-        }
+        tool.clickHandle?(self)
     }
 }
 

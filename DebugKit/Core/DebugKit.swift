@@ -20,7 +20,7 @@ open class DebugKit: NSObject {
     @objc public static let share = DebugKit()
     private override init() {}
     
-    private var debugNC: UINavigationController?
+    var debugNavC: UINavigationController?
     
     @objc public var enableConsoleLog = false
     
@@ -48,7 +48,7 @@ extension DebugKit {
             return
         }
         
-        if let debugNC = self.debugNC {
+        if let debugNC = self.debugNavC {
             if debugNC.presentingViewController == nil {
                 topViewController.present(debugNC, animated: true, completion: nil)
             } else {
@@ -60,7 +60,7 @@ extension DebugKit {
         let debugVC = DKToolBoxVC(toolBox: toolBox)
         let navigationController = UINavigationController(rootViewController: debugVC)
         topViewController.present(navigationController, animated: true, completion: nil)
-        self.debugNC = navigationController
+        self.debugNavC = navigationController
     }
     
     // MARK: - PublicMethod
@@ -84,7 +84,7 @@ extension DebugKit {
         
         enterView.removeFromSuperview()
         self.enterView = nil
-        self.debugNC = nil
+        self.debugNavC = nil
         
         DebugKit.userDefault()?.setValue(false, forKey: DKUserDefuaultKey.openDebug.rawValue)
     }

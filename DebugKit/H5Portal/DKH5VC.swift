@@ -188,3 +188,17 @@ extension DKH5VC: UITableViewDataSource, UITableViewDelegate {
         
     }
 }
+
+
+extension DKH5VC: DKTool {
+    static func configTool() {
+        DebugKit.share.mediator.router.register(url: "dk://DKH5VC") { params, success, fail in
+            DebugKit.share.debugNavC?.pushViewController(DKH5VC(), animated: true)
+            success?(nil)
+        }
+        
+        DebugKit.share.toolBox.add(name: "H5调试", summary: "提供跳转到包房内部WebView页面的方法") { _ in
+            DebugKit.share.mediator.router.open(url: "dk://DKH5VC")
+        }
+    }
+}

@@ -145,3 +145,17 @@ extension DKMsgSimulationVC: UITextFieldDelegate {
         return true
     }
 }
+
+
+extension DKMsgSimulationVC: DKTool {
+    static func configTool() {
+        DebugKit.share.mediator.router.register(url: "dk://DKMsgSimulation") { params, success, fail in
+            DebugKit.share.debugNavC?.pushViewController(DKMsgSimulationVC(), animated: true)
+            success?(nil)
+        }
+        
+        DebugKit.share.toolBox.add(name: "WS消息发送", summary: "提供房间内消息模拟发送") { _ in
+            DebugKit.share.mediator.router.open(url: "dk://DKMsgSimulation")
+        }
+    }
+}

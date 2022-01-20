@@ -90,7 +90,7 @@ extension DebugKit {
         UserDefaults(suiteName: "DebugKit")
     }
     
-    // toast
+    // MARK: Toast
     public static func showToast(text: String) {
         let showToast = {
             guard let currentWindow = UIApplication.shared.keyWindow else {
@@ -107,6 +107,28 @@ extension DebugKit {
                 showToast()
             }
         }
+    }
+    
+    static func classes<T>(implementing objcProtocol: Protocol) -> [T] {
+        let expectedClassCount = objc_getClassList(nil, 0)
+        let allClasses = UnsafeMutablePointer<AnyClass?>.allocate(capacity: Int(expectedClassCount))
+        let autoreleasingAllClasses = AutoreleasingUnsafeMutablePointer<AnyClass>(allClasses)
+        let actualClassCount:Int32 = objc_getClassList(autoreleasingAllClasses, expectedClassCount)
+ 
+        var classes = [AnyObject]()
+        for i in 0 ..< actualClassCount {
+            if let currentClass: AnyClass = allClasses[Int(i)],
+                class_conformsToProtocol(currentClass, DKTool.self) {
+                print(NSStringFromClass(currentClass))
+                classes.append(currentClass)
+            }
+        }
+ 
+        allClasses.deallocate()
+        
+        let implClasses = classes.compactMap { objcClass in objcClass as? T }
+        
+        return implClasses
     }
 }
 

@@ -78,3 +78,16 @@ extension DKFLLogFileListVC: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
+
+extension DKFLLogFileListVC: DKTool {
+    static func configTool() {
+        DebugKit.share.mediator.router.register(url: "dk://DKFLLogFileListVC") { params, success, fail in
+            DebugKit.share.debugNavC?.pushViewController(DKFLLogFileListVC(), animated: true)
+            success?(nil)
+        }
+        
+        DebugKit.share.toolBox.add(name: "Log", summary: "查看本地记录的日志", priority: 501) { _ in
+            DebugKit.share.mediator.router.open(url: "dk://DKFLLogFileListVC")
+        }
+    }
+}

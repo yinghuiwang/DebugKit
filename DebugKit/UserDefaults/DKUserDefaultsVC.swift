@@ -143,3 +143,17 @@ extension DKUserDefaultsVC: UISearchBarDelegate {
         tableView.reloadSections([0], with: .automatic)
     }
 }
+
+
+extension DKUserDefaultsVC: DKTool {
+    static func configTool() {
+        DebugKit.share.mediator.router.register(url: "dk://DKUserDefaultsVC") { params, success, fail in
+            DebugKit.share.debugNavC?.pushViewController(DKUserDefaultsVC(), animated: true)
+            success?(nil)
+        }
+        
+        DebugKit.share.toolBox.add(name: "UserDefaults", summary: "管理本地NSUserDefaults的工具") { _ in
+            DebugKit.share.mediator.router.open(url: "dk://DKUserDefaultsVC")
+        }
+    }
+}

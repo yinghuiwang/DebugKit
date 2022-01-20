@@ -126,3 +126,13 @@ extension DKJsonViewerVC: WKNavigationDelegate {
 extension DKJsonViewerVC: WKUIDelegate {
     
 }
+
+
+extension DKJsonViewerVC: DKTool {
+    static func configTool() {
+        DebugKit.share.mediator.router.register(url: "dk://DKJsonViewerVC") { params, success, fail in
+            DebugKit.share.debugNavC?.pushViewController(DKJsonViewerVC(), animated: true)
+            success?(nil)
+        }
+    }
+}

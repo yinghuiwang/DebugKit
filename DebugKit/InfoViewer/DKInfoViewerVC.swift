@@ -87,3 +87,17 @@ extension DKInfoViewerVC: UITableViewDelegate, UITableViewDataSource {
         
     }
 }
+
+
+extension DKInfoViewerVC: DKTool {
+    static func configTool() {
+        DebugKit.share.mediator.router.register(url: "dk://DKInfoViewerVC") { params, success, fail in
+            DebugKit.share.debugNavC?.pushViewController(DKInfoViewerVC(), animated: true)
+            success?(nil)
+        }
+        
+        DebugKit.share.toolBox.add(name: "App重要信息", summary: "经常关注的一些关键信息") { _ in
+            DebugKit.share.mediator.router.open(url: "dk://DKInfoViewerVC")
+        }
+    }
+}
