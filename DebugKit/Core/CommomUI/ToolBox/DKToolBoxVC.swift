@@ -43,7 +43,7 @@ open class DKToolBoxVC: UIViewController {
     }
     
     func setupViews() {
-        let setIcon = UIImage(contentsOfFile: DebugKit.dk_bundle(name: "Core")?.path(forResource: "dk_icon_set.png", ofType: nil) ?? "")
+        let setIcon = UIImage(contentsOfFile: DebugKit.dk_bundle(name: "Core")?.path(forResource: "dk_icon_set@3x.png", ofType: nil) ?? "")
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: setIcon, style: .plain, target: self, action: #selector(moreClick))
     }
     

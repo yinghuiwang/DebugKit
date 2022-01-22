@@ -52,6 +52,9 @@ class DKMsgSimulationVC: DKBaseVC {
         
         bodyTextView.delegate = self
         bodyTextView.returnKeyType = .done
+        if let json = msgSimulation.originalJson {
+            bodyTextView.text = json
+        }
         
         tableView.tableFooterView = UIView()
         tableView.tableFooterView?.isUserInteractionEnabled = false
@@ -150,7 +153,13 @@ extension DKMsgSimulationVC: UITextFieldDelegate {
 extension DKMsgSimulationVC: DKTool {
     static func configTool() {
         DebugKit.share.mediator.router.register(url: "dk://DKMsgSimulation") { params, success, fail in
-            DebugKit.share.debugNavC?.pushViewController(DKMsgSimulationVC(), animated: true)
+            
+            let msgSimulationVC = DKMsgSimulationVC()
+            if let bodyJson = params?["bodyJson"] as? String {
+                msgSimulationVC.msgSimulation.originalJson = bodyJson
+            }
+            
+            DebugKit.share.debugNavC?.pushViewController(msgSimulationVC, animated: true)
             success?(nil)
         }
         

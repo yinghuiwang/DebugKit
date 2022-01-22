@@ -27,7 +27,8 @@ extension DKJsonViewerVC {
     func setupViews() {
         view.backgroundColor = UIColor.white
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(export))
+        let setIcon = UIImage(contentsOfFile: DebugKit.dk_bundle(name: "Core")?.path(forResource: "dk_icon_more@3x.png", ofType: nil) ?? "")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: setIcon, style: .plain, target: self, action: #selector(moreClick))
         
         let config = WKWebViewConfiguration()
         config.allowsInlineMediaPlayback = true
@@ -57,9 +58,24 @@ extension DKJsonViewerVC {
     
     @objc func export() {
         if let jsonStr = jsonStr {
-            DebugKit.share(object: NSString(string: jsonStr),
+            DebugKit.share(object: NSString(string: jsonStr.jsonFormatPrint()),
                            fromVC: self)
         }
+    }
+    
+    @objc func moreClick() {
+        let alert = UIAlertController(title: "更多", message: "操作菜单", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "分享", style: .default, handler: { [weak self] _ in
+            self?.export()
+        }))
+        
+        alert.addAction(UIAlertAction(title: "模拟发送", style: .default, handler: { [weak self] _ in
+            DebugKit.share.mediator.router.open(url: "dk://DKMsgSimulation", params: ["bodyJson": (self?.jsonStr?.jsonFormatPrint() ?? "")])
+        }))
+        
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -131,6 +147,10 @@ extension DKJsonViewerVC: WKUIDelegate {
 extension DKJsonViewerVC: DKTool {
     static func configTool() {
         DebugKit.share.mediator.router.register(url: "dk://DKJsonViewerVC") { params, success, fail in
+            let jsonViewerVC = DKJsonViewerVC()
+            if let json = params?["json"] as? String {
+                jsonViewerVC.jsonStr = json
+            }
             DebugKit.share.debugNavC?.pushViewController(DKJsonViewerVC(), animated: true)
             success?(nil)
         }

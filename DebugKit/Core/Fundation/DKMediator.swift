@@ -65,8 +65,8 @@ public class DKRouter: NSObject {
         handle(params, success, fail)
     }
     
-    @objc public func open(url: String) {
-        requset(url: url)
+    @objc public func open(url: String, params p: [String: Any]? = nil) {
+        requset(url: url, params: p)
     }
     
     private func resolve(url u: String) -> (baseURL: String, params: [String: Any]?)? {

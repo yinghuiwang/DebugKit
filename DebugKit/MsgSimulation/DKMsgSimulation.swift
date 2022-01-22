@@ -16,6 +16,7 @@ struct DKMSMessage: Codable {
 class DKMsgSimulation: NSObject {
 
     var list: [DKMSMessage] = []
+    var originalJson: String?
     let messagesPath: String
     
     var refreshViewCellback: (() -> Void)?
