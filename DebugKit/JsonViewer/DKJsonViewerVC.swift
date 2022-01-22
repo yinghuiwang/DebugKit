@@ -115,9 +115,13 @@ extension DKJsonViewerVC: WKNavigationDelegate {
         if "dkjsonview://setvalue" == urlStr {
             execJavaScript()
         } else {
-            let webVC = DKWebVC()
-            webVC.urlStr = urlStr
-            navigationController?.pushViewController(webVC, animated: true)
+            DebugKit.share.mediator.router.requset(url: "dk://jumpUrl", params: ["url": urlStr], success: nil) { [weak self] _ in
+                DispatchQueue.main.async {
+                    let webVC = DKWebVC()
+                    webVC.urlStr = urlStr
+                    self?.navigationController?.pushViewController(webVC, animated: true)
+                }
+            }
         }
         
         decisionHandler(.cancel)
@@ -151,7 +155,7 @@ extension DKJsonViewerVC: DKTool {
             if let json = params?["json"] as? String {
                 jsonViewerVC.jsonStr = json
             }
-            DebugKit.share.debugNavC?.pushViewController(DKJsonViewerVC(), animated: true)
+            DebugKit.share.debugNavC?.pushViewController(jsonViewerVC, animated: true)
             success?(nil)
         }
     }

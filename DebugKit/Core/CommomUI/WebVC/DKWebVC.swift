@@ -45,12 +45,6 @@ extension DKWebVC {
         webView?.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         webView?.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         webView?.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-
-        if #available(iOS 11.0, *) {
-            webView?.scrollView.contentInsetAdjustmentBehavior = .never
-        } else {
-            self.automaticallyAdjustsScrollViewInsets = false
-        }
         
         webView?.addObserver(self, forKeyPath: "title", options: .new, context: nil)
     }
