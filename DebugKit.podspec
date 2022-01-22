@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'DebugKit'
-  s.version          = '0.1.0'
+  s.version          = '0.1.2'
   s.summary          = '方便调试的工具箱'
 
 # This description is used to generate tags and improve search results.

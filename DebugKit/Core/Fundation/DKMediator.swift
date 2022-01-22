@@ -12,20 +12,25 @@ public class DKMediator: NSObject {
     @objc public let notinationCenter = DKNotinationCenter()
 }
 
-struct DKRouterError: Error {
-    let code: Int
-    let errStr: String
+public struct DKRouterError: Error {
+    public let code: Int
+    public let errStr: String
+    
+    public init(code: Int, errStr: String) {
+        self.code = code
+        self.errStr = errStr
+    }
 }
 
 extension DKRouterError: CustomNSError {
-    static var errorDomain: String = "DKRouterError"
-    var errorCode: Int {
+    public static var errorDomain: String = "DKRouterError"
+    public var errorCode: Int {
         code
     }
 }
 
 extension DKRouterError: LocalizedError {
-    var errorDescription: String? {
+    public var errorDescription: String? {
         errStr
     }
 }

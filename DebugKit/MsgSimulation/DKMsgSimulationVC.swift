@@ -44,6 +44,7 @@ class DKMsgSimulationVC: DKBaseVC {
     func setupViews() {
         nameTextField.frame = CGRect(x: 0, y: 0, width: 200, height: 40)
         nameTextField.returnKeyType = .done
+        nameTextField.borderStyle = .roundedRect
         nameTextField.delegate = self
         nameTextField.placeholder = "name"
         nameTextField.clearButtonMode = .always
