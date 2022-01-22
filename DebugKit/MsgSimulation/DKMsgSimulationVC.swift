@@ -11,7 +11,8 @@ class DKMsgSimulationVC: DKBaseVC {
 
     @IBOutlet weak var bodyTextView: UITextView!
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var sendBtn: UIButton!
+    @IBOutlet weak var toClient: UIButton!
+    @IBOutlet weak var toServer: UIButton!
     let nameTextField = UITextField()
     
     let searchHistoricalsKey = "DKSearchHistoricalsKey"
@@ -60,25 +61,41 @@ class DKMsgSimulationVC: DKBaseVC {
         tableView.tableFooterView = UIView()
         tableView.tableFooterView?.isUserInteractionEnabled = false
         
-        sendBtn.layer.cornerRadius = 5
-        sendBtn.layer.masksToBounds = true
-        sendBtn.layer.borderWidth = 0.5
-        sendBtn.layer.borderColor = UIColor.systemBlue.cgColor
+        toClient.layer.cornerRadius = 5
+        toClient.layer.masksToBounds = true
+        toClient.layer.borderWidth = 0.5
+        toClient.layer.borderColor = UIColor.systemBlue.cgColor
+        
+        toServer.layer.cornerRadius = 5
+        toServer.layer.masksToBounds = true
+        toServer.layer.borderWidth = 0.5
+        toServer.layer.borderColor = UIColor.systemBlue.cgColor
         
     }
     
-    @IBAction func clickJump(_ sender: UIButton) {
+    @IBAction func clickToClient(_ sender: UIButton) {
         guard let name = self.nameTextField.text else {
             return
         }
         navigationController?.dismiss(animated: true) {
-            self.msgSimulation.sendMsg(key: name, body: self.bodyTextView.text)
+            self.msgSimulation.sendMsg(key: name, body: self.bodyTextView.text, sendType: .toClient)
         }
     }
+    
+    @IBAction func clickToServer(_ sender: Any) {
+        guard let name = self.nameTextField.text else {
+            return
+        }
+        navigationController?.dismiss(animated: true) {
+            self.msgSimulation.sendMsg(key: name, body: self.bodyTextView.text, sendType: .toServer)
+        }
+    }
+    
     
     @IBAction func clickClear(_ sender: Any) {
         bodyTextView.text = ""
     }
+    
     @objc func cleanCache() {
 //        searchHistoricals.removeAll()
 //        UserDefaults.standard.setValue(nil, forKey: searchHistoricalsKey)

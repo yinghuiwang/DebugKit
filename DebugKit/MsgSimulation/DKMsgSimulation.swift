@@ -13,6 +13,11 @@ struct DKMSMessage: Codable {
     let body: String
 }
 
+enum DKMSSendType {
+    case toClient
+    case toServer
+}
+
 class DKMsgSimulation: NSObject {
 
     var list: [DKMSMessage] = []
@@ -52,7 +57,7 @@ class DKMsgSimulation: NSObject {
         saveMessages()
     }
     
-    func sendMsg(key: String, body: String) {
+    func sendMsg(key: String, body: String, sendType: DKMSSendType) {
         let message = DKMSMessage(name: key, body: body)
         
         list = list.filter { $0.name != message.name }
@@ -60,7 +65,12 @@ class DKMsgSimulation: NSObject {
         
         refreshView()
         
-        DebugKit.share.mediator.notinationCenter.send(name: "发WS消息", content: body)
+        switch sendType {
+        case .toClient:
+            DebugKit.share.mediator.notinationCenter.send(name: "Send ws to client", content: body)
+        case .toServer:
+            DebugKit.share.mediator.notinationCenter.send(name: "Send ws to server", content: body)
+        }
         
         saveMessages()
     }

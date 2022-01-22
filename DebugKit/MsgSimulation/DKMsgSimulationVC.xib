@@ -12,8 +12,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DKMsgSimulationVC" customModule="DebugKit">
             <connections>
                 <outlet property="bodyTextView" destination="bX3-Yw-xsc" id="Sk5-qU-qoK"/>
-                <outlet property="sendBtn" destination="UbR-Vb-tjC" id="ynp-DK-3du"/>
                 <outlet property="tableView" destination="YmA-UL-RpZ" id="Rt1-2M-T98"/>
+                <outlet property="toClient" destination="UbR-Vb-tjC" id="ynp-DK-3du"/>
+                <outlet property="toServer" destination="xei-Q2-rrg" id="xnT-T4-Gcs"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -25,24 +26,33 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F6J-xU-Q0G">
                     <rect key="frame" x="0.0" y="818" width="414" height="44"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UbR-Vb-tjC">
-                            <rect key="frame" x="10" y="2" width="394" height="40"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="40" id="YSI-lF-jmF"/>
-                            </constraints>
-                            <state key="normal" title="发送"/>
-                            <connections>
-                                <action selector="clickJump:" destination="-1" eventType="touchUpInside" id="3dS-MG-fXx"/>
-                            </connections>
-                        </button>
+                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="sSb-gg-rhn">
+                            <rect key="frame" x="20" y="0.0" width="374" height="44"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UbR-Vb-tjC">
+                                    <rect key="frame" x="0.0" y="0.0" width="182" height="44"/>
+                                    <state key="normal" title="To Client"/>
+                                    <connections>
+                                        <action selector="clickToClient:" destination="-1" eventType="touchUpInside" id="McL-LW-4DI"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xei-Q2-rrg">
+                                    <rect key="frame" x="192" y="0.0" width="182" height="44"/>
+                                    <state key="normal" title="To Server"/>
+                                    <connections>
+                                        <action selector="clickToServer:" destination="-1" eventType="touchUpInside" id="E1Q-CZ-6tv"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                        </stackView>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstItem="UbR-Vb-tjC" firstAttribute="centerY" secondItem="F6J-xU-Q0G" secondAttribute="centerY" id="13P-6f-lqz"/>
                         <constraint firstAttribute="height" constant="44" id="T5d-Xo-T6V"/>
-                        <constraint firstItem="UbR-Vb-tjC" firstAttribute="centerX" secondItem="F6J-xU-Q0G" secondAttribute="centerX" id="hGh-sz-zoe"/>
-                        <constraint firstAttribute="trailing" secondItem="UbR-Vb-tjC" secondAttribute="trailing" constant="10" id="uea-5D-2fI"/>
-                        <constraint firstItem="UbR-Vb-tjC" firstAttribute="leading" secondItem="F6J-xU-Q0G" secondAttribute="leading" constant="10" id="yrp-2f-gLe"/>
+                        <constraint firstItem="sSb-gg-rhn" firstAttribute="top" secondItem="F6J-xU-Q0G" secondAttribute="top" id="UP7-jO-rSj"/>
+                        <constraint firstAttribute="bottom" secondItem="sSb-gg-rhn" secondAttribute="bottom" id="Zh5-SL-Mpc"/>
+                        <constraint firstItem="sSb-gg-rhn" firstAttribute="leading" secondItem="F6J-xU-Q0G" secondAttribute="leading" constant="20" id="dQu-w4-WEe"/>
+                        <constraint firstAttribute="trailing" secondItem="sSb-gg-rhn" secondAttribute="trailing" constant="20" id="nxR-o4-719"/>
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YmA-UL-RpZ">
