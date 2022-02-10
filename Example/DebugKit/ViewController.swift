@@ -49,6 +49,15 @@ class ViewController: UIViewController {
             success?(json)
         }
         
+        DebugKit.share.mediator.router.register(url: "dk://KTVLRWebVC") { params, success, fail in
+            if let urlStr = params?["url"] as? String {
+                DebugKit.showToast(text: "显示Url: \(urlStr)")
+                success?(nil)
+            } else {
+                fail?(DKRouterError(code: 0, errStr: "没有注册WebVC"))
+            }
+        }
+        
         
         DebugKit.share.mediator.notinationCenter.add(observer: self, name: "发WS消息") { value in
             if let body = value as? String {

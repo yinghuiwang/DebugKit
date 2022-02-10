@@ -225,3 +225,12 @@ wangyinghui@changba.com
 ## License
 
 DebugKit is available under the MIT license. See the LICENSE file for more info.
+
+## Update
+
+### 0.2.0
+
+- Log 详情页面（JsonViewer）添加消息模拟快捷入口
+- Log 详情页面（JsonViewer）添加分享 Json 消息格式化
+- Log 详情页面（JsonViewer）添加上层 URL 解析服务锚点
+
