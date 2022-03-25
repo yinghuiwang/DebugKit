@@ -238,7 +238,7 @@ extension DKFLLogListVC: UICollectionViewDataSource, UICollectionViewDelegate, U
         searchBar.resignFirstResponder()
         if scrollView == self.tableView && scrollView.contentOffset.y == 0 {
             self.logs = self.newLogs
-            self.tableView.reloadSections([0], with: .automatic)
+            self.tableView.reloadData()
             self.keywordCollectionView.reloadData()
         }
     }
