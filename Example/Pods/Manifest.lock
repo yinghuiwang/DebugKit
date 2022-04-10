@@ -1,38 +1,49 @@
 PODS:
-  - DebugKit/Core (0.1.0)
-  - DebugKit/FileLogViewer (0.1.0):
+  - Alamofire (5.5.0)
+  - DebugKit/Core (0.2.1)
+  - DebugKit/FileLogViewer (0.2.1):
     - DebugKit/Core
     - DebugKit/JsonViewer
     - DebugKit/Log
-  - DebugKit/H5Portal (0.1.0):
+  - DebugKit/H5Portal (0.2.1):
     - DebugKit/Core
-  - DebugKit/InfoViewer (0.1.0):
+  - DebugKit/HTTPSimulation (0.2.1):
     - DebugKit/Core
-  - DebugKit/JsonViewer (0.1.0):
+    - DebugKit/JsonViewer
+  - DebugKit/InfoViewer (0.2.1):
     - DebugKit/Core
-  - DebugKit/Log (0.1.0):
+  - DebugKit/JsonViewer (0.2.1):
     - DebugKit/Core
-  - DebugKit/MsgSimulation (0.1.0):
+  - DebugKit/Log (0.2.1):
+    - DebugKit/Core
+  - DebugKit/MsgSimulation (0.2.1):
     - DebugKit/Core
     - DebugKit/Log
-  - DebugKit/UserDefaults (0.1.0):
+  - DebugKit/UserDefaults (0.2.1):
     - DebugKit/Core
 
 DEPENDENCIES:
+  - Alamofire (~> 5.5)
   - DebugKit/Core (from `../`)
   - DebugKit/FileLogViewer (from `../`)
   - DebugKit/H5Portal (from `../`)
+  - DebugKit/HTTPSimulation (from `../`)
   - DebugKit/InfoViewer (from `../`)
   - DebugKit/MsgSimulation (from `../`)
   - DebugKit/UserDefaults (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
 
 EXTERNAL SOURCES:
   DebugKit:
     :path: "../"
 
 SPEC CHECKSUMS:
-  DebugKit: 5391c0e7eaf111fc64b9a2c3d542735d5fcc9f2c
+  Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
+  DebugKit: 4c38a4a43f7c13385de0066186535c8acac286e0
 
-PODFILE CHECKSUM: 37f092bd32fd8ac47041ffa5cc2ac956809c1fe9
+PODFILE CHECKSUM: 34a4b5ad04d86aacd63af120672acf1c0bc65ce6
 
 COCOAPODS: 1.10.1

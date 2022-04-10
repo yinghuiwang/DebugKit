@@ -97,6 +97,15 @@ Pod::Spec.new do |s|
     }
   end
   
+  s.subspec "HTTPSimulation" do |ss|
+    ss.dependency 'DebugKit/Core'
+    ss.dependency 'DebugKit/JsonViewer'
+    ss.source_files = 'DebugKit/HTTPSimulation/**/*.{swift}'
+    ss.resource_bundles = {
+      'HTTPSimulation' => ['DebugKit/HTTPSimulation/**/*.{xib}']
+    }
+  end
+  
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'

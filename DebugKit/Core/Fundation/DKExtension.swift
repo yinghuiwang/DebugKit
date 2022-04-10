@@ -197,3 +197,31 @@ extension String {
         return self
     }
 }
+
+
+extension String {
+    func toDictionary() -> [String: AnyObject]? {
+        if let data = self.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: [JSONSerialization.ReadingOptions.init(rawValue: 0)]) as? [String: AnyObject]
+            } catch let error as NSError {
+                debugPrint(error)
+            }
+        }
+        return nil
+    }
+}
+
+extension Dictionary where Key: ExpressibleByStringLiteral, Value: AnyObject {
+    func toJsonString() -> String {
+        do {
+            let stringData = try JSONSerialization.data(withJSONObject: self as NSDictionary, options: JSONSerialization.WritingOptions.prettyPrinted)
+            if let string = String(data: stringData, encoding: String.Encoding.utf8){
+                return string
+            }
+        } catch let error as NSError {
+            debugPrint(error)
+        }
+        return ""
+    }
+}

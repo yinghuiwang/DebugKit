@@ -56,6 +56,10 @@ class DKMsgSimulationVC: DKBaseVC {
         bodyTextView.returnKeyType = .done
         if let json = msgSimulation.originalJson {
             bodyTextView.text = json
+            if let dict = json.toDictionary(),
+               let type = dict["type"] as? String {
+                nameTextField.text = type
+            }
         }
         
         tableView.tableFooterView = UIView()

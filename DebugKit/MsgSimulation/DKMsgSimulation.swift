@@ -20,6 +20,7 @@ enum DKMSSendType {
 
 class DKMsgSimulation: NSObject {
 
+    let searchHistoricalsKey = "DKHTTPSearchHistoricalsKey"
     var list: [DKMSMessage] = []
     var originalJson: String?
     let messagesPath: String

@@ -71,8 +71,8 @@ class DKH5VC: DKBaseVC {
     @IBAction func clickScan(_ sender: UIButton) {
         
         let qrCodeVC = DKQRCodeVC()
-        qrCodeVC.QRCodeCallback = { result in
-            self.searchTextView.text = result
+        qrCodeVC.QRCodeCallback = { [weak self] result in
+            self?.searchTextView.text = result
         }
         let nav = UINavigationController(rootViewController: qrCodeVC)
         present(nav, animated: true, completion: nil)

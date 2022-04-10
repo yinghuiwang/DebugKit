@@ -4,12 +4,14 @@ platform :ios, '10.0'
 
 target 'DebugKit_Example' do
  
+  pod 'Alamofire', '~> 5.5'
   pod 'DebugKit/Core', :path => '../'
   pod 'DebugKit/H5Portal', :path => '../'
   pod 'DebugKit/FileLogViewer', :path => '../'
   pod 'DebugKit/UserDefaults', :path => '../'
   pod 'DebugKit/MsgSimulation', :path => '../'
   pod 'DebugKit/InfoViewer', :path => '../'
+  pod 'DebugKit/HTTPSimulation', :path => '../'
 
   target 'DebugKit_Tests' do
     inherit! :search_paths

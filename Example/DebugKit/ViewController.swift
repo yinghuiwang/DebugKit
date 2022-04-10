@@ -8,6 +8,7 @@
 
 import UIKit
 import DebugKit
+import Alamofire
 
 class ViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
@@ -15,6 +16,8 @@ class ViewController: UIViewController {
     let toolNameKey = "toolNameKey"
     let toolSummaryKey = "toolSummaryKey"
     let toolVCClassKey = "toolVCClassKey"
+    
+    let sessionManager = NSURLSessionTransferSizeUnknown
     
     open override func viewDidLoad() {
         title = "DebugKitExample"
@@ -62,6 +65,31 @@ class ViewController: UIViewController {
         DebugKit.share.mediator.notinationCenter.add(observer: self, name: "发WS消息") { value in
             if let body = value as? String {
                 print("notinationCenter \(body)")
+            }
+        }
+        
+        
+        DebugKit.share.mediator.router.register(url: "dk://SendHttpToServer") { params, success, fail in
+            guard let params = params,
+                  let methodStr = params["method"] as? String,
+                  let host = params["host"] as? String,
+                  let api = params["api"] as? String else {
+                return
+            }
+                        
+//            params["param"] as? Encodable
+            var method = HTTPMethod.get
+            if methodStr == "POST" {
+                method = .post
+            }
+            
+            AF.request("\(host)\(api)",
+                       method: method,
+                       parameters: ["": ""]).response { response in
+                if let data = response.data, let text = String(data: data, encoding: .utf8) {
+                    debugPrint(text)
+                    success?(text)
+                }
             }
         }
     }
@@ -129,5 +157,18 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             toolVC.title = tool[toolNameKey]
             navigationController?.pushViewController(toolVC, animated: true)
         }
+    }
+}
+
+extension String {
+    func toDictionary() -> [String: AnyObject]? {
+        if let data = self.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: [JSONSerialization.ReadingOptions.init(rawValue: 0)]) as? [String: AnyObject]
+            } catch let error as NSError {
+                debugPrint(error)
+            }
+        }
+        return nil
     }
 }

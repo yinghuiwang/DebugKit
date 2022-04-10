@@ -10,8 +10,9 @@ import WebKit
 
 class DKJsonViewerVC: UIViewController {
     
-    private var webView: WKWebView?
+    private(set) var webView: WKWebView?
     var jsonStr: String?
+    var loadCompletedClosure: ((WKWebView) -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,9 +70,21 @@ extension DKJsonViewerVC {
             self?.export()
         }))
         
-        alert.addAction(UIAlertAction(title: "模拟发送", style: .default, handler: { [weak self] _ in
-            DebugKit.share.mediator.router.open(url: "dk://DKMsgSimulation", params: ["bodyJson": (self?.jsonStr?.jsonFormatPrint() ?? "")])
-        }))
+        if let title = title,
+           title.contains("ws") || title.contains("API") {
+            alert.addAction(UIAlertAction(title: "模拟发送", style: .default, handler: { [weak self] _ in
+                if title.contains("ws") {
+                    DebugKit.share.mediator.router.open(url: "dk://DKMsgSimulation", params: ["bodyJson": (self?.jsonStr?.jsonFormatPrint() ?? "")])
+                } else if title.contains("API") {
+                    if let request = self?.jsonStr?.toDictionary()?["request"] as? [String : AnyObject] {
+                        DebugKit.share.mediator.router.open(url: "dk://DKHTTPSimulationVC", params: ["bodyJson": (request.toJsonString() ?? "")])
+                    } else {
+                        DebugKit.showToast(text: "数据格式错误")
+                    }
+                } 
+            }))
+        }
+        
         
         alert.addAction(UIAlertAction(title: "取消", style: .cancel, handler: nil))
         
@@ -87,6 +100,7 @@ extension DKJsonViewerVC: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         DebugKit.log("JsonViewerVC: didFinish")
+        self.loadCompletedClosure?(webView)
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
