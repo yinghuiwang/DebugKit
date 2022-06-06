@@ -12,8 +12,17 @@ import DebugKit
 class DKLogTestVC: UIViewController {
 
     var timer: Timer?
-    
-    
+    var randomStr: [String] = "1234567890qwertyuiopasdfghjklzxcvbnm".enumerated().map { String($1) }
+    var getKeyword: String {
+        var keyword = ""
+        let count = Int(arc4random()) % 20
+        let randomStrCount = randomStr.count
+        for _ in 0...count {
+            let index = Int(arc4random()) % randomStrCount
+            keyword += randomStr[index]
+        }
+        return keyword
+    }
     deinit {
         timer?.invalidate()
         timer = nil
@@ -66,6 +75,21 @@ class DKLogTestVC: UIViewController {
     }
     
     func addOneLog() {
+        let level = Int(arc4random() % 4)
+        var keyword = ""
+        for index in 0...level {
+            if index == 0 {
+                if level > 1 {
+                    keyword +=  "00\(Int(arc4random() % 10))"
+                } else {
+                    keyword += getKeyword
+                }
+            } else {
+                keyword += "/"
+                keyword += getKeyword
+            }
+        }
+                
         let message = """
             {
                 "result": {
@@ -132,14 +156,7 @@ class DKLogTestVC: UIViewController {
                 "errorcode": "ok"
             }
         """
-        
-        var keyword = "testkey/"
-        var keywordCount = Int(arc4random() % 20)
-        while keywordCount >= 0 {
-            keyword.append("\(Int(arc4random() % 1000000))")
-            keywordCount -= 1;
-        }
-        
+    
         DKLog.share.log(keyword: keyword,
                         message: message)
     }

@@ -18,6 +18,8 @@
 		6638948626E370A400594B1F /* DKEntryTestVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6638948426E370A400594B1F /* DKEntryTestVC.xib */; };
 		6638948C26E370F100594B1F /* DKLogTestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6638948A26E370F100594B1F /* DKLogTestVC.swift */; };
 		6638948D26E370F100594B1F /* DKLogTestVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6638948B26E370F100594B1F /* DKLogTestVC.xib */; };
+		66700749284E02F30000FA85 /* data1.json in Resources */ = {isa = PBXBuildFile; fileRef = 66700747284E02F30000FA85 /* data1.json */; };
+		6670074A284E02F30000FA85 /* data2.json in Resources */ = {isa = PBXBuildFile; fileRef = 66700748284E02F30000FA85 /* data2.json */; };
 		66AC964F2740A569000DB732 /* DKLogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AC964E2740A569000DB732 /* DKLogTests.swift */; };
 		66AC96532740B886000DB732 /* DKToastTestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66AC96512740B886000DB732 /* DKToastTestVC.swift */; };
 		66AC96542740B886000DB732 /* DKToastTestVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66AC96522740B886000DB732 /* DKToastTestVC.xib */; };
@@ -53,6 +55,8 @@
 		6638948426E370A400594B1F /* DKEntryTestVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DKEntryTestVC.xib; sourceTree = "<group>"; };
 		6638948A26E370F100594B1F /* DKLogTestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKLogTestVC.swift; sourceTree = "<group>"; };
 		6638948B26E370F100594B1F /* DKLogTestVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DKLogTestVC.xib; sourceTree = "<group>"; };
+		66700747284E02F30000FA85 /* data1.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data1.json; sourceTree = "<group>"; };
+		66700748284E02F30000FA85 /* data2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = data2.json; sourceTree = "<group>"; };
 		66AC964E2740A569000DB732 /* DKLogTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKLogTests.swift; sourceTree = "<group>"; };
 		66AC96512740B886000DB732 /* DKToastTestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKToastTestVC.swift; sourceTree = "<group>"; };
 		66AC96522740B886000DB732 /* DKToastTestVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DKToastTestVC.xib; sourceTree = "<group>"; };
@@ -182,10 +186,20 @@
 		6638948926E370C200594B1F /* DKLogTest */ = {
 			isa = PBXGroup;
 			children = (
+				66700746284E02F30000FA85 /* Assets */,
 				6638948A26E370F100594B1F /* DKLogTestVC.swift */,
 				6638948B26E370F100594B1F /* DKLogTestVC.xib */,
 			);
 			path = DKLogTest;
+			sourceTree = "<group>";
+		};
+		66700746284E02F30000FA85 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				66700747284E02F30000FA85 /* data1.json */,
+				66700748284E02F30000FA85 /* data2.json */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 		66AC96502740B830000DB732 /* DKToastTest */ = {
@@ -315,11 +329,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6670074A284E02F30000FA85 /* data2.json in Resources */,
 				6638948626E370A400594B1F /* DKEntryTestVC.xib in Resources */,
 				607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */,
 				66CF8B9226E90AF500865B3D /* DKUserDefaultsTestVC.xib in Resources */,
 				6638948D26E370F100594B1F /* DKLogTestVC.xib in Resources */,
 				66AC96542740B886000DB732 /* DKToastTestVC.xib in Resources */,
+				66700749284E02F30000FA85 /* data1.json in Resources */,
 				607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */,
 				607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */,
 			);

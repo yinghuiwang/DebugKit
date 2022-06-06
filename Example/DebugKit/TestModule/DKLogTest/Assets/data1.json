@@ -1,0 +1,44 @@
+{
+    "meta": {
+        "label": "hevc_dash_720p",
+        "quality_index": 720,
+        "quality_desc": "高清",
+        "quality_label": "720p",
+        "quality_class": "HD",
+        "type": 1
+    },
+    "play_info": {
+        "type": 1,
+        "mime": "video\/mp4",
+        "protocol": "dash",
+        "label": "hevc_dash_720p",
+        "url": "http:\/\/f.video.weibocdn.com\/u0\/a1viXUP2gx07WvgV8Uzm01041200AI620E010.mp4?label=hevc_dash_720p&template=720x1280.26.0&media_id=4775542973726861&tp=8x8A3El:7fHprYw&us=0&ori=1&bf=4&ot=v&lp=000043thsU&ps=3KKNHf&uid=zkYdPzl&ab=5443-g1,7397-g1,6349-g1,1192-g0,3601-g29,1258-g0&Expires=1654506224&ssig=rA54hr5%2Ffe&KID=unistore,video",
+        "bitrate": 691919,
+        "init_range": "0-1053",
+        "index_range": "1054-1289",
+        "first_segment_range": "1290-540999",
+        "prefetch_range": "0-218696",
+        "video_codecs": "hev1.010078",
+        "fps": 25,
+        "width": 720,
+        "height": 1280,
+        "size": 8749318,
+        "duration": 101.16,
+        "sar": "1.0",
+        "bandwidth": 691919,
+        "audio_sample_rate": 0,
+        "quality_label": "720p",
+        "quality_class": "HD",
+        "quality_desc": "高清",
+        "audio_channels": 2,
+        "extension": {
+            "transcode_info": {
+                "origin_video_dr": "SDR",
+                "ab_strategies": "5443-g1,7397-g1,6349-g1,1192-g0,3601-g29,1258-g0"
+            }
+        },
+        "video_decoder": "hard",
+        "prefetch_enabled": true,
+        "tcp_receive_buffer": 262144
+    }
+}
