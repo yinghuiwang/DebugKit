@@ -49,6 +49,7 @@ open class DKLog: NSObject {
     }
     
     private func log(message: DKLogMessage) {
+        if !DebugKit.share.isRecording { return }
         loggers.forEach { logger in
             logger.log(message: message)
         }

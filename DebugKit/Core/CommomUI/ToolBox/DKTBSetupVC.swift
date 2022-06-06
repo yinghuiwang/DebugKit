@@ -56,7 +56,7 @@ open class DKTBSetupVC: UIViewController {
                                    summay: "关闭入口、UI页面以及后台任务，比如日志记录",
                                    clickHandle: { [weak self] in
             self?.navigationController?.dismiss(animated: true, completion: {
-                DebugKit.share.closeDebug()
+                DebugKit.share.closeDebugEntryAndRecording()
             })
         }))
         

@@ -9,6 +9,7 @@ import Foundation
 
 enum DKUserDefuaultKey: String {
     case openDebug
+    case isRecording
 }
 
 struct DKDebugLogKey {
@@ -23,6 +24,7 @@ open class DebugKit: NSObject {
     var debugNavC: UINavigationController?
     
     @objc public var enableConsoleLog = false
+    @objc public var isRecording = true
     
     @objc public let mediator = DKMediator()
     
@@ -33,6 +35,10 @@ open class DebugKit: NSObject {
     
     
     @objc public func setup() {
+        if let isRecording = DebugKit.userDefault()?.bool(forKey: DKUserDefuaultKey.isRecording.rawValue), !isRecording {
+            self.isRecording = isRecording
+        }
+        
         if let openDebug = DebugKit.userDefault()?.bool(forKey: DKUserDefuaultKey.openDebug.rawValue),
            openDebug {
             self.openDebug()
@@ -70,6 +76,8 @@ extension DebugKit {
         enterView?.addTarget(self, action: #selector(jumpToolBoxVC), for: .touchUpInside)
         enterView?.show()
         
+        self.isRecording = true
+        DebugKit.userDefault()?.setValue(true, forKey: DKUserDefuaultKey.isRecording.rawValue)
         DebugKit.userDefault()?.setValue(true, forKey: DKUserDefuaultKey.openDebug.rawValue)
     }
     
@@ -87,5 +95,11 @@ extension DebugKit {
         self.debugNavC = nil
         
         DebugKit.userDefault()?.setValue(false, forKey: DKUserDefuaultKey.openDebug.rawValue)
+    }
+    
+    public func closeDebugEntryAndRecording() {
+        closeDebug()
+        self.isRecording = false
+        DebugKit.userDefault()?.setValue(false, forKey: DKUserDefuaultKey.isRecording.rawValue)
     }
 }
