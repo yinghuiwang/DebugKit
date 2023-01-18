@@ -92,6 +92,16 @@ class ViewController: UIViewController {
                 }
             }
         }
+        
+        // MARK: - AppConfig
+        let  configItem = AppConfigItem(
+            name: "host",
+            selectContent: "",
+            value: "hwww",
+            key: "host",
+            type: .text
+        )
+        DkAppConfig.shared.add(item: configItem)
     }
     
     func setupViews() {

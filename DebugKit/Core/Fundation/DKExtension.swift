@@ -225,3 +225,28 @@ extension Dictionary where Key: ExpressibleByStringLiteral, Value: AnyObject {
         return ""
     }
 }
+
+extension Encodable {
+    func json() -> String {
+        var json = ""
+        do {
+            let jsonEncoder = JSONEncoder()
+            let data = try jsonEncoder.encode(self)
+            json = String(data: data, encoding: .utf8) ?? ""
+        } catch {
+            assert(false, error.localizedDescription)
+        }
+        return json
+    }
+    
+    func data() -> Data {
+        var data = Data()
+        do {
+            let jsonEncoder = JSONEncoder()
+            data = try jsonEncoder.encode(self)
+        } catch {
+            assert(false, error.localizedDescription)
+        }
+        return data
+    }
+}

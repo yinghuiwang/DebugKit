@@ -12,6 +12,7 @@ target 'DebugKit_Example' do
   pod 'DebugKit/MsgSimulation', :path => '../'
   pod 'DebugKit/InfoViewer', :path => '../'
   pod 'DebugKit/HTTPSimulation', :path => '../'
+  pod 'DebugKit/AppConfig', :path => '../'
 
   target 'DebugKit_Tests' do
     inherit! :search_paths
