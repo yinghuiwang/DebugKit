@@ -1,27 +1,27 @@
 PODS:
   - Alamofire (5.5.0)
-  - DebugKit/AppConfig (0.3.1):
+  - DebugKit/AppConfig (0.4.1):
     - DebugKit/Core
-  - DebugKit/Core (0.3.1)
-  - DebugKit/FileLogViewer (0.3.1):
+  - DebugKit/Core (0.4.1)
+  - DebugKit/FileLogViewer (0.4.1):
     - DebugKit/Core
     - DebugKit/JsonViewer
     - DebugKit/Log
-  - DebugKit/H5Portal (0.3.1):
+  - DebugKit/H5Portal (0.4.1):
     - DebugKit/Core
-  - DebugKit/HTTPSimulation (0.3.1):
+  - DebugKit/HTTPSimulation (0.4.1):
     - DebugKit/Core
     - DebugKit/JsonViewer
-  - DebugKit/InfoViewer (0.3.1):
+  - DebugKit/InfoViewer (0.4.1):
     - DebugKit/Core
-  - DebugKit/JsonViewer (0.3.1):
+  - DebugKit/JsonViewer (0.4.1):
     - DebugKit/Core
-  - DebugKit/Log (0.3.1):
+  - DebugKit/Log (0.4.1):
     - DebugKit/Core
-  - DebugKit/MsgSimulation (0.3.1):
+  - DebugKit/MsgSimulation (0.4.1):
     - DebugKit/Core
     - DebugKit/Log
-  - DebugKit/UserDefaults (0.3.1):
+  - DebugKit/UserDefaults (0.4.1):
     - DebugKit/Core
 
 DEPENDENCIES:
@@ -45,7 +45,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Alamofire: 1c4fb5369c3fe93d2857c780d8bbe09f06f97e7c
-  DebugKit: a1debae28e135c762b85f6767aa8513537226681
+  DebugKit: d9b0191cd4ccd0f17a44e417dc336070d7f36b84
 
 PODFILE CHECKSUM: 27e074ad43953d98b705b683c6b89f40afdd4223
 

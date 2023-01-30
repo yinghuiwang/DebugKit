@@ -23,9 +23,7 @@ class DKEntryTestVC: UIViewController {
     
     @IBAction func presentSelfVC(_ sender: Any) {
         let entryTestVC = DKEntryTestVC()
-        present(entryTestVC, animated: true) {
-            DebugKit.share.enterViewMoveToTopView()
-        }
+        present(entryTestVC, animated: true)
     }
     /*
     // MARK: - Navigation

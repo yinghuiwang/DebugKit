@@ -31,7 +31,7 @@ open class DebugKit: NSObject {
     /// 工具箱
     @objc public let toolBox = DKToolBox()
     
-    var enterView: DKEnterView?
+    var enterWindow: DKWindow?
     
     
     @objc public func setup() {
@@ -71,27 +71,23 @@ extension DebugKit {
     
     // MARK: - PublicMethod
     @objc public func openDebug() {
-        if enterView != nil { return }
-        enterView = DKEnterView.view()
-        enterView?.addTarget(self, action: #selector(jumpToolBoxVC), for: .touchUpInside)
-        enterView?.show()
+        if enterWindow != nil { return }
+        
+        enterWindow = DKWindow(startPoint: CGPoint(x: 10, y: 150))
+        enterWindow?.show()
         
         self.isRecording = true
         DebugKit.userDefault()?.setValue(true, forKey: DKUserDefuaultKey.isRecording.rawValue)
         DebugKit.userDefault()?.setValue(true, forKey: DKUserDefuaultKey.openDebug.rawValue)
     }
     
-    @objc public func enterViewMoveToTopView() {
-        if let enterView = self.enterView {
-            enterView.show()
-        }
-    }
-    
     public func closeDebug() {
-        guard let enterView = enterView else { return }
+        guard let enterWindow = enterWindow else { return }
         
-        enterView.removeFromSuperview()
-        self.enterView = nil
+        enterWindow.isHidden = true
+        enterWindow.windowLevel = .normal - 1000
+        enterWindow.removeFromSuperview()
+        self.enterWindow = nil
         self.debugNavC = nil
         
         DebugKit.userDefault()?.setValue(false, forKey: DKUserDefuaultKey.openDebug.rawValue)
