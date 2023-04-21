@@ -9,7 +9,22 @@ import Foundation
 
 // MARK: - DebugKit
 extension DebugKit {
-    static func topViewController(controller: UIViewController? = UIApplication.shared.delegate?.window??.rootViewController) -> UIViewController? {
+    static func topViewController(controller: UIViewController? = nil) -> UIViewController? {
+        var controller = controller
+        if controller == nil {
+            if #available(iOS 13.0, *) {
+                controller = UIApplication.shared.connectedScenes
+                    .filter { $0.activationState == .foregroundActive }
+                    .map { $0 as? UIWindowScene }
+                    .compactMap { $0 }
+                    .first?.windows
+                    .filter { !($0 is DKWindow) }
+                    .first?.rootViewController
+            } else {
+                controller = UIApplication.shared.delegate?.window??.rootViewController
+            }
+        }
+        
         if let navigationController = controller as? UINavigationController {
             return topViewController(controller: navigationController.visibleViewController)
         }
