@@ -16,7 +16,7 @@ class DKTextConfigVC: DKBaseVC {
     
     var searchHistoricalsKey: String {
         if let item = item {
-            return "DK\(item.key)SearchHistoricalsKey"
+            return DkAppConfig.shared.searchHistoricalsKey(key: item.key)
         }
         return "DKTextSearchHistoricalsKey"
     }
@@ -56,7 +56,7 @@ class DKTextConfigVC: DKBaseVC {
     }
     
     func loadData() {
-        if let dataArray = UserDefaults.standard.array(forKey: searchHistoricalsKey) as? [String] {
+        if let dataArray = DebugKit.userDefault()?.array(forKey: searchHistoricalsKey) as? [String] {
             dataArray.forEach { searchHistoricals.append($0) }
         }
         
@@ -112,13 +112,13 @@ class DKTextConfigVC: DKBaseVC {
     func insetHistoricals(text: String) {
         if !searchHistoricals.contains(text) {
             searchHistoricals.insert(text, at: 0)
-            UserDefaults.standard.set(searchHistoricals, forKey: searchHistoricalsKey)
+            DebugKit.userDefault()?.set(searchHistoricals, forKey: searchHistoricalsKey)
         }
     }
     
     @objc func cleanCache() {
         searchHistoricals.removeAll()
-        UserDefaults.standard.setValue(nil, forKey: searchHistoricalsKey)
+        DebugKit.userDefault()?.setValue(nil, forKey: searchHistoricalsKey)
         tableView.reloadData()
     }
     

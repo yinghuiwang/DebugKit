@@ -37,4 +37,17 @@ open class DkAppConfig: NSObject {
     public func add(item: AppConfigItem) {
         items.append(item)
     }
+    
+    public func add(defaultValue: String, key: String) {
+        let hKey = searchHistoricalsKey(key: key)
+        var searchHistoricals = DebugKit.userDefault()?.array(forKey: hKey) as? [String] ?? []
+        if !searchHistoricals.contains(defaultValue) {
+            searchHistoricals.insert(defaultValue, at: 0)
+            DebugKit.userDefault()?.set(searchHistoricals, forKey: hKey)
+        }
+    }
+    
+    func searchHistoricalsKey(key: String) -> String {
+        return "DK\(key)SearchHistoricalsKey"
+    }
 }
