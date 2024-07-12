@@ -54,7 +54,7 @@ extension DebugKit {
     }
     
     static func openAppSetting() {
-        guard let url = URL(string: UIApplication.openSettingsURLString) else { return }
+        guard let url = URL(string: UIApplicationOpenSettingsURLString) else { return }
         if UIApplication.shared.canOpenURL(url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }

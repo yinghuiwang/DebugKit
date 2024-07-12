@@ -27,7 +27,7 @@ class DKWindow: UIWindow {
         }
         
         backgroundColor = UIColor.clear
-        windowLevel = .statusBar + 100
+        windowLevel = UIWindowLevelStatusBar + 100
         rootViewController = DKRootVC()
         
         rootViewController?.view.addSubview(enterControl)

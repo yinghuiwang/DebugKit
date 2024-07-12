@@ -85,7 +85,7 @@ extension DebugKit {
         guard let enterWindow = enterWindow else { return }
         
         enterWindow.isHidden = true
-        enterWindow.windowLevel = .normal - 1000
+        enterWindow.windowLevel = UIWindowLevelNormal - 1000
         enterWindow.removeFromSuperview()
         self.enterWindow = nil
         self.debugNavC = nil

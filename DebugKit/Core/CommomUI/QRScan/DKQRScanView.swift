@@ -179,9 +179,9 @@ extension DKQRScanView {
         animation.toValue = scanRect.size.height - scanLineWidth
         animation.duration = scanTime
         animation.repeatCount = MAXFLOAT
-        animation.fillMode = CAMediaTimingFillMode.forwards
+        animation.fillMode = kCAFillModeForwards
         animation.isRemovedOnCompletion = false
-        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         scanLine.layer.add(animation, forKey: scanLineAnimationName)
     }
     
@@ -362,7 +362,7 @@ extension DKQRScanView: AVCaptureMetadataOutputObjectsDelegate {
 
 extension DKQRScanView: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didDrop sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
-        guard let metadataDict = CMCopyDictionaryOfAttachments(allocator: nil, target: sampleBuffer, attachmentMode: kCMAttachmentMode_ShouldPropagate) else { return }
+        guard let metadataDict = CMCopyDictionaryOfAttachments(nil, sampleBuffer, kCMAttachmentMode_ShouldPropagate) else { return }
         let metadata = NSMutableDictionary(dictionary: metadataDict)
         
         guard let exifMetadata = metadata[kCGImagePropertyExifDictionary] as? NSDictionary,
